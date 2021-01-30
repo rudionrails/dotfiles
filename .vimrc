@@ -118,8 +118,7 @@ Plug 'Yggdroot/indentLine'
 Plug 'craigemery/vim-autotag'
 
 Plug 'prettier/vim-prettier', {
-  \   'do': 'yarn install',
-  \   'branch': 'release/0.x'
+  \   'do': 'yarn install'
   \ }
   " only execute automatically when .prettierrc.js is present
   function! PrettierConditionally()

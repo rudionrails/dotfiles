@@ -1,3 +1,12 @@
+#
+# General extensions
+#
+eval "$(fnm env --use-on-cd)"
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+#
+# oh-my-zsh stuff
+#
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -102,4 +111,3 @@ fi
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias rm='rm -i'
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

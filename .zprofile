@@ -11,8 +11,3 @@ if type brew &>/dev/null; then
   compinit
 
 fi
-
-# zsh extensions
-
-# Fast node manager
-eval "$(fnm env)"

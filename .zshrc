@@ -1,10 +1,3 @@
-#
-# General extensions
-#
-eval "$(fnm env --use-on-cd)"
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-#
 # oh-my-zsh stuff
 #
 # If you come from bash you might have to change your $PATH.
@@ -111,3 +104,18 @@ fi
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias rm='rm -i'
 
+
+# fuzzy finder
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# fast node manager 
+# eval "$(fnm env --use-on-cd)"
+if which fnm > /dev/null; then
+  eval "$(fnm env)"
+fi
+
+# ruyversion manager
+if which rbenv > /dev/null; then
+  export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl) --with-readline-dir=$(abrew --prefix readline)"
+  eval "$(rbenv init -)"
+fi

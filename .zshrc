@@ -73,7 +73,7 @@ CASE_SENSITIVE="true"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git fasd zsh-interactive-cd)
+# plugins=(git fasd zsh-interactive-cd)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -104,18 +104,16 @@ fi
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias rm='rm -i'
 
-
 # fuzzy finder
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-# fast node manager 
-# eval "$(fnm env --use-on-cd)"
-if which fnm > /dev/null; then
-  eval "$(fnm env)"
-fi
+# if which n > //dev/null; then
+#   export N_PREFIX=$HOME/.n
+#   export PATH=$N_PREFIX/bin:$PATH
+# fi
 
-# ruyversion manager
-if which rbenv > /dev/null; then
-  export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl) --with-readline-dir=$(abrew --prefix readline)"
-  eval "$(rbenv init -)"
-fi
+# rubversion manager
+# if which rbenv > /dev/null; then
+#   # export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl) --with-readline-dir=$(brew --prefix readline)"
+#   eval "$(rbenv init -)"
+# fi

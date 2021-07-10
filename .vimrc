@@ -4,6 +4,7 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'flazz/vim-colorschemes'
 Plug 'dracula/vim', { 'as': 'dracula' }
+" Plug 'rudionrails/daywalker.vim', { 'as': 'daywalker' }
 " Plug 'kyoz/purify', { 'rtp': 'vim' }
 " Plug 'chriskempson/base16-vim'
 " Plug 'haishanh/night-owl.vim'
@@ -16,32 +17,106 @@ Plug 'sheerun/vim-polyglot'
   " good bye syntax highlighting for markdown
   let g:polyglot_disabled = ['markdown']
 
-Plug 'scrooloose/nerdtree'
-  " Make nerdtree look nice
-  let g:NERDTreeMinimalUI = 1
-  let g:NERDTreeDirArrows = 1
-  let g:NERDTreeWinSize = 45
-  let g:NERDTreeShowLineNumbers=1
-  " close nerdtree when opening a file
-  let g:NERDTreeQuitOnOpen = 1
-  " close vim if NERDTree is the last/only buffer
-  autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+" Display the colours in the file
+Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }
+" open file given a line, e.g. vim index.html:20
+Plug 'bogado/file-line'
+" find code definitions and references
+Plug 'pechorin/any-jump.vim'
+  " Normal mode: Jump to definition under cursore
+  nnoremap <leader>j :AnyJump<CR>
+  " Visual mode: jump to selected text in visual mode
+  xnoremap <leader>j :AnyJumpVisual<CR>
+  " Normal mode: open previous opened file (after jump)
+  nnoremap <leader>ab :AnyJumpBack<CR>
+  " Normal mode: open last closed search window again
+  nnoremap <leader>al :AnyJumpLastResults<CR>
 
-Plug 'jeetsukumaran/vim-buffergator'
-  let g:buffergator_split_size = 10
-  let g:buffergator_viewport_split_policy = 'B'
+" Plug 'scrooloose/nerdtree'
+"   " Make nerdtree look nice
+"   let g:NERDTreeMinimalUI = 1
+"   let g:NERDTreeDirArrows = 1
+"   let g:NERDTreeWinSize = 45
+"   let g:NERDTreeShowLineNumbers = 1
+"   " let g:NERDTreeSpaceDelims = 1
+"   " close nerdtree when opening a file
+"   let g:NERDTreeQuitOnOpen = 1
+"
+"   function! NERDTreeFind()
+"     NERDTreeFind
+"     silent NERDTReeMirror
+"   endfunction
+"
+"   noremap <silent> <C-n> :NERDTreeToggle<CR>
+"   noremap <silent> <C-f> :NERDTreeFind<CR>
+
+" Plug 'jeetsukumaran/vim-buffergator'
+"   let g:buffergator_split_size = 10
+"   let g:buffergator_viewport_split_policy = 'B'
+"   " noremap <silent> <C-b> :BuffergatorToggle<CR>
+"   map <leader>b :BuffergatorToggle<CR>
 
 " @see https://github.com/junegunn/fzf.vim
-" brew install fzf
-" Plug '/usr/local/opt/fzf'
-" Plug 'junegunn/fzf.vim'
+" brew install fzf the_silver_searcher fd ripgrep universal-ctags
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+" Plug 'airblade/vim-rooter' " make sure fzf looks into project root
+  " map <C-f> :Files<CR>
+  map <leader>f :Files<CR>
+  nnoremap <leader>g :Rg<CR>
+  nnoremap <leader>t :Tags<CR>
+  nnoremap <leader>m :Marks<CR>
+  map <silent> <C-b> :Buffers<CR>
 
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-  function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~ '\s'
-  endfunction
+  let g:fzf_tags_command = 'ctags -R'
+
+  " Border color
+  let g:fzf_layout = 
+        \ { 'up': '~90%',
+        \   'window': {
+        \   'width': 0.8,
+        \   'height': 0.8, 
+        \   'yoffset': 0.5,
+        \   'xoffset': 0.5,
+        \   'highlight': 'Todo',
+        \   'border': 'sharp' } }
+
+  " let $FZF_DEFAULT_OPTS = '--layout=reverse --info=inline'
+  " let $FZF_DEFAULT_COMMAND="rg --files --hidden"
+
+  " Customize fzf colors to match your color scheme
+  let g:fzf_colors =
+    \ { 'fg':      ['fg', 'Normal'],
+    \   'bg':      ['bg', 'Normal'],
+    \   'hl':      ['fg', 'Comment'],
+    \   'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+    \   'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+    \   'hl+':     ['fg', 'Statement'],
+    \   'info':    ['fg', 'PreProc'],
+    \   'border':  ['fg', 'Ignore'],
+    \   'prompt':  ['fg', 'Conditional'],
+    \   'pointer': ['fg', 'Exception'],
+    \   'marker':  ['fg', 'Keyword'],
+    \   'spinner': ['fg', 'Label'],
+    \   'header':  ['fg', 'Comment'] }
+
+Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install() }}
+  let g:coc_global_extensions = [
+    \ 'coc-marketplace',
+    \ 'coc-highlight',
+    \ 'coc-explorer',
+    \ 'coc-json', 
+    \ 'coc-styled-components',
+    \ 'coc-jest',
+    \ 'coc-html',
+    \ 'coc-css',
+    \ 'coc-git'
+    \ ]
+
+  " Use <c-space> to trigger completion.
+  inoremap <silent><expr> <c-space> coc#refresh()
+
+  " Use tab for trigger completion with characters ahead and navigate.
   inoremap <silent><expr> <TAB>
         \   pumvisible() ? "\<C-n>" :
         \   <SID>check_back_space() ? "\<TAB>" :
@@ -55,6 +130,19 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
   inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
   " Close the preview window when completion is done
   autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
+  " Use K to show documentation in preview window
+  nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+  " Remap keys for gotos
+  nmap <silent> gd <Plug>(coc-definition)
+  nmap <silent> gy <Plug>(coc-type-definition)
+  nmap <silent> gi <Plug>(coc-implementation)
+  nmap <silent> gr <Plug>(coc-references)
+
+  "
+  " coc-explorer
+  "
+  nnoremap <space>e :CocCommand explorer<CR>
 
 Plug 'vim-scripts/BufOnly.vim'
 Plug 'Lokaltog/vim-easymotion'
@@ -91,7 +179,6 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'chrisbra/Recover.vim'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-surround'
 
 Plug 'scrooloose/nerdcommenter'
   " Add spaces after comment delimiters by default
@@ -120,29 +207,28 @@ Plug 'craigemery/vim-autotag'
 Plug 'prettier/vim-prettier', {
   \   'do': 'yarn install'
   \ }
+  let g:prettier#autoformat = 0
   " only execute automatically when .prettierrc.js is present
   function! PrettierConditionally()
      if filereadable('.prettierrc.js')
        exec 'Prettier'
      endif
   endfunction
-
-  let g:prettier#autoformat = 0
   autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html call PrettierConditionally()
 
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-git'
-" Plug 'ryanoasis/vim-devicons'
-"   " adding the flags to NERDTree
-"   let g:webdevicons_enable_nerdtree = 1
-"   " whether or not to show the nerdtree brackets around flags
-"   let g:webdevicons_conceal_nerdtree_brackets = 1
-"   " enable folder/directory glyph flag (disabled by default with 0)
-"   let g:WebDevIconsUnicodeDecorateFolderNodes = 1
-"   " enable open and close folder/directory glyph flags (disabled by default with 0)
-"   let g:DevIconsEnableFoldersOpenClose = 1
-"   " the amount of space to use after the glyph character (default ' ')
-"   let g:WebDevIconsNerdTreeAfterGlyphPadding = '  '
+Plug 'ryanoasis/vim-devicons'
+  " adding the flags to NERDTree
+  let g:webdevicons_enable_nerdtree = 1
+  " whether or not to show the nerdtree brackets around flags
+  let g:webdevicons_conceal_nerdtree_brackets = 1
+  " enable folder/directory glyph flag (disabled by default with 0)
+  let g:WebDevIconsUnicodeDecorateFolderNodes = 1
+  " enable open and close folder/directory glyph flags (disabled by default with 0)
+  let g:DevIconsEnableFoldersOpenClose = 1
+  " the amount of space to use after the glyph character (default ' ')
+  let g:WebDevIconsNerdTreeAfterGlyphPadding = '  '
 
 call plug#end()
 " }}}
@@ -274,9 +360,7 @@ nnoremap <silent> <Right> :bnext<CR>
 nnoremap <silent> <Up> :BufOnly<CR>
 nnoremap <silent> <Down> :e#<CR>
 " conveniently toggle plugins on/off
-" noremap <silent> <C-n> :NERDTreeToggle<CR>
-noremap <silent> <C-f> :NERDTreeFind<CR>
-noremap <silent> <C-b> :BuffergatorToggle<CR>
+
 " " folding magic
 " nnoremap <space> za
 " nnoremap <C-space> zA
@@ -307,18 +391,16 @@ if $ITERM_PROFILE =~ 'Gruvbox'
 
   colorscheme gruvbox
 endif
+
 if $ITERM_PROFILE =~ 'Solarized'
   colorscheme solarized
 endif
+
 if $ITERM_PROFILE =~ "Dracula"
   colorscheme dracula
-endif
 
-" colorschems for Hyper terminal
-if $TERM_PROGRAM =~ "Hyper"
-  if $HYPER_PROFILE =~ "daywalker"
-    colorscheme daywalker
-  endif
+  " let g:dracula#palette.fg        = ['#212529', 253] " ['#F8F8F2', 253]
+  " let g:dracula#palette.bg        = ['#F8F9FA', 236] " ['#282A36', 236]
 endif
 
 " colorscheme daywalker

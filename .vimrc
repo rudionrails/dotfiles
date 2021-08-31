@@ -4,7 +4,7 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'flazz/vim-colorschemes'
 Plug 'dracula/vim', { 'as': 'dracula' }
-" Plug 'rudionrails/daywalker.vim', { 'as': 'daywalker' }
+Plug 'rudionrails/daywalker.vim', { 'as': 'daywalker' }
 " Plug 'kyoz/purify', { 'rtp': 'vim' }
 " Plug 'chriskempson/base16-vim'
 " Plug 'haishanh/night-owl.vim'
@@ -229,6 +229,9 @@ Plug 'ryanoasis/vim-devicons'
   let g:DevIconsEnableFoldersOpenClose = 1
   " the amount of space to use after the glyph character (default ' ')
   let g:WebDevIconsNerdTreeAfterGlyphPadding = '  '
+
+" Plugin to create color-schemes
+Plug 'rktjmp/lush.nvim'
 
 call plug#end()
 " }}}

@@ -105,12 +105,12 @@ fi
 alias rm='rm -i'
 
 # fuzzy finder
-# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-# if which n > //dev/null; then
-#   export N_PREFIX=$HOME/.n
-#   export PATH=$N_PREFIX/bin:$PATH
-# fi
+if which n > //dev/null; then
+  export N_PREFIX=$HOME/.n
+  export PATH=$N_PREFIX/bin:$PATH
+fi
 
 # rubversion manager
 # if which rbenv > /dev/null; then

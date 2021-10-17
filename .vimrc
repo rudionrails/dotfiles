@@ -1,5 +1,10 @@
 " ---------------------------------------------------
 " Init {{{
+if empty(glob("~/.vim/autoload/plug.vim"))
+  silent! execute '!curl --create-dirs -fsSLo ~/.vim/autoload/plug.vim https://raw.github.com/junegunn/vim-plug/master/plug.vim'
+  autocmd VimEnter * silent! PlugInstall
+endif
+
 call plug#begin('~/.vim/plugged')
 
 Plug 'flazz/vim-colorschemes'
@@ -388,6 +393,12 @@ if $ITERM_PROFILE =~ 'Light'
 endif
 
 " colorschemes for iTerm
+colorscheme dracula " default
+  " let g:dracula#palette.fg        = ['#212529', 253] " ['#F8F8F2', 253]
+  " let g:dracula#palette.bg        = ['#F8F9FA', 236] " ['#282A36', 236]
+
+" colorscheme daywalker
+
 if $ITERM_PROFILE =~ 'Gruvbox'
   let g:gruvbox_contrast_dark = 'soft'
   let g:gruvbox_contrast_light = 'soft'
@@ -398,16 +409,6 @@ endif
 if $ITERM_PROFILE =~ 'Solarized'
   colorscheme solarized
 endif
-
-if $ITERM_PROFILE =~ "Dracula"
-  colorscheme dracula
-
-  " let g:dracula#palette.fg        = ['#212529', 253] " ['#F8F8F2', 253]
-  " let g:dracula#palette.bg        = ['#F8F9FA', 236] " ['#282A36', 236]
-endif
-
-" colorscheme daywalker
-
 " }}}
 
 " -------------------------------------------------

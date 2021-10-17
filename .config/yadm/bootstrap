@@ -13,6 +13,16 @@ if [ "$system_type" = "Darwin" ]; then
     echo "Updating homebrew bundle"
     brew bundle --global
   fi
+
+  if [ -d "$HOME/.iterm2" ]; then
+    echo "Setting iTerm preference folder"
+    defaults write com.googlecode.iterm2 PrefsCustomFolder "$HOME/.iterm2"
+  fi
+fi
+
+if command -v vim >/dev/null 2>&1; then
+  echo "Bootstraping Vim"
+  vim '+PlugUpdate' '+PlugClean!' '+PlugUpdate' '+qall'
 fi
 
 echo "Installing zsh + plugins (https://github.com/ohmyzsh/ohmyzsh)"

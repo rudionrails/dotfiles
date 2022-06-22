@@ -1,3 +1,6 @@
+set nocompatible " Use Vim settings, rather then Vi settings (much better!).
+let mapleader="," " Change leader to a comma
+
 " ---------------------------------------------------
 " Init {{{
 if empty(glob("~/.vim/autoload/plug.vim"))
@@ -7,25 +10,33 @@ endif
 
 call plug#begin('~/.vim/plugged')
 
-Plug 'flazz/vim-colorschemes'
+" Plug 'flazz/vim-colorschemes'
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'rudionrails/daywalker.vim', { 'as': 'daywalker' }
-" Plug 'kyoz/purify', { 'rtp': 'vim' }
-" Plug 'chriskempson/base16-vim'
-" Plug 'haishanh/night-owl.vim'
-" Plug 'danilo-augusto/vim-afterglow'
-" Plug 'rakr/vim-one'
+Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
+  " let g:tokyonight_style = "day"
+  " let g:tokyonight_style = 'storm' " available: night, storm
+  let g:tokyonight_enable_italic = 1
 
-Plug 'sheerun/vim-polyglot'
-  " set correct filetype for markdown
-  autocmd BufRead,BufNewFile {*.markdown,*.md} set filetype=markdown
-  " good bye syntax highlighting for markdown
-  let g:polyglot_disabled = ['markdown']
+Plug 'rcarriga/nvim-notify'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdateSync'}
 
-" Display the colours in the file
-Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }
+Plug 'BurntSushi/ripgrep'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'kyazdani42/nvim-web-devicons'
+Plug 'nvim-telescope/telescope-file-browser.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+  nnoremap <leader>f <cmd>Telescope find_files<cr>
+  nnoremap <leader>g <cmd>Telescope live_grep<cr>
+  nnoremap <leader>b <cmd>Telescope buffers<cr>
+  " nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+
+" Elm language support
+Plug 'ElmCast/elm-vim', { 'do': 'npm install -g elm elm-test elm-oracle elm-format' }
+  
 " open file given a line, e.g. vim index.html:20
 Plug 'bogado/file-line'
+
 " find code definitions and references
 Plug 'pechorin/any-jump.vim'
   " Normal mode: Jump to definition under cursore
@@ -36,74 +47,6 @@ Plug 'pechorin/any-jump.vim'
   nnoremap <leader>ab :AnyJumpBack<CR>
   " Normal mode: open last closed search window again
   nnoremap <leader>al :AnyJumpLastResults<CR>
-
-" Plug 'scrooloose/nerdtree'
-"   " Make nerdtree look nice
-"   let g:NERDTreeMinimalUI = 1
-"   let g:NERDTreeDirArrows = 1
-"   let g:NERDTreeWinSize = 45
-"   let g:NERDTreeShowLineNumbers = 1
-"   " let g:NERDTreeSpaceDelims = 1
-"   " close nerdtree when opening a file
-"   let g:NERDTreeQuitOnOpen = 1
-"
-"   function! NERDTreeFind()
-"     NERDTreeFind
-"     silent NERDTReeMirror
-"   endfunction
-"
-"   noremap <silent> <C-n> :NERDTreeToggle<CR>
-"   noremap <silent> <C-f> :NERDTreeFind<CR>
-
-" Plug 'jeetsukumaran/vim-buffergator'
-"   let g:buffergator_split_size = 10
-"   let g:buffergator_viewport_split_policy = 'B'
-"   " noremap <silent> <C-b> :BuffergatorToggle<CR>
-"   map <leader>b :BuffergatorToggle<CR>
-
-" @see https://github.com/junegunn/fzf.vim
-" brew install fzf the_silver_searcher fd ripgrep universal-ctags
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-" Plug 'airblade/vim-rooter' " make sure fzf looks into project root
-  " map <C-f> :Files<CR>
-  map <leader>f :Files<CR>
-  nnoremap <leader>g :Rg<CR>
-  nnoremap <leader>t :Tags<CR>
-  nnoremap <leader>m :Marks<CR>
-  map <silent> <C-b> :Buffers<CR>
-
-  let g:fzf_tags_command = 'ctags -R'
-
-  " Border color
-  let g:fzf_layout = 
-        \ { 'up': '~90%',
-        \   'window': {
-        \   'width': 0.8,
-        \   'height': 0.8, 
-        \   'yoffset': 0.5,
-        \   'xoffset': 0.5,
-        \   'highlight': 'Todo',
-        \   'border': 'sharp' } }
-
-  " let $FZF_DEFAULT_OPTS = '--layout=reverse --info=inline'
-  " let $FZF_DEFAULT_COMMAND="rg --files --hidden"
-
-  " Customize fzf colors to match your color scheme
-  let g:fzf_colors =
-    \ { 'fg':      ['fg', 'Normal'],
-    \   'bg':      ['bg', 'Normal'],
-    \   'hl':      ['fg', 'Comment'],
-    \   'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-    \   'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-    \   'hl+':     ['fg', 'Statement'],
-    \   'info':    ['fg', 'PreProc'],
-    \   'border':  ['fg', 'Ignore'],
-    \   'prompt':  ['fg', 'Conditional'],
-    \   'pointer': ['fg', 'Exception'],
-    \   'marker':  ['fg', 'Keyword'],
-    \   'spinner': ['fg', 'Label'],
-    \   'header':  ['fg', 'Comment'] }
 
 Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install() }}
   let g:coc_global_extensions = [
@@ -144,28 +87,14 @@ Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install() }}
   nmap <silent> gi <Plug>(coc-implementation)
   nmap <silent> gr <Plug>(coc-references)
 
-  "
   " coc-explorer
-  "
-  nnoremap <space>e :CocCommand explorer<CR>
+  nnoremap <leader>e :CocCommand explorer<CR>
 
+Plug 'rcarriga/nvim-notify'
 Plug 'vim-scripts/BufOnly.vim'
 Plug 'Lokaltog/vim-easymotion'
-
-Plug 'terryma/vim-multiple-cursors' " MultiCursor Editing
-  " Turn off default key mappings
-  let g:multi_cursor_use_default_mapping=0
-  " Switch to multicursor mode with ,mc
-  let g:multi_cursor_start_key=',mc'
-  " Ctrl-n, Ctrl-p, Ctrl-x, and <Esc> are mapped in the special multicursor
-  " mode once you've added at least one virtual cursor to the buffer
-  let g:multi_cursor_next_key='<C-n>'
-  let g:multi_cursor_prev_key='<C-p>'
-  let g:multi_cursor_skip_key='<C-x>'
-  let g:multi_cursor_quit_key='<Esc>'
-
-" Plug 'mhinz/vim-startify'
-" Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+Plug 'folke/which-key.nvim'
+Plug 'mg979/vim-visual-multi' " MultiCursor Editing
 
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -183,6 +112,7 @@ Plug 'christoomey/vim-tmux-navigator'
 
 Plug 'chrisbra/Recover.vim'
 Plug 'editorconfig/editorconfig-vim'
+Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-repeat'
 
 Plug 'scrooloose/nerdcommenter'
@@ -197,53 +127,72 @@ Plug 'scrooloose/nerdcommenter'
   " Enable trimming of trailing whitespace when uncommenting
   let g:NERDTrimTrailingWhitespace = 1
 
-Plug 'Yggdroot/indentLine'
-  let g:indentLine_showFirstIndentLevel = 1
-  " let g:indentLine_setColors = 0
-  let g:indentLine_fileTypeExclude = ['ghmarkdown']
-  let g:indentLine_bufNameExclude = ['NERD_tree.*']
-  " let g:indentLine_color_term = 236
-  let g:indentLine_indentLevel = 8
-  let g:indentLine_faster = 1
-  " au BufRead,BufEnter,BufNewFile * IndentLinesReset
-
+Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'craigemery/vim-autotag'
-
-Plug 'prettier/vim-prettier', {
-  \   'do': 'yarn install'
-  \ }
-  let g:prettier#autoformat = 0
-  " only execute automatically when .prettierrc.js is present
-  function! PrettierConditionally()
-     if filereadable('.prettierrc.js')
-       exec 'Prettier'
-     endif
-  endfunction
-  autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html call PrettierConditionally()
 
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-git'
-Plug 'ryanoasis/vim-devicons'
-  " adding the flags to NERDTree
-  let g:webdevicons_enable_nerdtree = 1
-  " whether or not to show the nerdtree brackets around flags
-  let g:webdevicons_conceal_nerdtree_brackets = 1
-  " enable folder/directory glyph flag (disabled by default with 0)
-  let g:WebDevIconsUnicodeDecorateFolderNodes = 1
-  " enable open and close folder/directory glyph flags (disabled by default with 0)
-  let g:DevIconsEnableFoldersOpenClose = 1
-  " the amount of space to use after the glyph character (default ' ')
-  let g:WebDevIconsNerdTreeAfterGlyphPadding = '  '
-
-" Plugin to create color-schemes
-Plug 'rktjmp/lush.nvim'
+" Plug 'ryanoasis/vim-devicons'
+"   " adding the flags to NERDTree
+"   let g:webdevicons_enable_nerdtree = 1
+"   " whether or not to show the nerdtree brackets around flags
+"   let g:webdevicons_conceal_nerdtree_brackets = 1
+"   " enable folder/directory glyph flag (disabled by default with 0)
+"   let g:WebDevIconsUnicodeDecorateFolderNodes = 1
+"   " enable open and close folder/directory glyph flags (disabled by default with 0)
+"   let g:DevIconsEnableFoldersOpenClose = 1
+"   " the amount of space to use after the glyph character (default ' ')
+"   let g:WebDevIconsNerdTreeAfterGlyphPadding = '  '
 
 call plug#end()
 " }}}
 
+if has("nvim")
+lua << EOF
+  -- which-key setup
+  require("which-key").setup {
+  }
+
+  -- treesitter setup
+  require'nvim-treesitter.configs'.setup {
+    -- A list of parser names, or "all"
+    ensure_installed = { "html", "json", "tsx", "elm" },
+
+    -- Install parsers synchronously (only applied to `ensure_installed`)
+    sync_install = false,
+
+    highlight = {
+      enable = true,
+      -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+      -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+      -- Using this option may slow down your editor, and you may see some duplicate highlights.
+      -- Instead of true it can also be a list of languages
+      -- additional_vim_regex_highlighting = false,
+    },
+
+    indent = {
+      enable = true,
+    },
+  }
+
+  local ft_to_parser = require"nvim-treesitter.parsers".filetype_to_parsername
+  ft_to_parser.javascript = "tsx" -- the javascript filetype will use the tsx parser
+
+  -- indent blankline setup
+  require("indent_blankline").setup {
+    show_current_context = true,
+    show_current_context_start = true,
+  }
+
+  -- telescope  setup
+  require('telescope').setup {
+  }
+  require("telescope").load_extension "file_browser"
+EOF
+endif
+
 " ---------------------------------------------------
 " General Config {{{
-set nocompatible                " Use Vim settings, rather then Vi settings (much better!).
 set number                      " Line numbers are good
 set relativenumber              " Relative line numbers are even better
 set backspace=indent,eol,start  " Allow backspace in insert mode
@@ -256,17 +205,13 @@ set visualbell                  " No sounds
 set clipboard+=unnamed          " Yank to clipboard
 set mouse=a                     " Enable mouse use in all modes
 set cmdheight=2                 " Better display for messages
+set timeoutlen=100              " time in ms to omplete a key code sequence
 " This makes vim act like all other editors, buffers can
 " exist in the background without being in a window.
 " http://items.sjbach.com/319/configuring-vim-right
 set hidden
 "turn on syntax highlighting
 syntax on
-" Change leader to a comma because the backslash is too far away
-" That means all \x commands turn into ,x
-" The mapleader has to be set before vundle starts loading all
-" the plugins.
-let mapleader=","
 
 " Turn Off Swap Files
 set noswapfile
@@ -298,20 +243,21 @@ filetype indent on
 " Display tabs and trailing spaces visually
 set list listchars=tab:\ \ ,trail:·
 " set nowrap       "Don't wrap lines
-set wrap  " Line wrapping on
+set wrap " Line wrapping on
 let &showbreak = "↳  "
-set linebreak    "Wrap lines at convenient points
+set linebreak " Wrap lines at convenient points
 set cursorline
 set signcolumn=yes " Keep sign (gutter) column visible all times
 
 " Folds
-set foldmethod=indent   " fold based on indent
-" set foldnestmax=3       " deepest fold is 3 levels
-set nofoldenable        " dont fold by default
+" set foldmethod=indent " fold based on indent
+set foldmethod=manual
+" set foldnestmax=3 " deepest fold is 3 levels
+set nofoldenable " dont fold by default
 
 " Completion
 set wildmode=list:longest
-set wildmenu                "enable ctrl-n and ctrl-p to scroll thru matches
+set wildmenu "enable ctrl-n and ctrl-p to scroll thru matches
 set wildignore=*.o,*.obj,*~ "stuff to ignore when tab completing
 set wildignore+=*vim/backups*
 set wildignore+=*sass-cache*
@@ -325,15 +271,15 @@ set wildignore+=*.png,*.jpg,*.gif
 set wildignore+=*.so,*.swp,*.zip
 
 " Scrolling
-set scrolloff=8         "Start scrolling when we're 8 lines away from margins
+set scrolloff=8 "Start scrolling when we're 8 lines away from margins
 set sidescrolloff=15
 set sidescroll=1
 
 " Search
-set incsearch       " Find the next match as we type the search
-set hlsearch        " Highlight searches by default
-set ignorecase      " Ignore case when searching...
-set smartcase       " ...unless we type a capital
+set incsearch " Find the next match as we type the search
+set hlsearch " Highlight searches by default
+set ignorecase " Ignore case when searching...
+set smartcase " ...unless we type a capital
 
 " Keymap
 "make Y consistent with C and D
@@ -376,15 +322,9 @@ nnoremap <silent> <Down> :e#<CR>
 
 " ---------------------------------------------------
 " Color Schemes {{{
-" true color setup for neovim"
-if (has("nvim"))
-  let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-endif
 
 " true color setup for vim 8
-if (has("termguicolors"))
-  set termguicolors
-endif
+set termguicolors
 
 " light / dark background
 set background=dark
@@ -393,21 +333,19 @@ if $ITERM_PROFILE =~ 'Light'
 endif
 
 " colorschemes for iTerm
-colorscheme dracula " default
+" colorscheme dracula " default
   " let g:dracula#palette.fg        = ['#212529', 253] " ['#F8F8F2', 253]
   " let g:dracula#palette.bg        = ['#F8F9FA', 236] " ['#282A36', 236]
 
 " colorscheme daywalker
+
+colorscheme tokyonight
 
 if $ITERM_PROFILE =~ 'Gruvbox'
   let g:gruvbox_contrast_dark = 'soft'
   let g:gruvbox_contrast_light = 'soft'
 
   colorscheme gruvbox
-endif
-
-if $ITERM_PROFILE =~ 'Solarized'
-  colorscheme solarized
 endif
 " }}}
 

@@ -1,0 +1,30 @@
+{
+  "codeLens.enable": false,
+  "diagnostic.infoSign": "●",
+  "diagnostic.hintSign": "○",
+  "diagnostic.warningSign": "!",
+  "diagnostic.errorSign": "x",
+  "coc.preferences.formatOnSaveFiletypes": [
+    "elm",
+    "json",
+    "javascript",
+    "typescript"
+  ],
+  "languageserver": {
+    "elmLS": {
+      "enable": true,
+      "command": "elm-language-server",
+      "filetypes": [
+        "elm"
+      ],
+      "rootPatterns": [
+        "elm.json"
+      ],
+      "trace.server": "verbose",
+      "initializationOptions": {
+        "elmFormatPath": "elm-format",
+        "elmAnalyseTrigger": "save"
+      }
+    }
+  }
+}

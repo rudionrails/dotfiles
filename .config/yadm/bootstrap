@@ -2,42 +2,25 @@
 
 system_type=$(uname -s)
 
-if [ "$system_type" = "Darwin" ]; then
+if ! command -v brew >/dev/null 2>&1; then
   echo "Installing homebrew"
-  if ! command -v brew >/dev/null 2>&1; then
-    echo "Installing homebrew"
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  fi
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-  if [ -f "$HOME/.Brewfile" ]; then
-    echo "Updating homebrew bundle"
-    brew bundle --global
-  fi
-
-  if [ -d "$HOME/.iterm2" ]; then
-    echo "Setting iTerm preference folder"
-    defaults write com.googlecode.iterm2 PrefsCustomFolder "$HOME/.iterm2"
-  fi
+  echo "Updating homebrew bundle"
+  brew bundle --global
 fi
 
-if command -v vim >/dev/null 2>&1; then
-  echo "Bootstraping Vim"
-  vim '+PlugUpdate' '+PlugClean!' '+PlugUpdate' '+qall'
+if [ -d "$HOME/.iterm2" ]; then
+  echo "Setting iTerm preference folder"
+  defaults write com.googlecode.iterm2 PrefsCustomFolder "$HOME/.iterm2"
 fi
 
-echo "Installing zsh + plugins (https://github.com/ohmyzsh/ohmyzsh)"
-if [ ! -z ${ZSH+x} ]; then
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+if command -v n >/dev/null 2>&1; then
+  echo "Installing latest node with n (https://github.com/tj/n)"
+  n latest
 fi
 
-# Only install oh-my-zsh plugins when zsh is already present
-if [ ! -z ${ZSH_CUSTOM+x} ]; then
-  git clone https://github.com/denysdovhan/spaceship-prompt.git "$ZSH_CUSTOM/themes/spaceship-prompt" --depth=1
-  ln -s "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_CUSTOM/themes/spaceship.zsh-theme"
+if command -v nvim >/dev/null 2>&1; then
+  echo "Bootstraping NeoVim"
+  nvim '+PlugUpdate' '+PlugClean!' '+qall'
 fi
-
-echo "Installing latest node with n (https://github.com/tj/n)"
-n latest
-
-echo "Installing neovim plugins (https://neovim.io)"
-nvim +PlugInstall +qa

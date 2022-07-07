@@ -98,8 +98,8 @@
   path = .gitconfig.user
 
 [hub]
-  host = github.fidor.de
   host = github.com
   protocol = ssh
+
 [init]
-	defaultBranch = master
+  defaultBranch = master

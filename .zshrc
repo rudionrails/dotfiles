@@ -1,3 +1,5 @@
+setopt autocd
+
 export ZPLUG_HOME=/usr/local/opt/zplug
 source $ZPLUG_HOME/init.zsh
 
@@ -17,12 +19,17 @@ fi
 # Then, source plugins and add commands to $PATH
 zplug load
 
-
 # User configuration
 
+#
 # Aliases
-alias ll='ls -l'
+#
+alias ls='ls --color=tty'
+alias ll='ls -lh'
+
 alias rm='rm -i'
+
+alias grep="grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox}"
 
 # Preferred editor for local and remote sessions
 if [[ -n $SSH_CONNECTION ]]; then

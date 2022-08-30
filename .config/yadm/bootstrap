@@ -2,13 +2,8 @@
 
 system_type=$(uname -s)
 
-if ! command -v brew >/dev/null 2>&1; then
-  echo "Installing homebrew"
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-
-  echo "Updating homebrew bundle"
-  brew bundle --global
-fi
+echo "Updating homebrew bundle"
+brew bundle --global
 
 if [ -d "$HOME/.iterm2" ]; then
   echo "Setting iTerm preference folder"
@@ -16,8 +11,8 @@ if [ -d "$HOME/.iterm2" ]; then
 fi
 
 if command -v n >/dev/null 2>&1; then
-  echo "Installing latest node with n (https://github.com/tj/n)"
-  n latest
+  echo "Installing node with n (https://github.com/tj/n)"
+  n lts
 fi
 
 if command -v nvim >/dev/null 2>&1; then

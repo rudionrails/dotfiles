@@ -1,7 +1,15 @@
 setopt autocd
 
-export ZPLUG_HOME=/usr/local/opt/zplug
-source $ZPLUG_HOME/init.zsh
+#
+# setup zplug to the correct file
+#
+if [ -d /opt/homebrew/opt/zplug ]; then
+  export ZPLUG_HOME=/opt/homebrew/opt/zplug
+  source $ZPLUG_HOME/init.zsh
+elif [ -d /usr/local/opt/zplug ]; then # for older versions of homebrew
+  export ZPLUG_HOME=/usr/local/opt/zplug
+  source $ZPLUG_HOME/init.zs
+fi
 
 zplug 'zplug/zplug', hook-build:'zplug --self-manage'
 
@@ -19,7 +27,27 @@ fi
 # Then, source plugins and add commands to $PATH
 zplug load
 
+# 
 # User configuration
+#
+
+# Preferred editor for local and remote sessions
+if [[ -n $SSH_CONNECTION ]]; then
+  export EDITOR='vim'
+else
+  export EDITOR='nvim'
+fi
+
+# fuzzy finder
+if [ -f ~/.fzf.zsh ]; then
+  source ~/.fzf.zsh
+fi
+
+# node version manager
+if which n > /dev/null; then
+  export N_PREFIX=$HOME/.n
+  export PATH=$N_PREFIX/bin:$PATH
+fi
 
 #
 # Aliases
@@ -30,19 +58,3 @@ alias ll='ls -lh'
 alias rm='rm -i'
 
 alias grep="grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox}"
-
-# Preferred editor for local and remote sessions
-if [[ -n $SSH_CONNECTION ]]; then
-  export EDITOR='vim'
-else
-  export EDITOR='nvim'
-fi
-
-# fuzzy finder
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-# node version manager
-if which n > //dev/null; then
-  export N_PREFIX=$HOME/.n
-  export PATH=$N_PREFIX/bin:$PATH
-fi

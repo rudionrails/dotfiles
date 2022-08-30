@@ -17,6 +17,7 @@ Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
   " let g:tokyonight_style = "day"
   " let g:tokyonight_style = 'storm' " available: night, storm
   let g:tokyonight_enable_italic = 1
+Plug 'ayu-theme/ayu-vim'
 
 Plug 'rcarriga/nvim-notify'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdateSync'}
@@ -58,24 +59,25 @@ Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install() }}
     \ 'coc-jest',
     \ 'coc-html',
     \ 'coc-css',
-    \ 'coc-git'
+    \ 'coc-git',
+    \ 'coc-prettier'
     \ ]
 
   " Use <c-space> to trigger completion.
   inoremap <silent><expr> <c-space> coc#refresh()
 
   " Use tab for trigger completion with characters ahead and navigate.
-  inoremap <silent><expr> <TAB>
-        \   pumvisible() ? "\<C-n>" :
-        \   <SID>check_back_space() ? "\<TAB>" :
-        \   coc#refresh()
+  " inoremap <silent><expr> <TAB>
+  "       \   pumvisible() ? "\<C-n>" :
+  "       \   <SID>check_back_space() ? "\<TAB>" :
+  "       \   coc#refresh()
   " Use <Tab> and <S-Tab> to navigate the completion list:
-  inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-  inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+  " inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+  " inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
   " Use <cr> to confirm completion
-  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+  " inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
   " To make <cr> select the first completion item and confirm the completion when no item has been selected
-  inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
+  " inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
   " Close the preview window when completion is done
   autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
   " Use K to show documentation in preview window
@@ -146,50 +148,6 @@ Plug 'tpope/vim-git'
 
 call plug#end()
 " }}}
-
-if has("nvim")
-lua << EOF
-  -- which-key setup
-  require("which-key").setup {
-  }
-
-  -- treesitter setup
-  require'nvim-treesitter.configs'.setup {
-    -- A list of parser names, or "all"
-    ensure_installed = { "html", "json", "tsx", "elm" },
-
-    -- Install parsers synchronously (only applied to `ensure_installed`)
-    sync_install = false,
-
-    highlight = {
-      enable = true,
-      -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-      -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-      -- Using this option may slow down your editor, and you may see some duplicate highlights.
-      -- Instead of true it can also be a list of languages
-      -- additional_vim_regex_highlighting = false,
-    },
-
-    indent = {
-      enable = true,
-    },
-  }
-
-  local ft_to_parser = require"nvim-treesitter.parsers".filetype_to_parsername
-  ft_to_parser.javascript = "tsx" -- the javascript filetype will use the tsx parser
-
-  -- indent blankline setup
-  require("indent_blankline").setup {
-    show_current_context = true,
-    show_current_context_start = true,
-  }
-
-  -- telescope  setup
-  require('telescope').setup {
-  }
-  require("telescope").load_extension "file_browser"
-EOF
-endif
 
 " ---------------------------------------------------
 " General Config {{{
@@ -323,7 +281,7 @@ nnoremap <silent> <Down> :e#<CR>
 " ---------------------------------------------------
 " Color Schemes {{{
 
-" true color setup for vim 8
+" true color setup for vim 8+
 set termguicolors
 
 " light / dark background
@@ -339,7 +297,10 @@ endif
 
 " colorscheme daywalker
 
-colorscheme tokyonight
+" colorscheme tokyonight
+
+let ayucolor="mirage"
+colorscheme ayu
 
 if $ITERM_PROFILE =~ 'Gruvbox'
   let g:gruvbox_contrast_dark = 'soft'
@@ -359,4 +320,49 @@ function! <SID>SynStack()
   endif
   echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
 endfunc
+
+if has("nvim")
+lua << EOF
+  -- which-key setup
+  require("which-key").setup {
+  }
+
+  -- treesitter setup
+  require'nvim-treesitter.configs'.setup {
+    -- A list of parser names, or "all"
+    ensure_installed = { "html", "json", "tsx", "elm" },
+
+    -- Install parsers synchronously (only applied to `ensure_installed`)
+    sync_install = false,
+
+    highlight = {
+      enable = true,
+      -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+      -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+      -- Using this option may slow down your editor, and you may see some duplicate highlights.
+      -- Instead of true it can also be a list of languages
+      -- additional_vim_regex_highlighting = false,
+    },
+
+    indent = {
+      enable = true,
+    },
+  }
+
+  local ft_to_parser = require"nvim-treesitter.parsers".filetype_to_parsername
+  ft_to_parser.javascript = "tsx" -- the javascript filetype will use the tsx parser
+
+  -- indent blankline setup
+  require("indent_blankline").setup {
+    show_current_context = true,
+    show_current_context_start = true,
+  }
+
+  -- telescope setup
+  require('telescope').setup {
+  }
+  require("telescope").load_extension "file_browser"
+EOF
+endif
+
 " }}}

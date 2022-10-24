@@ -8,18 +8,16 @@
     "elm",
     "json",
     "javascript",
-    "typescript"
+    "typescript",
+    "typescriptreact",
+    "css"
   ],
   "languageserver": {
     "elmLS": {
       "enable": true,
       "command": "elm-language-server",
-      "filetypes": [
-        "elm"
-      ],
-      "rootPatterns": [
-        "elm.json"
-      ],
+      "filetypes": ["elm"],
+      "rootPatterns": ["elm.json"],
       "trace.server": "verbose",
       "initializationOptions": {
         "elmFormatPath": "elm-format",

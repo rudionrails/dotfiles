@@ -49,6 +49,10 @@ if which n > /dev/null; then
   export PATH=$N_PREFIX/bin:$PATH
 fi
 
+if which rbenv > /dev/null; then
+  eval "$(rbenv init - zsh)"
+fi
+
 #
 # Aliases
 #

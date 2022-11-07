@@ -50,6 +50,7 @@ Plug 'pechorin/any-jump.vim'
 
 " Elm language support
 Plug 'ElmCast/elm-vim', { 'do': 'npm install -g elm elm-test elm-oracle elm-format' }
+Plug 'github/copilot.vim' " Github CopPilot integration
 
 Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install() }}
   let g:coc_global_extensions = [
@@ -121,8 +122,8 @@ Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install() }}
   nmap <leader>rn <Plug>(coc-rename)
 
   " Code formatting
-  vmap <leader>p  <Plug>(coc-format-selected)
-  nmap <leader>p  <Plug>(coc-format)
+  vmap <leader>p <Plug>(coc-format-selected)
+  nmap <leader>p <Plug>(coc-format)
 
   augroup mygroup
     autocmd!
@@ -157,12 +158,12 @@ Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install() }}
   " coc-explorer
   nnoremap <leader>e :CocCommand explorer --position floating<CR>
 
+Plug 'nvim-lualine/lualine.nvim'
+Plug 'akinsho/bufferline.nvim'
 Plug 'vim-scripts/BufOnly.vim'
 Plug 'Lokaltog/vim-easymotion'
 Plug 'folke/which-key.nvim'
 Plug 'mg979/vim-visual-multi' " MultiCursor Editing
-
-Plug 'nvim-lualine/lualine.nvim'
 
 Plug 'jby/tmux.vim'
 Plug 'christoomey/vim-tmux-navigator'
@@ -201,10 +202,11 @@ set backspace=indent,eol,start  " Allow backspace in insert mode
 " set gcr=a:blinkon0              " Disable cursor blink
 " set visualbell                  " No sounds
 " " set autoread                    " Reload files changed outside vim
-" set clipboard+=unnamed          " Yank to clipboard
+set clipboard+=unnamed          " Yank to clipboard
 " set mouse=a                     " Enable mouse use in all modes
-" set cmdheight=2                 " Better display for messages
-" set timeoutlen=100              " time in ms to omplete a key code sequence
+set cmdheight=2                 " Better display for messages
+set timeoutlen=100              " time in ms to complete a key code sequence
+
 " " This makes vim act like all other editors, buffers can
 " " exist in the background without being in a window.
 " " http://items.sjbach.com/319/configuring-vim-right
@@ -289,12 +291,12 @@ set smartcase " ...unless we type a capital
 " make Y consistent with C and D
 nnoremap Y y$
 
-" " Create window splits easier. The default" way is Ctrl-w,v and Ctrl-w,s. I remap this to vv and ss
-" nnoremap <silent> vv <C-w>v
-" nnoremap <silent> ss <C-w>s
+" Create window splits easier. The default" way is Ctrl-w,v and Ctrl-w,s. I remap this to vv and ss
+nnoremap <silent> vv <C-w>v
+nnoremap <silent> ss <C-w>s
 
-" "Clear current search highlight by double tapping //
-" nmap <silent> // :nohlsearch<CR>
+"Clear current search highlight by double tapping //
+nmap <silent> // :nohlsearch<CR>
 
 " Jump to start/end of line
 noremap H ^
@@ -326,6 +328,7 @@ colorscheme tokyonight
 if $ITERM_PROFILE =~ 'Nightfly'
   let g:nightflyCursorColor = v:true
   let g:nightflyItalics = v:true
+  " let g:nightflyUndercurls = v:false
 
   colorscheme nightfly
 endif
@@ -347,25 +350,23 @@ if has("nvim")
 lua << LUA
   -- Statusline
   require("lualine").setup()
+  require("bufferline").setup()
 
-  -- Comment setup
   require('Comment').setup()
-
-  -- which-key setup
   require("which-key").setup()
 
   -- indent blankline setup
-  require("indent_blankline").setup {
+  require("indent_blankline").setup({
     -- show_current_context = true,
     -- show_current_context_start = true,
-  }
+  })
 
   -- telescope setup
   require('telescope').setup()
-  require("telescope").load_extension "file_browser"
+  require("telescope").load_extension("file_browser")
 
   -- treesitter setup
-  require('nvim-treesitter.configs').setup {
+  require('nvim-treesitter.configs').setup({
     -- A list of parser names, or "all"
     ensure_installed = { "markdown", "html", "json", "tsx", "elm", "lua" },
 
@@ -387,14 +388,14 @@ lua << LUA
     indent = {
       enable = true,
     },
-  }
+  })
 
-  local ft_to_parser = require"nvim-treesitter.parsers".filetype_to_parsername
+  local ft_to_parser = require("nvim-treesitter.parsers").filetype_to_parsername
   ft_to_parser.javascript = "tsx" -- the javascript filetype will use the tsx parser
 
-  require'treesitter-context'.setup {
+  require("treesitter-context").setup({
     enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
-  }
+  })
 LUA
 endif
 

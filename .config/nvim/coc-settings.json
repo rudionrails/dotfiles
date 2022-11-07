@@ -4,14 +4,8 @@
   "diagnostic.hintSign": "○",
   "diagnostic.warningSign": "!",
   "diagnostic.errorSign": "x",
-  "coc.preferences.formatOnSaveFiletypes": [
-    "elm",
-    "json",
-    "javascript",
-    "typescript",
-    "typescriptreact",
-    "css"
-  ],
+  "coc.preferences.formatOnType": true,
+  "coc.preferences.formatOnSaveFiletypes": ["*"],
   "languageserver": {
     "elmLS": {
       "enable": true,

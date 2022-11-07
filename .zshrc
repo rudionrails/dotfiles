@@ -15,7 +15,8 @@ zplug 'zplug/zplug', hook-build:'zplug --self-manage'
 
 zplug 'zsh-users/zsh-completions'
 zplug 'zsh-users/zsh-autosuggestions'
-zplug 'zsh-users/zsh-syntax-highlighting'
+zplug 'zsh-users/zsh-syntax-highlighting', defer:2
+# zplug "zsh-users/zsh-history-substring-search", defer:3
 
 zplug 'spaceship-prompt/spaceship-prompt', use:spaceship.zsh, from:github, as:theme
 
@@ -58,7 +59,5 @@ fi
 #
 alias ls='ls --color=tty'
 alias ll='ls -lh'
-
 alias rm='rm -i'
-
 alias grep="grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox}"

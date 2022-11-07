@@ -1,8 +1,17 @@
 {
   "theme": null,
   "themes": {
-    "mode": "dark",
-    "light": null,
+    "mode": "light",
+    "light": {
+      "name": "Bonofix Theme",
+      "url": "assets:///Users/irudi/.logseq/plugins/logseq-bonofix-theme/custom.css",
+      "description": "A custom theme focus on UI bug fix and mobile improvement",
+      "pid": "logseq-bonofix-theme",
+      "group-first": true,
+      "group-desc": "light & dark themes",
+      "mode": "light",
+      "selected": false
+    },
     "dark": {
       "name": "Default Dark Theme",
       "url": null,
@@ -13,5 +22,9 @@
       "group-desc": "dark themes"
     }
   },
-  "externals": []
+  "externals": [],
+  "pinnedToolbarItems": [
+    "logseq-tags:tags-plugin-open",
+    "logseq-journals-calendar:open-calendar"
+  ]
 }

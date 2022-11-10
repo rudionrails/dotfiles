@@ -1,3 +1,10 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 setopt autocd
 
 #
@@ -18,7 +25,8 @@ zplug 'zsh-users/zsh-autosuggestions'
 zplug 'zsh-users/zsh-syntax-highlighting', defer:2
 # zplug "zsh-users/zsh-history-substring-search", defer:3
 
-zplug 'spaceship-prompt/spaceship-prompt', use:spaceship.zsh, from:github, as:theme
+# zplug 'spaceship-prompt/spaceship-prompt', use:spaceship.zsh, from:github, as:theme
+zplug 'romkatv/powerlevel10k', as:theme, depth:1
 
 # Install plugins if there are plugins that have not been installed
 if ! zplug check; then
@@ -61,3 +69,6 @@ alias ls='ls --color=tty'
 alias ll='ls -lh'
 alias rm='rm -i'
 alias grep="grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox}"
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

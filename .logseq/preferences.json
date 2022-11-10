@@ -4,7 +4,7 @@
     "mode": "light",
     "light": {
       "name": "Bonofix Theme",
-      "url": "assets:///Users/irudi/.logseq/plugins/logseq-bonofix-theme/custom.css",
+      "url": "assets:~/.logseq/plugins/logseq-bonofix-theme/custom.css",
       "description": "A custom theme focus on UI bug fix and mobile improvement",
       "pid": "logseq-bonofix-theme",
       "group-first": true,

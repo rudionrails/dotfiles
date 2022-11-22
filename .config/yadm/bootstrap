@@ -2,20 +2,34 @@
 
 system_type=$(uname -s)
 
-echo "Updating homebrew bundle"
+echo "[YADM] Running bootstrap from $0"
+
+if ! which brew > /dev/null; then
+  echo "[YADM] Homebrew is not insalled, exiting..."
+  exit 1
+fi
+
+echo "[YADM] Updating homebrew bundle"
 brew bundle --global
 
 if [ -d "$HOME/.iterm2" ]; then
-  echo "Setting iTerm preference folder"
+  echo "[YADM] iTerm setup"
   defaults write com.googlecode.iterm2 PrefsCustomFolder "$HOME/.iterm2"
 fi
 
-if command -v n >/dev/null 2>&1; then
-  echo "Installing node with n (https://github.com/tj/n)"
+if [ ! -d ~/.tmux/plugins/tpm ]; then
+  echo "[YADM] Tmux setup"
+  git clone --depth 1 https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+fi
+
+if which n >/dev/null; then
+  echo "[YADM] Node setup (https://github.com/tj/n)"
   n lts
 fi
 
-if command -v nvim >/dev/null 2>&1; then
-  echo "Bootstraping NeoVim"
-  nvim '+PlugUpdate' '+PlugClean!' '+qall'
+if which nvim > /dev/null; then
+  echo "[YADM] NeoVim setup"
+  nvim '+PlugUpdate' '+PlugClean' '+qa'
 fi
+
+echo "[YADM] done."

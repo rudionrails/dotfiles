@@ -13,7 +13,7 @@ Plug 'kyazdani42/nvim-web-devicons' " devicons many plugins depend on
 Plug 'nvim-lua/plenary.nvim' " Lua functions that many plugins depend on
 
 " Plug 'flazz/vim-colorschemes'
-Plug 'catppuccin/nvim'
+" Plug 'catppuccin/nvim'
 Plug 'rudionrails/daywalker.vim', { 'as': 'daywalker' }
 Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
   " let g:tokyonight_style = 'day'
@@ -24,23 +24,11 @@ Plug 'bluz71/vim-nightfly-guicolors'
 Plug 'nvim-lualine/lualine.nvim'
 Plug 'akinsho/bufferline.nvim'
 Plug 'vim-scripts/BufOnly.vim'
-Plug 'Lokaltog/vim-easymotion'
 Plug 'folke/which-key.nvim' " displays a popup with possible key bindings of the command
 Plug 'mg979/vim-visual-multi' " MultiCursor Editing
   
-" open file given a line, e.g. vim index.html:20
-Plug 'bogado/file-line'
-
-" find code definitions and references
-Plug 'pechorin/any-jump.vim'
-  " Normal mode: Jump to definition under cursore
-  nnoremap <leader>j :AnyJump<CR>
-  " Visual mode: jump to selected text in visual mode
-  xnoremap <leader>j :AnyJumpVisual<CR>
-  " Normal mode: open previous opened file (after jump)
-  nnoremap <leader>ab :AnyJumpBack<CR>
-  " Normal mode: open last closed search window again
-  nnoremap <leader>al :AnyJumpLastResults<CR>
+Plug 'easymotion/vim-easymotion'
+Plug 'bogado/file-line' " open file given a line, e.g. vim index.html:20
 
 Plug 'jby/tmux.vim'
 Plug 'christoomey/vim-tmux-navigator'
@@ -53,12 +41,12 @@ Plug 'christoomey/vim-tmux-navigator'
 
 Plug 'chrisbra/Recover.vim'
 Plug 'editorconfig/editorconfig-vim'
-Plug 'tpope/vim-sleuth'
+" Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-repeat'
 
 Plug 'numToStr/Comment.nvim'
 Plug 'lukas-reineke/indent-blankline.nvim'
-Plug 'craigemery/vim-autotag'
+" Plug 'craigemery/vim-autotag'
 Plug 'lewis6991/gitsigns.nvim'
 
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdateSync'}
@@ -73,17 +61,22 @@ Plug 'nvim-telescope/telescope.nvim'
   nnoremap <leader>fs <cmd>Telescope live_grep<cr>
   nnoremap <leader>fc <cmd>Telescope grep_string<cr>
   nnoremap <leader>fb <cmd>Telescope buffers<cr>
+  nnoremap <leader>fe <cmd>Telescope file_browser<cr>
   " nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+
 
 " Elm language support
 " Plug 'ElmCast/elm-vim', { 'do': 'npm install -g elm elm-test elm-oracle elm-format' }
 Plug 'github/copilot.vim' " Github CopPilot integration
+  " let g:copilot_node_command = system("which node") " does not play so well with `n` node version manager
 
 Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install() }}
   let g:coc_global_extensions = [
     \ 'coc-marketplace',
     \ 'coc-highlight',
     \ 'coc-explorer',
+    \ 'coc-tsserver',
+    \ 'coc-prettier',
     \ 'coc-json', 
     \ 'coc-styled-components',
     \ 'coc-jest',
@@ -104,8 +97,8 @@ Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install() }}
 
   " Make <CR> to accept selected completion item or notify coc.nvim to format
   " <C-g>u breaks current undo, please make your own choice.
-  inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
-                                \: '\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>'
+  " inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+  "                               \: '\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>'
 
   function! CheckBackspace() abort
     let col = col('.') - 1
@@ -151,13 +144,13 @@ Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install() }}
   vmap <leader>p <Plug>(coc-format-selected)
   nmap <leader>p <Plug>(coc-format)
 
-  augroup mygroup
-    autocmd!
-    " Setup formatexpr specified filetype(s).
-    autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
-    " Update signature help on jump placeholder.
-    autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
-  augroup end
+  " augroup mygroup
+  "   autocmd!
+  "   " Setup formatexpr specified filetype(s).
+  "   autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+  "   " Update signature help on jump placeholder.
+  "   autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+  " augroup end
 
   " Applying codeAction to the selected region.
   " Example: `<leader>aap` for current paragraph
@@ -236,8 +229,8 @@ set expandtab
 set autoindent
 
 " Auto indent pasted text
-nnoremap p p=`]<C-o>
-nnoremap P P=`]<C-o>
+" nnoremap p p=`]<C-o>
+" nnoremap P P=`]<C-o>
 
 " filetype plugin on
 " filetype indent on
@@ -389,12 +382,15 @@ lua << LUA
   -- telescope setup
   local telescope_ok, telescope = pcall(require, 'telescope')
   if telescope_ok then
+    local actions = require('telescope.actions')
+
     telescope.setup({
       defaults = {
         mappings = {
           i = {
-            ['<C-j>'] = require('telescope.actions').move_selection_next,
-            ['<C-k>'] = require('telescope.actions').move_selection_previous,
+            ['<C-j>'] = actions.move_selection_next,
+            ['<C-k>'] = actions.move_selection_previous,
+            ['<C-l>'] = actions.select_default
           },
         },
       },

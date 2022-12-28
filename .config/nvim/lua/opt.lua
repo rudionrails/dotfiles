@@ -1,6 +1,7 @@
 -- [[ Setting options ]]
 -- See `:help vim.o`
 
+-- vim.opt.colorcolumn = "80"
 vim.opt.termguicolors = true -- true color setup
 vim.opt.laststatus = 3
 
@@ -24,10 +25,13 @@ vim.opt.sidescrolloff = 15
 vim.opt.sidescroll = 1
 
 -- line wrapping
-vim.opt.wrap = true -- line wrapping on
-vim.opt.linebreak = true -- wrap lines at convenient points
+vim.opt.wrap = false
+vim.opt.linebreak = true -- break lines on word boundary
+vim.cmd [[ let &showbreak = '↳  ' ]]
 
 -- Case insensitive searching UNLESS /C or capital in search
+-- vim.opt.hlsearch = true
+-- vim.opt.incsearch = true
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 
@@ -49,5 +53,3 @@ if not vim.loop.fs_stat(backupdir) then
 end
 vim.opt.undodir = backupdir
 vim.opt.undofile = true
-
-vim.opt.list = true

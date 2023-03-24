@@ -2,6 +2,9 @@
 
 system_type=$(uname -s)
 
+DIVIDER="\n----------------------------------------------------------------------------"
+DIR=$(dirname -- "${BASH_SOURCE[0]}")
+
 echo "[YADM] Running bootstrap from $0"
 
 if ! which brew > /dev/null; then
@@ -9,27 +12,39 @@ if ! which brew > /dev/null; then
   exit 1
 fi
 
-echo "[YADM] Updating homebrew bundle"
+echo "${DIVIDER}\n[YADM] Updating homebrew bundle"
 brew bundle --global
 
-if [ -d "$HOME/.iterm2" ]; then
-  echo "[YADM] iTerm setup"
-  defaults write com.googlecode.iterm2 PrefsCustomFolder "$HOME/.iterm2"
-fi
+# if [ -d "$HOME/.iterm2" ]; then
+#   echo "[YADM] iTerm setup"
+#   defaults write com.googlecode.iterm2 PrefsCustomFolder "$HOME/.iterm2"
+# fi
 
 if [ ! -d ~/.tmux/plugins/tpm ]; then
-  echo "[YADM] Tmux setup"
+  echo "${DIVIDER}\n[YADM] Tmux setup"
   git clone --depth 1 https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 fi
 
 if which n >/dev/null; then
-  echo "[YADM] Node setup (https://github.com/tj/n)"
+  echo "${DIVIDER}\n[YADM] Node setup (https://github.com/tj/n)"
   n lts
 fi
 
-if which nvim > /dev/null; then
-  echo "[YADM] NeoVim setup"
-  nvim '+PlugUpdate' '+PlugClean' '+qa'
-fi
+# if which nvim > /dev/null; then
+#   echo "[YADM] NeoVim setup"
+#   nvim '+PlugUpdate' '+PlugClean' '+qa'
+# fi
 
-echo "[YADM] done."
+echo "${DIVIDER}\n[YADM] Spotlight"
+cat $DIR/DISABLE_SPOTLIGHT.txt
+read -p "[YADM] Do you wish to disable Spotlight indexing? [N/y] " disableSpotlight
+disableSpotlight="${disableSpotlight}:=n"
+case $disableSpotlight in
+  [Yy]* )
+    sudo mdutil -a -i off
+
+    break;;
+  * ) echo "Skipping...";
+esac
+
+echo "\n[YADM] done."

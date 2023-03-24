@@ -21,7 +21,7 @@ fi
 zplug 'zplug/zplug', hook-build:'zplug --self-manage'
 
 zplug "lib/completion", from:oh-my-zsh
-# zplug 'zsh-users/zsh-completions'
+zplug 'zsh-users/zsh-completions'
 zplug 'zsh-users/zsh-autosuggestions'
 zplug 'zsh-users/zsh-syntax-highlighting', defer:2
 # zplug "zsh-users/zsh-history-substring-search", defer:3
@@ -77,5 +77,10 @@ if which rbenv > /dev/null; then
   eval "$(rbenv init - zsh)"
 fi
 
-export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
+# if which pyenv > /dev/null; then
+#   export PATH="$HOME/.pyenv/bin:$PATH"
+#   eval "$(pyenv init -)"
+# fi
+
+# export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
 # export CPPFLAGS="-I/opt/homebrew/opt/openjdk/include"

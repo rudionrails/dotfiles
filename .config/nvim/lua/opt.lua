@@ -1,9 +1,14 @@
 -- [[ Setting options ]]
 -- See `:help vim.o`
 
+-- disable netrw at the very start of your init.lua (strongly advised)
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 -- vim.opt.colorcolumn = "80"
 vim.opt.termguicolors = true -- true color setup
 vim.opt.laststatus = 3
+vim.opt.showtabline = 2
 
 vim.opt.number = true -- line numbers are good
 vim.opt.relativenumber = true -- relative line numbers are veven better
@@ -25,7 +30,7 @@ vim.opt.sidescrolloff = 15
 vim.opt.sidescroll = 1
 
 -- line wrapping
-vim.opt.wrap = false
+vim.opt.wrap = true
 vim.opt.linebreak = true -- break lines on word boundary
 vim.cmd [[ let &showbreak = '↳  ' ]]
 
@@ -47,9 +52,5 @@ vim.opt.expandtab = true
 vim.opt.smartindent = true
 
 -- Keep undo history across sessions. Only works all the time ;)
-local backupdir = vim.fn.stdpath("data") .. "/backups"
-if not vim.loop.fs_stat(backupdir) then
-  vim.fn.system({ 'mkdir', backupdir, '>', '/dev/null', '2>&1' })
-end
-vim.opt.undodir = backupdir
+vim.opt.undodir = vim.fn.stdpath("data") .. "/backups"
 vim.opt.undofile = true

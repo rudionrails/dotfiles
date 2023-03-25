@@ -69,43 +69,9 @@ require('lazy').setup({
   {
     -- git in signcolumn, see `:help gitsigns.txt`
     'lewis6991/gitsigns.nvim',
+    lazy = true,
     config = function()
       require('gitsigns').setup()
-    end,
-  },
-
-  -- { -- Edit and review GitHub issues and pull requests from the comfort of your favorite editor.
-  --   'pwntester/octo.nvim',
-  --   cmd = 'Octo',
-  --
-  --   dependences = {
-  --     'nvim-lua/plenary.nvim',
-  --     'nvim-telescope/telescope.nvim',
-  --     'kyazdani42/nvim-web-devicons',
-  --   },
-  --
-  --   config = function()
-  --     require('octo').setup()
-  --   end,
-  -- },
-
-  {
-    -- markdown preview
-    'toppair/peek.nvim',
-    build = 'deno task --quiet build:fast',
-    config = function()
-      -- theme = 'light', -- 'dark' or 'light'
-      require('peek').setup()
-
-      vim.api.nvim_create_user_command('Peek', function()
-        local peek = require('peek')
-
-        if peek.is_open() then
-          peek.close()
-        else
-          peek.open()
-        end
-      end, {})
     end,
   },
 
@@ -169,10 +135,6 @@ require('lazy').setup({
       })
     end,
   },
-
-  -- { -- A fancy, configurable, notification manager for NeoVim
-  --   'rcarriga/nvim-notify',
-  -- },
 
   {
     -- smarter yank behaviour
@@ -411,10 +373,6 @@ require('lazy').setup({
     end,
   },
 
-  -- { -- shows the context of the currently visible buffer contents
-  --   'wellle/context.vim',
-  -- },
-
   {
     -- highlight other uses of the word under the cursor
     'RRethy/vim-illuminate',
@@ -467,6 +425,7 @@ require('lazy').setup({
   {
     -- displays a popup with possible key bindings of the command
     'folke/which-key.nvim',
+    lazy = true,
     config = function()
       require('which-key').setup({
         window = {
@@ -512,7 +471,8 @@ require('lazy').setup({
 
       lsp.nvim_workspace()
       lsp.setup()
-
+    end,
+    init = function()
       -- vim.api.nvim_create_user_command('Format', function()
       --   vim.lsp.buf.format()
       -- end, {})
@@ -521,7 +481,7 @@ require('lazy').setup({
       -- vim.keymap.set('n', '<leader>p', ':LspZeroFormat<CR>', { desc = 'Format Document and make it [P]retty' })
       vim.keymap.set('n', '<leader>p', function()
         vim.lsp.buf.format({ async = true })
-      end, { desc = 'Format Document and make it [P]retty' })
+      end, { noremap = true, desc = 'Format Document and make it [P]retty' })
 
       vim.api.nvim_create_autocmd('BufWritePre', {
         callback = function()
@@ -559,21 +519,19 @@ require('lazy').setup({
           -- return lang == "text" -- and api.nvim_buf_line_count(bufnr) > 50000
           return api.nvim_buf_line_count(bufnr) > 10000
         end,
+        auto_install = true,
         -- Add languages to be installed here that you want installed for treesitter
         ensure_installed = { 'typescript', 'css', 'lua', 'help' },
-        auto_install = true,
-        highlight = { enable = true },
+        ignore_install = { "javascript" },
+        highlight = {
+          enable = true,
+          -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+          -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+          -- Using this option may slow down your editor, and you may see some duplicate highlights.
+          -- Instead of true it can also be a list of languages
+          additional_vim_regex_highlighting = false,
+        },
         indent = { enable = true },
-        -- incremental_selection = {
-        --   enable = true,
-        --   keymaps = {
-        --     init_selection = '<c-space>',
-        --     node_incremental = '<c-space>',
-        --     scope_incremental = '<c-s>',
-        --     node_decremental = '<c-backspace>',
-        --   },
-        -- },
-
         -- nvim-treesitter/playground
         playground = {
           enable = true,
@@ -594,14 +552,30 @@ require('lazy').setup({
       { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
       'nvim-telescope/telescope-file-browser.nvim',
       'nvim-telescope/telescope-ui-select.nvim',
-      'nvim-lua/plenary.nvim',
+      'nvim-treesitter/nvim-treesitter', -- finder / preview
+      'nvim-tree/nvim-web-devicons',     -- icons
+      'sharkdp/fd',                      -- finder
+      'nvim-lua/plenary.nvim',           -- lua helper functions
+      'BurntSushi/ripgrep',
     },
     config = function()
       local telescope = require('telescope')
 
       telescope.setup({
         defaults = {
+          layout_config = {
+            horizontal = {
+              preview_width = 0.55,
+              results_width = 0.8,
+            },
+            width = 0.87,
+            height = 0.80,
+          },
+          path_display = { "truncate" },
           mappings = {
+            n = {
+              ["q"] = "close",
+            },
             i = {
               -- map actions.which_key to <C-h> (default: <C-/>)
               -- actions.which_key shows the mappings for your picker,
@@ -629,7 +603,7 @@ require('lazy').setup({
       })
 
       telescope.load_extension('fzf')
-      -- telescope.load_extension('file_browser')
+      telescope.load_extension('file_browser')
       telescope.load_extension('ui-select')
 
       -- provided by Yanky

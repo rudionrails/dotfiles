@@ -63,18 +63,6 @@ require('lazy').setup({
     end,
   },
 
-  { 'tpope/vim-sleuth' },   -- Detect tabstop and shiftwidth automatically
-  { 'tpope/vim-fugitive' }, -- git support
-
-  {
-    -- git in signcolumn, see `:help gitsigns.txt`
-    'lewis6991/gitsigns.nvim',
-    lazy = true,
-    config = function()
-      require('gitsigns').setup()
-    end,
-  },
-
   {
     -- file explorer
     'nvim-tree/nvim-tree.lua',
@@ -136,6 +124,19 @@ require('lazy').setup({
     end,
   },
 
+
+  { 'tpope/vim-sleuth' },   -- Detect tabstop and shiftwidth automatically
+  { 'tpope/vim-fugitive' }, -- git support
+
+  {
+    -- git in signcolumn, see `:help gitsigns.txt`
+    'lewis6991/gitsigns.nvim',
+    lazy = true,
+    config = function()
+      require('gitsigns').setup()
+    end,
+  },
+
   {
     -- smarter yank behaviour
     "gbprod/yanky.nvim",
@@ -180,8 +181,8 @@ require('lazy').setup({
       -- vim.keymap.set('n', '<C-l>', ':Specs<CR>', { noremap = true, silent = true, desc = "Highlight current [L]ine" })
 
       -- You can even bind it to search jumping and more, example:
-      vim.keymap.set('n', 'n', 'n:Specs<CR>', { noremap = true, silent = true })
-      vim.keymap.set('n', 'N', 'N:Specs<CR>', { noremap = true, silent = true })
+      vim.keymap.set('n', 'n', 'n:Specs<CR>', { silent = true })
+      vim.keymap.set('n', 'N', 'N:Specs<CR>', { silent = true })
     end,
   },
 
@@ -239,7 +240,8 @@ require('lazy').setup({
             },
           },
           lualine_c = {
-            { 'filetype', icon_only = true, separator = '', padding = { left = 1, right = 0 } },
+            -- { 'filetype', icon_only = true, separator = '', padding = { left = 1, right = 0 } },
+            { 'filetype', separator = '', padding = { left = 1, right = 0 } },
             { 'filename', path = 1 },
           },
           -- lualine_x = { 'branch' },
@@ -525,6 +527,16 @@ require('lazy').setup({
         ignore_install = { "javascript" },
         highlight = {
           enable = true,
+
+          -- Or use a function for more flexibility, e.g. to disable slow treesitter highlight for large files
+          disable = function(lang, buf)
+            local max_filesize = 100 * 1024 -- 100 KB
+            local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+            if ok and stats and stats.size > max_filesize then
+              return true
+            end
+          end,
+
           -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
           -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
           -- Using this option may slow down your editor, and you may see some duplicate highlights.
@@ -532,6 +544,7 @@ require('lazy').setup({
           additional_vim_regex_highlighting = false,
         },
         indent = { enable = true },
+
         -- nvim-treesitter/playground
         playground = {
           enable = true,

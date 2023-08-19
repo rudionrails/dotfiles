@@ -56,9 +56,10 @@ else
 fi
 
 # alias ls='ls --color=tty'
+alias l="ls"
 alias ll='ls -lh'
 alias rm='rm -i'
-alias grep="grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox}"
+alias grep="grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.vscode,.tox}"
 
 # Preferred editor for local and remote sessions
 if [[ -n $SSH_CONNECTION ]]; then
@@ -78,9 +79,6 @@ if which rbenv > /dev/null; then
 fi
 
 # if which pyenv > /dev/null; then
-#   export PATH="$HOME/.pyenv/bin:$PATH"
+#   # export PATH="$HOME/.pyenv/bin:$PATH"
 #   eval "$(pyenv init -)"
 # fi
-
-# export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
-# export CPPFLAGS="-I/opt/homebrew/opt/openjdk/include"

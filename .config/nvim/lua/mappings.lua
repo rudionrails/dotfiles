@@ -10,8 +10,8 @@ vim.keymap.set('n', 'j', 'v:count == 0 ? "gj" : "j"', { expr = true, silent = tr
 vim.keymap.set('n', 'k', 'v:count == 0 ? "gk" : "k"', { expr = true, silent = true })
 
 -- Create window splits easier. The default' way is Ctrl-w,v and Ctrl-w,s. I remap this to vv and ss
-vim.keymap.set('n', 'vv', '<C-w>v', { noremap = true })
-vim.keymap.set('n', 'ss', '<C-w>s', { noremap = true })
+vim.keymap.set('n', 'vv', '<C-w>v', { desc = "Create vertical split" })
+vim.keymap.set('n', 'ss', '<C-w>s', { desc = "Create horizontal split" })
 
 -- Clear current search highlight by double tapping //
 vim.keymap.set('n', '//', ':nohlsearch<CR>', { noremap = true, silent = true })

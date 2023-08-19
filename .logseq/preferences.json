@@ -1,30 +1,34 @@
 {
-  "theme": null,
+  "theme": {
+    "name": "Paper Theme",
+    "url": "assets:~/.logseq/plugins/logseq-paper-theme/custom.css",
+    "description": "A paper like Logseq theme",
+    "pid": "logseq-paper-theme"
+  },
   "themes": {
     "mode": "light",
     "light": {
-      "name": "Bonofix Theme",
-      "url": "assets:~/.logseq/plugins/logseq-bonofix-theme/custom.css",
-      "description": "A custom theme focus on UI bug fix and mobile improvement",
-      "pid": "logseq-bonofix-theme",
-      "group-first": true,
-      "group-desc": "light & dark themes",
+      "name": "Awesome Styler Light",
+      "url": "lsp://logseq.io/logseq-awesome-styler/dist/assets/awesomeStylerExt.css",
+      "description": "Light customizable theme theme with extra stuff",
       "mode": "light",
+      "pid": "logseq-awesome-styler",
       "selected": false
     },
     "dark": {
-      "name": "Default Dark Theme",
-      "url": null,
-      "description": "Logseq default dark theme.",
+      "name": "Awesome Styler Dark",
+      "url": "lsp://logseq.io/logseq-awesome-styler/dist/assets/awesomeStylerExt.css",
+      "description": "Dark customizable theme theme with extra stuff",
       "mode": "dark",
-      "selected": true,
-      "group-first": true,
-      "group-desc": "dark themes"
+      "pid": "logseq-awesome-styler",
+      "selected": false
     }
   },
   "externals": [],
   "pinnedToolbarItems": [
     "logseq-tags:tags-plugin-open",
-    "logseq-journals-calendar:open-calendar"
+    "logseq-journals-calendar:open-calendar",
+    "logseq-tabler-picker:TablerPicker",
+    "logseq-awesome-styler:AwesomeStyler"
   ]
 }

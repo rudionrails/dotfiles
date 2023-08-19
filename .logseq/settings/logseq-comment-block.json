@@ -1,1 +1,8 @@
-{}
+{
+  "showToolbarIcon": true,
+  "keyBindings": {
+    "commentBlock": "mod+shift+i"
+  },
+  "settingsVersion": "v2",
+  "disabled": false
+}

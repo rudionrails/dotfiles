@@ -1,1 +1,0 @@
-{"version":3,"file":"style.css","mappings":";;;AACA;EACE;EACA;EACA;EACA;EACA;AAAF,C","sources":["webpack://logseq-plugin-vim-shortcuts/./src/style.scss"],"sourcesContent":["\nhtml, body {\n  width: 100vw;\n  margin: 0;\n  height: 100vh;\n  padding: 0;\n  overflow: hidden;\n}\n"],"names":[],"sourceRoot":""}

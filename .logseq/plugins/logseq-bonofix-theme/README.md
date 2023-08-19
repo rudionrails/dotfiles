@@ -7,7 +7,7 @@
    | 
   <a href="#install">📦 Install</a>
    | 
-  <a href="#whats-improved">✨ What's improved</a>
+  <a href="#whats-improved">✨ What's different</a>
    | 
   <a href="#how-to-build">🔨 How to build</a>
 </p>
@@ -19,58 +19,53 @@ This is a clean theme for [Logseq](https://github.com/logseq/logseq), focusing o
 
 The style is strongly inspired by [logseq-bujo-theme](https://github.com/PiotrSss/logseq-bujo-theme ) and [Notion](https://notion.so). The code is mainly based on bujo theme, and you may find the style really notion-like.
 
-![Desktop](./media/Desktop-2021-08-09.png)
+![Desktop](./media/Desktop-2022-05-23.jpg)
 
 ## Install
 
 Here are two ways of installing theme in Logseq.
+### Install plugin
 
-### Install custom.css:
+<img src="./media/plugin.png" alt="Tags" width="450px" />
+
+- Open Logseq → Plugins → Market Place, install **Bonofix Theme** plugin
+
+- Open Logseq → Themes, choose your theme
+
+> The theme installed via plugin is not compatible with your local `custom.css`. Only plugin theme works.
+### Install `custom.css`
 
 - General installation
 
-  Copy the whole content of [custom.css](https://raw.githubusercontent.com/Sansui233/logseq-bonofix-theme/master/custom.css) into your logseq/custom.css file.
+  Copy the whole content of [custom.css](https://raw.githubusercontent.com/Sansui233/logseq-bonofix-theme/master/custom.css) into your `graphname/logseq/custom.css` file.
 
 - If you are always working online
 
   Copy this one-line-installation into your logseq/custom.css file
 
   ```css
-  @import url('https://cdn.jsdelivr.net/gh/sansui233/logseq-bonofix-theme/custom.css')
+  @import url('https://cdn.jsdelivr.net/gh/sansui233/logseq-bonofix-theme/custom.css');
   ```
-### (Dev Mode) Install plugin
 
-<img src="./media/plugin.png" alt="Tags" width="450px" />
-
-- Open Logseq → Settings, enable developer mode
-
-- Open Logseq → Plugins → Market Place, install **Bonofix Theme** plugin
-
-- Open Logseq → Themes, choose your theme
-
-## What's improved
+## What's different
 
 **Functional style**
 
-- Better typography for headings and blocks
+- Simple but functional colors
 
-- make doc mode dense for note taking
-
-- remove border-bottom for heading2, and make `<hr>` slim for title partition in blockbody. 
+- Remove border-bottom for heading2, and make `<hr>` slim for title partition in blockbody. 
 
 - Make tippy window like responsive card instead of filling the screen and obscuring text
 
-- Mobile: fixed-height bottom search panel
-
-- Mobile: More stable scrolling experience
-
 **Additional Styles**
 
-- Add calender emoji before journal title  
+- Calender emoji before journal title  
   <img src="./media/journal-title-emoji.png" alt="Journal Title Emoji" width="600px" />
 
-- Style tags as labels  
+- Rounded tags  
   <img src="./media/tag-label.png" alt="Tags" width="300px" />
+
+- Round checkbox 
 
 ## How to build
 

@@ -7,8 +7,11 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
 #
-# setup zplug to the correct file
+# Setup zplug to the correct file
 #
 if [ -d /opt/homebrew/opt/zplug ]; then
   export ZPLUG_HOME=/opt/homebrew/opt/zplug
@@ -41,16 +44,9 @@ zplug load
 # User configuration
 #
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-#
-# Aliases
-#
-
-# check if gls command is installed, `brew install coreutils`
+# brew install coreutils
 if which gls > /dev/null; then
-  alias ls='gls -lh --color=auto --group-directories-first'
+  alias ls='gls --color=auto --group-directories-first'
 else
   alias ls='ls -G'
 fi
@@ -58,6 +54,14 @@ fi
 # alias ls='ls --color=tty'
 alias l="ls"
 alias ll='ls -lh'
+
+# brew install tree
+if which tree > /dev/null; then
+  alias t="tree -C --dirsfirst"
+else
+  alias t="ls -l"
+fi
+
 alias rm='rm -i'
 alias grep="grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.vscode,.tox}"
 
@@ -68,15 +72,28 @@ else
   export EDITOR='nvim'
 fi
 
-# node version manager
-if which n > /dev/null; then
-  export N_PREFIX=$HOME/.n
-  export PATH=$N_PREFIX/bin:$PATH
+# tool version manager for Node, Ruby, others
+# @see https://asdf-vm.com/
+if which asdf > /dev/null; then
+  source "$(brew --prefix asdf)/libexec/asdf.sh"
+  source "$(brew --prefix asdf)/etc/bash_completion.d/asdf.bash"
 fi
 
-if which rbenv > /dev/null; then
-  eval "$(rbenv init - zsh)"
-fi
+# # node version manager: https://github.com/tj/n
+# if which n > /dev/null; then
+#   export N_PREFIX=$HOME/.n
+#   export PATH=$N_PREFIX/bin:$PATH
+# fi
+
+# # different node version manager
+# if which fnm > /dev/null; then
+#   eval "$(fnm env --use-on-cd --fnm-dir $HOME/.fnm)"
+#   eval "$(fnm completions --shell zsh)"
+# fi
+
+# if which rbenv > /dev/null; then
+#   eval "$(rbenv init - zsh)"
+# fi
 
 # if which pyenv > /dev/null; then
 #   # export PATH="$HOME/.pyenv/bin:$PATH"

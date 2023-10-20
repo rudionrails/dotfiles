@@ -3,10 +3,6 @@
 
 vim.g.mapleader = "," -- remap leader key
 
--- disable netrw at the very start of your init.lua (strongly advised)
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
-
 -- vim.opt.colorcolumn = "80"
 vim.opt.termguicolors = true -- true color setup
 vim.opt.laststatus = 3
@@ -23,7 +19,7 @@ vim.opt.hlsearch = false -- Set highlight on search
 vim.opt.updatetime = 250
 vim.opt.signcolumn = "yes" -- keep sign (gutter) column visible all times
 vim.opt.cursorline = true -- line on the cursor, d'uh
--- vim.opt.cmdheight = 2      -- command line is better with 2 lines
+vim.opt.cmdheight = 2 -- command line is better with 2 lines
 -- vim.opt.timeoutlen = 100 -- time in ms to complete a key code sequence
 
 -- scrolling

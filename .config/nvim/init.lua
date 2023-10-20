@@ -18,17 +18,7 @@ end
 
 vim.opt.rtp:prepend(vim.env.LAZY or lazypath)
 
-require("lazy").setup({
-	-- -- use the definitions form ./lua/plugins.lua
-	-- { import = "plugins" },
-
-	{ import = "plugins.project" },
-	{ import = "plugins.syntax" },
-	{ import = "plugins.navigation" },
-	{ import = "plugins.languages" },
-	{ import = "plugins.formatting" },
-	{ import = "plugins.linting" },
-}, {
+require("lazy").setup("plugins", {
 	defaults = {
 		-- If you know what you're doing, you can set this to `true` to have all your custom plugins lazy-loaded by default.
 		lazy = false,
@@ -47,16 +37,19 @@ require("lazy").setup({
 	change_detection = {
 		-- automatically check for config file changes and reload the ui
 		enabled = true,
-		notify = true, -- get a notification when changes are found
+		notify = false, -- get a notification when changes are found
 	},
 	performance = {
 		rtp = {
 			-- disable some rtp plugins
 			disabled_plugins = {
 				"gzip",
-				-- "matchit",
-				-- "matchparen",
-				-- "netrwPlugin",
+				"matchit",
+				"matchparen",
+				"netrw",
+				"netrwPlugin",
+				"netrwSettings",
+				"netrwFileHandlers",
 				"tarPlugin",
 				"tohtml",
 				"tutor",

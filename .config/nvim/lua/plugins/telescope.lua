@@ -61,7 +61,7 @@ return {
 	end,
 	init = function()
 		vim.keymap.set("n", "<leader>ff", ":Telescope find_files<CR>", { desc = "[F]ind [F]iles" })
-		vim.keymap.set("n", "<leader>fp", ":Telescope oldfiles<CR>", { desc = "[F]ind [P]reviously opened files" })
+		vim.keymap.set("n", "<leader>fr", ":Telescope oldfiles<CR>", { desc = "[F]ind [R]ecent files" })
 		vim.keymap.set("n", "<leader>fg", ":Telescope live_grep<CR>", { desc = "[F]find by [G]rep" })
 		vim.keymap.set("n", "<leader>fh", ":Telescope help_tags<CR>", { desc = "[F]ind [H]elp" })
 		vim.keymap.set("n", "<leader>fw", ":Telescope grep_string<CR>", { desc = "[F]ind [W]ord" })

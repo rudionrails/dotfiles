@@ -9,7 +9,7 @@ return {
 	},
 	cmd = "Neotree",
 	keys = {
-		{ "<leader>e", ":Neotree float reveal<CR>", silent = true, desc = "File [E]xplorer (NeoTree)" },
+		{ "<leader>e", ":Neotree float reveal<CR>", desc = "File [E]xplorer (NeoTree)" },
 	},
 	config = function()
 		require("neo-tree").setup({

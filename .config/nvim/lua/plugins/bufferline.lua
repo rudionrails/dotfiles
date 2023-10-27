@@ -21,12 +21,7 @@ return {
 
 		vim.keymap.set("n", "<Left>", ":BufferLineCyclePrev<CR>", { silent = true, desc = "Goto left buffer" })
 		vim.keymap.set("n", "<Right>", ":BufferLineCycleNext<CR>", { silent = true, desc = "Goto right buffer" })
-		vim.keymap.set(
-			"n",
-			"<Up>",
-			":BufferLineCloseOthers<CR>",
-			{ silent = true, desc = "Close all buffers but this one" }
-		)
+		vim.keymap.set("n", "<Up>", ":BufferLineCloseOthers<CR>", { silent = true, desc = "Close other buffers" })
 		vim.keymap.set("n", "<Down>", ":e#<CR>", { silent = true, desc = "Toggle to previous buffer" })
 	end,
 }

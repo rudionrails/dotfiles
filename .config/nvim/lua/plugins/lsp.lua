@@ -2,7 +2,7 @@
 return {
 	"VonHeikemen/lsp-zero.nvim",
 	branch = "v3.x",
-	event = { "BufReadPre", "BufNewFile" },
+	event = { "VimEnter", "BufReadPre", "BufNewFile" },
 	dependencies = {
 		-- LSP Support
 		"neovim/nvim-lspconfig",
@@ -18,7 +18,17 @@ return {
 			lsp_zero.default_keymaps({ buffer = bufnr })
 		end)
 
-		require("mason").setup()
+		require("mason").setup({
+			ui = {
+				border = "rounded",
+				icons = {
+					package_installed = "✓",
+					package_pending = "➜",
+					package_uninstalled = "✗",
+				},
+			},
+		})
+
 		require("mason-lspconfig").setup({
 			ensure_installed = { "lua_ls", "yamlls", "tsserver" },
 			automatic_installation = true,

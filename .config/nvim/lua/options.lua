@@ -14,7 +14,7 @@ vim.opt.relativenumber = true -- relative line numbers are veven better
 vim.opt.completeopt = "menuone,noselect" -- Set completeopt to have a better completion experience
 vim.opt.clipboard = "unnamedplus" -- yank to clipboard
 vim.opt.mouse = "a" -- Enable mouse mode
-vim.opt.hlsearch = false -- Set highlight on search
+vim.opt.hlsearch = true -- Set highlight on search
 
 vim.opt.updatetime = 250
 vim.opt.signcolumn = "yes" -- keep sign (gutter) column visible all times
@@ -28,7 +28,7 @@ vim.opt.sidescrolloff = 15
 vim.opt.sidescroll = 1
 
 -- line wrapping
-vim.opt.wrap = false
+vim.opt.wrap = true
 vim.opt.linebreak = true -- break lines on word boundary
 vim.cmd([[ let &showbreak = '↳  ' ]])
 

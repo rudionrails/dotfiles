@@ -1,16 +1,16 @@
 [color]
   ui = true
 
-[color "branch"]
-  current = yellow reverse
-  local = yellow
-  remote = green
+; [color "branch"]
+;   current = yellow reverse
+;   local = yellow
+;   remote = green
 
-[color "diff"]
-  meta = yellow bold
-  frag = magenta bold
-  old = red
-  new = green
+; [color "diff"]
+;   meta = yellow bold
+;   frag = magenta bold
+;   old = red
+;   new = green
 
 [alias]
   # add
@@ -29,11 +29,12 @@
   st = status
 
   # log
-  l = log --graph --date=short
+  l = log --all --decorate --oneline --graph --date=short
   pulls = log --pretty=format:\"%h, %ci\"
-  changes = log --pretty=format:\"%h %cr %cn %Cgreen%s%Creset\" --name-status
-  short = log --pretty=format:\"%h %cr %cn %Cgreen%s%Creset\"
-  simple = log --pretty=format:\" * %s\"
+  ; changes = log --pretty=format:\"%h %cr %cn %Cgreen%s%Creset\" --name-status
+  changes = log --oneline --name-status
+  ; short = log --pretty=format:\"%h %cr %cn %Cgreen%s%Creset\"
+  ; simple = log --pretty=format:\" * %s\"
   graph = log --graph --abbrev-commit --pretty=format:'%C(yellow)%h%Creset%C(blue)%d%Creset %s %C(green)<%an>%Creset %C(blue)%ci%Creset'
 
   # reset
@@ -71,8 +72,7 @@
   autocrlf = false
   editor = nvim
   commitGraph = true
-  # brew install git-delta
-  pager = delta
+  pager = delta ; brew install git-delta
 
 [advice]
   statusHints = false
@@ -82,25 +82,27 @@
   # instead of a/b/c/d as prefixes for patches
   mnemonicprefix = true
   algorithm = patience
-  tool = vimdiff
+  ; tool = vimdiff
 
 ; https://github.com/dandavison/delta
 [delta]
   ; syntax-theme = Dracula
   ; features = side-by-side line-numbers decorations
-  features = line-numbers decorations
-  whitespace-error-style = 22 reverse
-  hunk-header-style = omit
+  ; whitespace-error-style = 22 reverse
+  ; hunk-header-style = omit
+  side-by-side = true ; side by side view with line-wrapping
+  line-numbers = true ; adds line numbers
+  navigate = true ; use n and N to move between diff sections
 
 [interactive]
   diffFilter = delta --color-only
-
-[include]
-  path = .gitconfig.user
 
 [hub]
   host = github.com
   protocol = ssh
 
 [init]
-  defaultBranch = master
+	defaultBranch = main
+
+[include]
+  path = .gitconfig.user

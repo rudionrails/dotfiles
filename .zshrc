@@ -43,22 +43,21 @@ zplug load
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-# brew install coreutils
-if which gls > /dev/null; then
-  alias ls='gls --color=auto --group-directories-first'
+# brew install lsd
+if which exa > /dev/null; then
+  alias ls="lsd"
+  alias l="ls -1"
+  alias ll="l -l"
+  alias la="l -a"
+  alias lt="l --tree"
 else
-  alias ls='ls -G'
-fi
+  echo "Get better `ls` output by `brew install lsd`"
 
-# alias ls='ls --color=tty'
-alias l="ls"
-alias ll='ls -lh'
-
-# brew install tree
-if which tree > /dev/null; then
-  alias t="tree -C --dirsfirst"
-else
-  alias t="ls -l"
+  alias ls="ls -G"
+  alias l="ls"
+  alias ll="ls -lh"
+  alias la="ls -a"
+  alias lt="ls"
 fi
 
 alias rm='rm -i'

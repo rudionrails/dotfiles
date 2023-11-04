@@ -1,34 +1,34 @@
 -- colorschemes
+local function set_colorscheme(profile, colorscheme)
+	if profile:match(os.getenv("ITERM_PROFILE") or "") then
+		vim.cmd.colorscheme(colorscheme)
+	end
+end
+
 return {
 	{
 		"bluz71/vim-nightfly-colors",
 		name = "nightfly",
 		priority = 1000,
-		config = function()
-			if string.match(os.getenv("ITERM_PROFILE"), "Nightfly") then
-				vim.cmd.colorscheme("nightfly")
-			end
+		init = function()
+			set_colorscheme("Nightfly", "nightfly")
 		end,
 	},
 
 	{
 		"folke/tokyonight.nvim",
 		priority = 1000, -- make sure to load this before all the other start plugins
+		init = function()
+			set_colorscheme("Tokyonight Dark", "tokyonight-night")
+			set_colorscheme("Tokyonight Light", "tokyonight-day")
+		end,
 		config = function()
 			require("tokyonight").setup({
-				on_highlights = function(hi, c)
-					-- hi.IndentBlanklineContextStart = { fg = c.bg, bg = c.purple }
-					hi.CmpDocumentationBorder = { fg = c.purple }
-				end,
+				-- on_highlights = function(hi, c)
+				-- 	hi.IndentBlanklineContextStart = { fg = c.bg, bg = c.purple }
+				-- 	hi.CmpDocumentationBorder = { fg = c.purple }
+				-- end,
 			})
-
-			if string.match(os.getenv("ITERM_PROFILE"), "Tokyonight Dark") then
-				vim.cmd.colorscheme("tokyonight-night")
-			end
-
-			if string.match(os.getenv("ITERM_PROFILE"), "Tokyonight Light") then
-				vim.cmd.colorscheme("tokyonight-day")
-			end
 		end,
 	},
 
@@ -36,6 +36,10 @@ return {
 		"rose-pine/neovim",
 		name = "rose-pine",
 		priority = 1000, -- make sure to load this before all the other start plugins
+		init = function()
+			set_colorscheme("Rose Pine Dark", "rose-pine-moon")
+			set_colorscheme("Rose Pine Light", "rose-pine-dawn")
+		end,
 		config = function()
 			require("rose-pine").setup({
 				--- @usage 'main' | 'moon'
@@ -47,28 +51,32 @@ return {
 					IndentBlanklineContextStart = { bg = "foam", blend = 20 },
 				},
 			})
-
-			if string.match(os.getenv("ITERM_PROFILE"), "Rose Pine Dark") then
-				vim.cmd.colorscheme("rose-pine-moon")
-			end
-
-			if string.match(os.getenv("ITERM_PROFILE"), "Rose Pine Light") then
-				vim.cmd.colorscheme("rose-pine-dawn")
-			end
 		end,
 	},
 
 	{
 		"EdenEast/nightfox.nvim",
 		priority = 1000, -- make sure to load this before all the other start plugins
-		config = function()
-			if string.match(os.getenv("ITERM_PROFILE"), "Nightfox Dark") then
-				vim.cmd.colorscheme("nightfox")
-			end
-
-			if string.match(os.getenv("ITERM_PROFILE"), "Nightfox Light") then
-				vim.cmd.colorscheme("dayfox")
-			end
+		init = function()
+			set_colorscheme("Nightfox Dark", "nightfox")
+			set_colorscheme("Nightfox Light", "dayfox")
 		end,
 	},
+
+	{
+		"catppuccin/nvim",
+		name = "catppuccin",
+		priority = 1000,
+		init = function()
+			set_colorscheme("Catpuccin", "catpuccin-mocha")
+		end,
+		config = function()
+			require("catppuccin").setup({})
+		end,
+	},
+
+	-- {
+	-- 	"lunarvim/lunar.nvim",
+	-- 	priority = 1000,
+	-- },
 }

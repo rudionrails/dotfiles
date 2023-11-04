@@ -1,6 +1,6 @@
-require("autocmd")
 require("options")
 require("mappings")
+require("autocmd")
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 
@@ -20,8 +20,8 @@ vim.opt.rtp:prepend(vim.env.LAZY or lazypath)
 
 require("lazy").setup("plugins", {
 	defaults = {
-		-- If you know what you're doing, you can set this to `true` to have all your custom plugins lazy-loaded by default.
-		lazy = false,
+		-- -- If you know what you're doing, you can set this to `true` to have all your custom plugins lazy-loaded by default.
+		-- lazy = false,
 		-- It's recommended to leave version=false for now, since a lot the plugin that support versioning,
 		-- have outdated releases, which may break your Neovim install.
 		version = false, -- always use the latest git commit
@@ -29,9 +29,9 @@ require("lazy").setup("plugins", {
 	},
 	checker = {
 		-- automatically check for plugin updates
-		enabled = false,
+		enabled = true,
 		-- concurrency = nil, ---@type number? set to 1 to check for updates very slowly
-		notify = true, -- get a notification when new updates are found
+		notify = false, -- get a notification when new updates are found
 		-- frequency = 3600, -- check for updates every hour
 	},
 	change_detection = {

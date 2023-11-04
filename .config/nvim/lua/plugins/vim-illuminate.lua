@@ -6,10 +6,16 @@ return {
 		local illuminate = require("illuminate")
 
 		illuminate.configure({
-			delay = 200,
+			delay = 120, -- delay in ms
+			under_cursor = true, -- illuminate under the cursor
+
 			large_file_cutoff = 2000,
 			large_file_overrides = {
-				providers = { "lsp" },
+				providers = {
+					"lsp",
+					"treesitter",
+					"regex",
+				},
 			},
 		})
 

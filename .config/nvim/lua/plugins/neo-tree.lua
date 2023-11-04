@@ -4,12 +4,12 @@ return {
 	branch = "v3.x",
 	dependencies = {
 		"nvim-lua/plenary.nvim",
-		"nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
 		"MunifTanjim/nui.nvim",
+		"nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
 	},
 	cmd = "Neotree",
 	keys = {
-		{ "<leader>e", ":Neotree float reveal<CR>", desc = "File [E]xplorer (NeoTree)" },
+		{ "<leader>e", "<CMD> Neotree float reveal<CR>", silent = true, desc = "File [E]xplorer (NeoTree)" },
 	},
 	config = function()
 		require("neo-tree").setup({

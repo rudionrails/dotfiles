@@ -55,6 +55,12 @@ return {
 		})
 	end,
 	init = function()
+		-- diagnostics
+		for name, icon in pairs(require("core.config").icons.diagnostics) do
+			-- name = "DiagnosticSign" .. name
+			name = "DiagnosticSign" .. name:gsub("^%l", string.upper) -- capitalize first letter
+			vim.fn.sign_define(name, { text = icon, texthl = name, numhl = "" })
+		end
 		-- -- code formatting on <leader>p and on file-save
 		-- vim.keymap.set('n', '<leader>p', function()
 		--   vim.lsp.buf.format()

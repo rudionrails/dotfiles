@@ -4,13 +4,22 @@ return {
 	dependencies = {
 		"jby/tmux.vim",
 	},
+	lazy = true,
+	cmd = {
+		"TmuxNavigateLeft",
+		"TmuxNavigateDown",
+		"TmuxNavigateUp",
+		"TmuxNavigateRight",
+	},
 	init = function()
+		local map = vim.keymap.set
+
 		-- ' Don't allow any default key-mappings.
 		vim.cmd("let g:tmux_navigator_no_mappings = 1")
 
-		vim.keymap.set("n", "<C-h>", ":TmuxNavigateLeft<CR>", { silent = true })
-		vim.keymap.set("n", "<C-j>", ":TmuxNavigateDown<CR>", { silent = true })
-		vim.keymap.set("n", "<C-k>", ":TmuxNavigateUp<CR>", { silent = true })
-		vim.keymap.set("n", "<C-l>", ":TmuxNavigateRight<CR>", { silent = true })
+		map("n", "<C-h>", "<CMD> TmuxNavigateLeft <CR>", { silent = true })
+		map("n", "<C-j>", "<CMD> TmuxNavigateDown <CR>", { silent = true })
+		map("n", "<C-k>", "<CMD> TmuxNavigateUp <CR>", { silent = true })
+		map("n", "<C-l>", "<CMD> TmuxNavigateRight <CR>", { silent = true })
 	end,
 }

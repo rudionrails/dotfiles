@@ -4,6 +4,7 @@ return {
 	dependencies = {
 		"JoosepAlviste/nvim-ts-context-commentstring",
 	},
+	event = { "BufReadPost" },
 	config = function()
 		require("Comment").setup({
 			-- for commenting tsx and jsx files

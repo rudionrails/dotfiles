@@ -2,8 +2,9 @@
 return {
 	"nvim-treesitter/nvim-treesitter",
 	dependencies = {
-		"nvim-treesitter/nvim-treesitter-context", -- shows context of currently visible buffer contents
+		-- "nvim-treesitter/nvim-treesitter-context", -- shows context of currently visible buffer contents
 		"nvim-treesitter/nvim-treesitter-textobjects", -- Additional text objects via treesitter
+		"RRethy/nvim-treesitter-textsubjects", -- Location and syntax aware text objects which *do what you mean*
 		-- 'nvim-treesitter/playground',                  -- show treesitter info in vim
 	},
 	-- cmd = { "TSInstall", "TSBufEnable", "TSBufDisable", "TSModuleInfo" },
@@ -31,6 +32,7 @@ return {
 					end
 				end,
 			},
+
 			incremental_selection = {
 				enable = true,
 				keymaps = {
@@ -40,9 +42,24 @@ return {
 					node_decremental = "<bs>",
 				},
 			},
+
+			-- nvim-treesitter-textsubjects plugin
+			textsubjects = {
+				enable = true,
+				-- prev_selection = ",", -- (Optional) keymap to select the previous selection
+				keymaps = {
+					["."] = "textsubjects-smart",
+					[";"] = "textsubjects-container-outer",
+					-- ["i;"] = "textsubjects-container-inner",
+					["i;"] = {
+						"textsubjects-container-inner",
+						desc = "Select inside containers (classes, functions, etc.)",
+					},
+				},
+			},
 		})
 
-		require("treesitter-context").setup()
+		-- require("treesitter-context").setup()
 
 		-- -- Show treesitter capture group for textobject under cursor (nvim-treesitter/playground)
 		-- vim.keymap.set('n', '<C-e>', ':TSHighlightCapturesUnderCursor<CR>', { noremap = true, silent = true })

@@ -33,7 +33,7 @@ if ! zplug check; then
   zplug install
 fi
 
-# Then, source plugins and add commands to $PATH
+# source plugins and add commands to $PATH
 zplug load
 
 # 
@@ -43,13 +43,29 @@ zplug load
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-# brew install lsd
+alias rm='rm -i'
+alias grep="grep --color=auto --exclude-dir={.git,.vscode}"
+
+# Preferred editor for local and remote sessions
+if which nvim > /dev/null; then
+  alias v=nvim
+else
+  alias v=vim
+fi
+
+if [[ -n $SSH_CONNECTION ]]; then
+  export EDITOR='vim'
+else
+  export EDITOR='nvim'
+fi
+
+# brew install lsd (better ls)
 if which exa > /dev/null; then
-  alias ls="lsd"
+  alias ls="lsd --group-dirs=first"
   alias l="ls -1"
   alias ll="l -l"
   alias la="l -a"
-  alias lt="l --tree"
+  alias lt="l --tree -I .git -I node_modules"
 else
   echo "Get better `ls` output by `brew install lsd`"
 
@@ -60,14 +76,21 @@ else
   alias lt="ls"
 fi
 
-alias rm='rm -i'
-alias grep="grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.vscode,.tox}"
+# brew install bat (better cat with colors)
+if which bat > /dev/null; then
+  alias cat=bat
+fi
 
-# Preferred editor for local and remote sessions
-if [[ -n $SSH_CONNECTION ]]; then
-  export EDITOR='vim'
-else
-  export EDITOR='nvim'
+# brew install btop
+if which btop > /dev/null; then
+  alias top=btop
+fi
+
+# brew install zoxide (for better cd)
+# Usage:
+#   z path/to/folder
+if which zoxide > /dev/null; then
+  eval "$(zoxide init zsh --cmd cd)"
 fi
 
 # tool version manager for Node, Ruby, others

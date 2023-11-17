@@ -4,7 +4,6 @@ return {
 	dependencies = {
 		"jby/tmux.vim",
 	},
-	lazy = true,
 	cmd = {
 		"TmuxNavigateLeft",
 		"TmuxNavigateDown",

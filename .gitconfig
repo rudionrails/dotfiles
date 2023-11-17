@@ -29,13 +29,10 @@
   st = status
 
   # log
-  l = log --all --decorate --oneline --graph --date=short
+  l = log --all --decorate --oneline --graph
   pulls = log --pretty=format:\"%h, %ci\"
-  ; changes = log --pretty=format:\"%h %cr %cn %Cgreen%s%Creset\" --name-status
   changes = log --oneline --name-status
-  ; short = log --pretty=format:\"%h %cr %cn %Cgreen%s%Creset\"
-  ; simple = log --pretty=format:\" * %s\"
-  graph = log --graph --abbrev-commit --pretty=format:'%C(yellow)%h%Creset%C(blue)%d%Creset %s %C(green)<%an>%Creset %C(blue)%ci%Creset'
+  graph = log --graph --abbrev-commit --date=relative --pretty=format:'%C(yellow)%h%Creset%C(blue)%d%Creset %s %C(green)<%an>%Creset %C(blue)%ci%Creset'
 
   # reset
   unstage = reset HEAD              # remove files from index (tracking)
@@ -43,7 +40,7 @@
   filelog = log -u                  # show changes to a file
   mt = mergetool                    # fire up the merge tool
 
-  cleanup = !git branch --merged | egrep -v "(master|develop)"
+  cleanup = !git branch --merged | egrep -v "(main|master|develop)"
   root = rev-parse --show-toplevel
 
 [format]

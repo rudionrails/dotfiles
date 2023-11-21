@@ -1,3 +1,6 @@
+# Simgple HotKey Daemon 
+# @see https://github.com/koekeishiya/skhd
+
 # focus window
 alt - h : yabai -m window --focus west
 alt - j : yabai -m window --focus south
@@ -16,7 +19,7 @@ shift + alt + ctrl - j : yabai -m window --warp south
 shift + alt + ctrl - k : yabai -m window --warp north
 shift + alt + ctrl - l : yabai -m window --warp east
 
-# balance all windows to occupy the same space
+# balance all windows to occupy the same space (reset)
 alt - b : yabai -m space --balance
 
 # rotate tree
@@ -28,18 +31,18 @@ alt - return : yabai -m window --toggle zoom-fullscreen
 # float / unfloat window and center on screen
 alt - t : yabai -m window --toggle float; yabai -m window --grid 4:4:1:1:2:2
 
-alt - s : yabai -m window --toggle sticky;\
-          yabai -m window --toggle topmost;\
-          yabai -m window --toggle pip
+# alt - s : yabai -m window --toggle sticky;\
+#           yabai -m window --toggle topmost;\
+#           yabai -m window --toggle pip
 
 # toggle window split type
 alt - e : yabai -m window --toggle split
 
-# create desktop, move window and follow focus - uses jq for parsing json (brew install jq)
-shift + alt - n : yabai -m space --create && \
-                   index="$(yabai -m query --spaces --display | jq 'map(select(."native-fullscreen" == 0))[-1].index')" && \
-                   yabai -m window --space "${index}" && \
-                   yabai -m space --focus "${index}"
+# # create desktop, move window and follow focus - uses jq for parsing json (brew install jq)
+# shift + alt - n : yabai -m space --create && \
+#                    index="$(yabai -m query --spaces --display | jq 'map(select(."native-fullscreen" == 0))[-1].index')" && \
+#                    yabai -m window --space "${index}" && \
+#                    yabai -m space --focus "${index}"
 
-# fast focus desktop
-alt - tab : yabai -m space --focus recent
+# fast focus window
+alt - tab : yabai -m window --focus recent

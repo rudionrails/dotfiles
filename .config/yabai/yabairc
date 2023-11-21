@@ -10,10 +10,12 @@ yabai -m config \
   layout            bsp # bsp, stack or float
 
 # Rules
+yabai -m rule --add app="^Activity Monitor" manage=off
 yabai -m rule --add app="^Archive Utility" manage=off
 yabai -m rule --add app="^Calculator" manage=off
+yabai -m rule --add app="Colou?r Meter" manage=off
+yabai -m rule --add app="^Finder" manage=off
+yabai -m rule --add app="^Microsoft" manage=off
 yabai -m rule --add app="^Miro" manage=off
 yabai -m rule --add app="^Raycast" manage=off
 yabai -m rule --add app="^System Settings" manage=off
-yabai -m rule --add app="^Activity Monitor" manage=off
-yabai -m rule --add app="^Microsoft" manage=off

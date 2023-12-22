@@ -76,31 +76,37 @@ zplug load
 
 alias rm='rm -i'
 
-# Better grep
-#   brew install ripgrep
-if [[ $+commands[rg] ]]; then
-  alias grep=rg
-else
-  alias grep="grep --color=auto --exclude-dir={.git,.vscode}"
+# Tool version manager for Node, Ruby, others
+#   brew install asdf
+#
+# @see https://asdf-vm.com/
+if [[ $+commands[asdf] ]]; then
+  source "$(brew --prefix asdf)/libexec/asdf.sh"
+  source "$(brew --prefix asdf)/etc/bash_completion.d/asdf.bash"
 fi
 
-# Preferred editor for local and remote sessions
-#   brew install nvim
-if [[ $+commands[nvim] ]]; then
-  if [[ -n $SSH_CONNECTION ]]; then
-    export EDITOR='vim'
-  else
-    export EDITOR='nvim'
-  fi
+# Better cat with colors
+#   brew install bat
+if [[ $+commands[bat] ]]; then
+  alias cat=bat
+fi
 
-  alias v=nvim
-else
-  alias v=vim
+# Better top
+#   brew install btop
+# @see https://github.com/aristocratos/btop
+if [[ $+commands[btop] ]]; then
+  alias top=btop
+fi
+
+# better df
+#   brew install duf
+# @see https://github.com/muesli/duf
+if [[ $+commands[duf] ]]; then
+  alias df=duf
 fi
 
 # Better ls
 #   brew install lsd
-#
 # @see https://github.com/lsd-rs/lsd
 if [[ $+commands[lsd] ]]; then
   alias ls="lsd --group-dirs=first"
@@ -118,33 +124,31 @@ else
   alias lt="ls"
 fi
 
+# Preferred editor for local and remote sessions
+#   brew install nvim
+if [[ $+commands[nvim] ]]; then
+  if [[ -n $SSH_CONNECTION ]]; then
+    export EDITOR='vim'
+  else
+    export EDITOR='nvim'
+  fi
+
+  alias v=nvim
+else
+  alias v=vim
+fi
+
+# Better grep
+#   brew install ripgrep
+if [[ $+commands[rg] ]]; then
+  alias grep=rg
+else
+  alias grep="grep --color=auto --exclude-dir={.git,.vscode}"
+fi
+
 # better cd
 #   brew install zoxide
-#
 # @see https://github.com/ajeetdsouza/zoxide
 if [[ $+commands[zoxide] ]]; then
   eval "$(zoxide init zsh --cmd cd)"
-fi
-
-# Better cat with colors
-#   brew install bat
-if [[ $+commands[bat] ]]; then
-  alias cat=bat
-fi
-
-# Better top
-#   brew install btop
-#
-# @see https://github.com/aristocratos/btop
-if [[ $+commands[btop] ]]; then
-  alias top=btop
-fi
-
-# Tool version manager for Node, Ruby, others
-#   brew install asdf
-#
-# @see https://asdf-vm.com/
-if [[ $+commands[asdf] ]]; then
-  source "$(brew --prefix asdf)/libexec/asdf.sh"
-  source "$(brew --prefix asdf)/etc/bash_completion.d/asdf.bash"
 fi

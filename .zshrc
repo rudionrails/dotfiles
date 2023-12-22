@@ -1,22 +1,27 @@
 setopt autocd
 
+# Setting Term profile, so that nvim can detect the colorscheme
+: ${TERM_COLOR_SCHEME:="nightfox"}
+if [[ -n "$ITERM_COLOR_SCHEME" ]]; then
+  TERM_COLOR_SCHEME=${ITERM_COLOR_SCHEME}
+fi
+
+export TERM_PROFILE
+
 # TODO: https://github.com/tmuxinator/tmuxinator
 #
 # Taken from ohmyzsh
 #   @see https://github.com/ohmyzsh/ohmyzsh/blob/master/plugins/tmux/tmux.plugin.zsh
 #
+# Enable tmux
+: ${TMUX_ENABLED:=true}
 # Automatically attach to a previous session (if it exists)
 : ${TMUX_AUTOATTACH:=true}
-# # Automatically detach from a previous session
-# : ${TMUX_AUTODETACH:=true}
 # Exit terminal when tmux session exits
 : ${TMUX_AUTOEXIT:=true}
 # Set the default tmux session name
 # : ${TMUX_DEFAULT_SESSION_NAME:=default}
-if [[ $+commands[tmux] && -z "$TMUX" ]]; then
-  # if [[ -z "$TMUX_DEFAULT_SESSION_NAME" ]]; then
-  # fi
-
+if [[ $+commands[tmux] && "$TMUX_ENABLED" == "true" && -z "$TMUX" ]]; then
   if [[ -n "$TMUX_DEFAULT_SESSION_NAME" ]]; then
     [[ "$TMUX_AUTOATTACH" == "true" ]] && tmux attach -t $TMUX_DEFAULT_SESSION_NAME
   else
@@ -30,11 +35,6 @@ if [[ $+commands[tmux] && -z "$TMUX" ]]; then
       tmux new-session
     fi
   fi
-
-  # if [[ "$TMUX_AUTODETACH" = "true" ]]; then
-  #   # tmux kill-session
-  #   tmux set-hook client-detached kill-session
-  # fi
 
   if [[ "$TMUX_AUTOEXIT" == "true" ]]; then
     exit
@@ -51,13 +51,7 @@ fi
 #
 # Setup zplug to the correct file
 #
-if [ -d /opt/homebrew/opt/zplug ]; then
-  export ZPLUG_HOME=/opt/homebrew/opt/zplug
-  source $ZPLUG_HOME/init.zsh
-elif [ -d /usr/local/opt/zplug ]; then # for older versions of homebrew
-  export ZPLUG_HOME=/usr/local/opt/zplug
-  source $ZPLUG_HOME/init.zs
-fi
+source "$(brew --prefix zplug)/init.zsh"
 
 zplug 'zplug/zplug', hook-build:'zplug --self-manage'
 zplug 'zsh-users/zsh-completions'
@@ -106,6 +100,8 @@ fi
 
 # Better ls
 #   brew install lsd
+#
+# @see https://github.com/lsd-rs/lsd
 if [[ $+commands[lsd] ]]; then
   alias ls="lsd --group-dirs=first"
   alias l="ls -1"
@@ -122,7 +118,10 @@ else
   alias lt="ls"
 fi
 
-# brew install zoxide (for better cd)
+# better cd
+#   brew install zoxide
+#
+# @see https://github.com/ajeetdsouza/zoxide
 if [[ $+commands[zoxide] ]]; then
   eval "$(zoxide init zsh --cmd cd)"
 fi
@@ -132,8 +131,11 @@ fi
 if [[ $+commands[bat] ]]; then
   alias cat=bat
 fi
+
 # Better top
 #   brew install btop
+#
+# @see https://github.com/aristocratos/btop
 if [[ $+commands[btop] ]]; then
   alias top=btop
 fi

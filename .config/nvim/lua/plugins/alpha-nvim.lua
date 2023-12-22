@@ -4,10 +4,9 @@ return {
 	dependencies = { "nvim-tree/nvim-web-devicons" },
 	event = "VimEnter",
 	config = function()
-		local config = require("core.config")
 		local alpha = require("alpha")
-		-- local theme = require("alpha.themes.startify")
 		local startify = require("alpha.themes.startify")
+		local config = require("core.config")
 
 		startify.section.top_buttons.val = {
 			-- { type = "text", val = "Shortcuts", opts = { hl = "SpecialComment" } },

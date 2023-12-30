@@ -29,7 +29,7 @@ vim.opt.sidescrolloff = 15
 vim.opt.sidescroll = 1
 
 -- line wrapping
-vim.opt.wrap = true
+vim.opt.wrap = false
 vim.opt.linebreak = true -- break lines on word boundary
 vim.cmd("let &showbreak = '" .. config.icons.ui.Forward .. " '")
 

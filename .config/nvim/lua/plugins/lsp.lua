@@ -5,14 +5,15 @@ return {
 		-- quickstart configs for Nvim LSP
 		"neovim/nvim-lspconfig",
 		"hrsh7th/cmp-nvim-lsp",
-		-- install language servers
+
+		-- install language servers and ensure they are hooked into lspconfig
 		"williamboman/mason.nvim",
-		-- ensure that language servers are hooked into `lspconfig`
 		"williamboman/mason-lspconfig.nvim",
-		-- "WhoIsSethDaniel/mason-tool-installer.nvim",
+
 		-- allow non-LSP sources to hook into LSP client, e.g. linters and formatters
-		"nvimtools/none-ls.nvim",
 		"jay-babu/mason-null-ls.nvim",
+		"nvimtools/none-ls.nvim",
+
 		-- utility Lua functions
 		"nvim-lua/plenary.nvim",
 	},
@@ -24,6 +25,13 @@ return {
 			name = "DiagnosticSign" .. name:gsub("^%l", string.upper) -- capitalize first letter
 			vim.fn.sign_define(name, { text = icon, texthl = name, numhl = "" })
 		end
+
+		vim.api.nvim_create_autocmd("BufWritePre", {
+			-- buffer = event.buf,
+			callback = function()
+				vim.lsp.buf.format()
+			end,
+		})
 
 		vim.api.nvim_create_autocmd("LspAttach", {
 			desc = "LSP actions",
@@ -41,12 +49,7 @@ return {
 				map("n", "gr", "<CMD>lua vim.lsp.buf.references()<CR>", { desc = "Goto [r]eferences" })
 				map("n", "gs", "<CMD>lua vim.lsp.buf.signature_help()<CR>", { desc = "Goto [s]ignature" })
 				-- map("n", "<F2>", "<CMD>lua vim.lsp.buf.rename()<CR>", opts)
-				map(
-					{ "n", "x" },
-					"<leader>p",
-					"<CMD>lua vim.lsp.buf.format({async = true})<CR>",
-					{ desc = "Make code [p]retty" }
-				)
+				map({ "n", "x" }, "<leader>p", "<CMD>lua vim.lsp.buf.format()<CR>", { desc = "Make code [p]retty" })
 				map({ "n", "v" }, "<leader>a", "<CMD>lua vim.lsp.buf.code_action()<CR>", { desc = "Code [a]ction" })
 			end,
 		})
@@ -83,7 +86,7 @@ return {
 		})
 
 		require("mason-null-ls").setup({
-			ensure_installed = { "stylua", "eslint_d", "prettier" },
+			ensure_installed = { "stylua", "eslint_d", "prettierd" },
 			handlers = {},
 		})
 

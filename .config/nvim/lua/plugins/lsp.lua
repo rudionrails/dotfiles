@@ -1,80 +1,96 @@
--- LSP Configuration & Plugins
 return {
-	"VonHeikemen/lsp-zero.nvim",
-	branch = "v3.x",
-	event = { "VimEnter", "BufReadPre", "BufNewFile" },
+	-- LSP Configuration & Plugins
+	"neovim/nvim-lspconfig",
 	dependencies = {
-		-- LSP Support
+		-- quickstart configs for Nvim LSP
 		"neovim/nvim-lspconfig",
+		"hrsh7th/cmp-nvim-lsp",
+		-- install language servers
 		"williamboman/mason.nvim",
+		-- ensure that language servers are hooked into `lspconfig`
 		"williamboman/mason-lspconfig.nvim",
-		"WhoIsSethDaniel/mason-tool-installer.nvim",
+		-- "WhoIsSethDaniel/mason-tool-installer.nvim",
+		-- allow non-LSP sources to hook into LSP client, e.g. linters and formatters
+		"nvimtools/none-ls.nvim",
+		"jay-babu/mason-null-ls.nvim",
+		-- utility Lua functions
+		"nvim-lua/plenary.nvim",
 	},
-	config = function()
-		local lsp_zero = require("lsp-zero")
+	init = function()
+		-- diagnostic icons
+		local icons = require("core.config").icons
+		for name, icon in pairs(icons.diagnostics) do
+			-- name = "DiagnosticSign" .. name
+			name = "DiagnosticSign" .. name:gsub("^%l", string.upper) -- capitalize first letter
+			vim.fn.sign_define(name, { text = icon, texthl = name, numhl = "" })
+		end
 
-		lsp_zero.on_attach(function(_, bufnr)
-			-- see :help lsp-zero-keybindings
-			lsp_zero.default_keymaps({ buffer = bufnr })
-		end)
+		vim.api.nvim_create_autocmd("LspAttach", {
+			desc = "LSP actions",
+			callback = function(event)
+				local map = function(mode, lhs, rhs, opts)
+					vim.keymap.set(mode, lhs, rhs, vim.list_extend(opts, { silent = true, buffer = event.buf }))
+				end
+
+				-- these will be buffer-local keybindings, as they only work if you have an active language server
+				map("n", "K", "<CMD>lua vim.lsp.buf.hover()<CR>", { desc = "Show lsp hover" })
+				map("n", "gd", "<CMD>lua vim.lsp.buf.definition()<CR>", { desc = "Goto [d]efinition" })
+				map("n", "gD", "<CMD>lua vim.lsp.buf.declaration()<CR>", { desc = "Goto [D]eclaration" })
+				map("n", "gi", "<CMD>lua vim.lsp.buf.implementation()<CR>", { desc = "Goto [i]mplementation" })
+				map("n", "gt", "<CMD>lua vim.lsp.buf.type_definition()<CR>", { desc = "Goto [t]ype definition" })
+				map("n", "gr", "<CMD>lua vim.lsp.buf.references()<CR>", { desc = "Goto [r]eferences" })
+				map("n", "gs", "<CMD>lua vim.lsp.buf.signature_help()<CR>", { desc = "Goto [s]ignature" })
+				-- map("n", "<F2>", "<CMD>lua vim.lsp.buf.rename()<CR>", opts)
+				map(
+					{ "n", "x" },
+					"<leader>p",
+					"<CMD>lua vim.lsp.buf.format({async = true})<CR>",
+					{ desc = "Make code [p]retty" }
+				)
+				map({ "n", "v" }, "<leader>a", "<CMD>lua vim.lsp.buf.code_action()<CR>", { desc = "Code [a]ction" })
+			end,
+		})
+	end,
+	config = function()
+		local icons = require("core.config").icons
+		local lsp_config = require("lspconfig")
+		local lsp_capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 		require("mason").setup({
 			ui = {
 				border = "rounded",
 				icons = {
-					package_installed = "✓",
-					package_pending = "➜",
-					package_uninstalled = "✗",
+					package_installed = icons.ui.Check,
+					package_pending = icons.ui.Circle,
+					package_uninstalled = icons.ui.Close,
 				},
 			},
 		})
 
 		require("mason-lspconfig").setup({
-			ensure_installed = { "lua_ls", "yamlls", "tsserver" },
-			automatic_installation = true,
+			-- A list of servers to automatically install if they're not already installed. Example: { "rust_analyzer@nightly", "lua_ls" }
+			-- This setting has no relation with the `automatic_installation` setting.
+			ensure_installed = { "lua_ls", "tsserver" },
+
+			-- See `:h mason-lspconfig.setup_handlers()`
 			handlers = {
-				lsp_zero.default_setup,
-				lua_ls = function()
-					-- (Optional) configure lua language server
-					local lua_opts = lsp_zero.nvim_lua_ls()
-					require("lspconfig").lua_ls.setup(lua_opts)
+				function(server_name) -- default handler (optional)
+					lsp_config[server_name].setup({
+						capabilities = lsp_capabilities,
+					})
 				end,
-				-- tsserver = function()
-				-- 	require("lspconfig").tsserver.setup({
-				-- 		settings = {
-				-- 			completions = {
-				-- 				completeFunctionCalls = true,
-				-- 			},
-				-- 		},
-				-- 	})
-				-- end,
 			},
 		})
-		require("mason-tool-installer").setup({
-			ensure_installed = { "prettier", "stylua", "eslint_d" },
+
+		require("mason-null-ls").setup({
+			ensure_installed = { "stylua", "eslint_d", "prettier" },
+			handlers = {},
 		})
-	end,
-	init = function()
-		-- diagnostics
-		for name, icon in pairs(require("core.config").icons.diagnostics) do
-			-- name = "DiagnosticSign" .. name
-			name = "DiagnosticSign" .. name:gsub("^%l", string.upper) -- capitalize first letter
-			vim.fn.sign_define(name, { text = icon, texthl = name, numhl = "" })
-		end
-		-- -- code formatting on <leader>p and on file-save
-		-- vim.keymap.set('n', '<leader>p', function()
-		--   vim.lsp.buf.format()
-		-- end, { silent = true, desc = 'Format Document and make it [P]retty' })
 
-		-- vim.api.nvim_create_autocmd("BufWritePre", {
-		-- 	callback = function()
-		-- 		vim.lsp.buf.format()
-		-- 	end,
-		-- })
-
-		-- code action on diagnostics
-		vim.keymap.set("n", "<leader>a", function()
-			vim.lsp.buf.code_action()
-		end, { silent = true, desc = "Code [A]ction" })
+		require("null-ls").setup({
+			sources = {
+				-- Anything not supported by mason.
+			},
+		})
 	end,
 }

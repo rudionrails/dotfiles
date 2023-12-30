@@ -4,13 +4,18 @@ return {
 	version = false, -- take from git main, because last release is too long ago
 	event = "InsertEnter",
 	dependencies = {
+		-- LSP completion source
 		"hrsh7th/cmp-nvim-lsp",
+
+		-- Useful completion sources
 		"hrsh7th/cmp-nvim-lua", -- source for NeoVim lua api
+		"hrsh7th/cmp-nvim-lsp-signature-help",
 		"hrsh7th/cmp-buffer", -- source for text in buffer
 		"hrsh7th/cmp-path", -- source for file system paths
 		"saadparwaiz1/cmp_luasnip", -- for autocompletion
 		"L3MON4D3/LuaSnip", -- snippet angine
 		"rafamadriz/friendly-snippets", -- useful snippets
+		-- "hrsh7th/cmp-vsnip", -- VSCode(LSP)'s snippet feature in vim/nvim
 		"onsails/lspkind.nvim", -- vs-code like icons
 	},
 	config = function()
@@ -40,6 +45,19 @@ return {
 				["<CR>"] = cmp.mapping.confirm({ select = false }),
 			},
 
+			sources = cmp.config.sources({
+				-- { name = "nvim_lsp" }, -- from language server
+				{ name = "nvim_lsp", keyword_length = 3 }, -- from language server
+				{ name = "nvim_lsp_signature_help" }, -- display function signatures with current parameter emphasized
+				{ name = "nvim_lua", keyword_length = 2 }, -- complete neovim's Lua runtime API such vim.lsp.*
+				{ name = "luasnip" },
+				-- { name = "vsnip", keyword_length = 2 }, -- nvim-cmp source for vim-vsnip
+				{ name = "buffer", keyword_length = 2 }, -- source current buffer
+				-- { name = "buffer" },
+				{ name = "path" }, -- file paths
+				{ name = "calc" }, -- source for math calculation
+			}),
+
 			window = {
 				completion = cmp.config.window.bordered(),
 				documentation = cmp.config.window.bordered(),
@@ -51,13 +69,6 @@ return {
 					ellipsis_char = "...",
 				}),
 			},
-
-			sources = cmp.config.sources({
-				{ name = "nvim_lsp" },
-				{ name = "luasnip" },
-				{ name = "buffer" },
-				{ name = "path" },
-			}),
 		})
 	end,
 }

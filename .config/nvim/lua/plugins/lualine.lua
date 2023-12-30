@@ -90,23 +90,41 @@ return {
 					function()
 						local buf_clients = vim.lsp.buf_get_clients()
 						if not buf_clients or #buf_clients == 0 then
-							return "" -- config.icons.ui.Code
+							-- return "" -- config.icons.ui.Code -- no LSP attached
+							return config.icons.ui.Code .. " " .. "N/A" -- no LSP attached
 						end
 
-						local server_names = {}
+						local buf_filetype = vim.bo.filetype
+						local buf_client_names = {}
 
 						for _, client in pairs(buf_clients) do
 							local client_name = client.name
 							if client_name ~= "null-ls" and client_name ~= "copilot" then
-								table.insert(server_names, client_name)
+								table.insert(buf_client_names, client_name)
 							end
 						end
 
-						if package.loaded["conform"] then
+						if package.loaded["null-ls"] then
+							local has_null_ls, null_ls = pcall(require, "null-ls")
+							if has_null_ls then
+								local sources = null_ls.get_sources()
+								for _, source in ipairs(sources) do
+									if source._validated then
+										for ft_name, ft_active in pairs(source.filetypes) do
+											if ft_name == buf_filetype and ft_active then
+												table.insert(buf_client_names, source.name)
+											end
+										end
+									end
+								end
+							end
+						end
+
+						if package.loaded["conform"] then -- conform package (for formatting)
 							local has_conform, conform = pcall(require, "conform")
 							if has_conform then
 								vim.list_extend(
-									server_names,
+									buf_client_names,
 									vim.tbl_map(function(formatter)
 										return formatter.name
 									end, conform.list_formatters(0))
@@ -114,14 +132,15 @@ return {
 							end
 						end
 
-						if package.loaded["lint"] then
+						if package.loaded["lint"] then -- nvim-lint package
 							local has_lint, lint = pcall(require, "lint")
 							if has_lint then
-								vim.list_extend(server_names, lint._resolve_linter_by_ft(vim.bo.filetype))
+								vim.list_extend(buf_client_names, lint._resolve_linter_by_ft(buf_filetype))
 							end
 						end
 
-						return config.icons.ui.Code .. " " .. table.concat(vim.fn.uniq(server_names), ", ")
+						-- print("LSP Clients: " .. vim.inspect(buf_client_names))
+						return config.icons.ui.Code .. " " .. table.concat(vim.fn.uniq(buf_client_names), ", ")
 					end,
 				},
 				lualine_y = {

@@ -7,12 +7,11 @@ return {
 		"nvim-telescope/telescope-file-browser.nvim",
 		"nvim-telescope/telescope-ui-select.nvim",
 		"nvim-treesitter/nvim-treesitter", -- finder / preview
-		"nvim-tree/nvim-web-devicons", -- icons
 		"sharkdp/fd", -- finder
-		"nvim-lua/plenary.nvim", -- lua helper functions
 		"BurntSushi/ripgrep",
+		"nvim-lua/plenary.nvim", -- lua helper functions
+		"nvim-tree/nvim-web-devicons", -- icons
 	},
-	cmd = "Telescope",
 	config = function()
 		local telescope = require("telescope")
 

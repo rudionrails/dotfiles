@@ -79,7 +79,7 @@
 -- 		ChevronShortLeft = "",
 -- 		ChevronShortRight = "",
 -- 		ChevronShortUp = "",
--- 		Circle = " ",
+-- 		Circle = "",
 -- 		Close = "󰅖",
 -- 		CloudDownload = "",
 -- 		Code = "",
@@ -158,6 +158,9 @@ return {
 	icons = {
 		ui = {
 			Branch = "",
+			Check = "",
+			Circle = "",
+			Close = "󰅖",
 			Code = "",
 			Diff = "",
 			Fire = "",

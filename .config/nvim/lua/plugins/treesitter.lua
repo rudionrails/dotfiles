@@ -15,7 +15,18 @@ return {
 		require("nvim-treesitter.configs").setup({
 			auto_install = true,
 
-			ensure_installed = { "vim", "regex", "lua", "bash", "markdown", "markdown_inline", "tsx", "typescript" },
+			ensure_installed = {
+				"vim",
+				"regex",
+				"lua",
+				"bash",
+				"markdown",
+				"markdown_inline",
+				"tsx",
+				"typescript",
+				"rust",
+				"toml",
+			},
 			-- ignore_install = { "javascript" },
 
 			indent = { enable = true },

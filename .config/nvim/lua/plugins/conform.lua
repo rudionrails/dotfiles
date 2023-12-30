@@ -1,43 +1,65 @@
 -- formatting
-return {
-	"stevearc/conform.nvim",
-	event = { "BufReadPre", "BufNewFile" },
-	init = function()
-		local conform = require("conform")
-
-		vim.keymap.set({ "n", "v" }, "<leader>p", function()
-			--   vim.lsp.buf.format()
-			conform.format({
-				lsp_fallback = true,
-				async = false,
-				timeout_ms = 1000,
-			})
-		end, { desc = "Format file or range and make it [P]retty" })
-	end,
-	config = function()
-		local conform = require("conform")
-
-		conform.setup({
-			formatters_by_ft = {
-				javascript = { { "prettierd", "prettier" } },
-				typescript = { { "prettierd", "prettier" } },
-				javascriptreact = { { "prettierd", "prettier" } },
-				typescriptreact = { { "prettierd", "prettier" } },
-				svelte = { { "prettierd", "prettier" } },
-				css = { { "prettierd", "prettier" } },
-				html = { { "prettierd", "prettier" } },
-				json = { { "prettierd", "prettier" } },
-				yaml = { { "prettierd", "prettier" } },
-				markdown = { { "prettierd", "prettier" } },
-				graphql = { { "prettierd", "prettier" } },
-				lua = { "stylua" },
-			},
-			format_on_save = {
-				lsp_fallback = true,
-				async = false, -- not recommended to change
-				quiet = false, -- not recommended to change
-				timeout_ms = 1000,
-			},
-		})
-	end,
-}
+return {}
+-- return {
+-- 	"stevearc/conform.nvim",
+-- 	event = { "BufReadPre", "BufNewFile" },
+-- 	init = function()
+-- 		local conform = require("conform")
+--
+-- 		vim.keymap.set({ "n", "v" }, "<leader>p", function()
+-- 			--   vim.lsp.buf.format()
+-- 			conform.format({
+-- 				lsp_fallback = true,
+-- 				async = false,
+-- 				timeout_ms = 1000,
+-- 			})
+-- 		end, { desc = "Format file or range and make it [P]retty" })
+-- 	end,
+-- 	config = function()
+-- 		local conform = require("conform")
+--
+-- 		conform.setup({
+-- 			formatters_by_ft = {
+-- 				css = { { "prettierd", "prettier" } },
+-- 				graphql = { { "prettierd", "prettier" } },
+-- 				html = { { "prettierd", "prettier" } },
+-- 				javascript = { { "prettierd", "prettier" } },
+-- 				javascriptreact = { { "prettierd", "prettier" } },
+-- 				json = { { "prettierd", "prettier" } },
+-- 				lua = { "stylua" },
+-- 				markdown = { { "prettierd", "prettier" } },
+-- 				rust = { "rustfmt" },
+-- 				-- rust = { "cargofmt" },
+-- 				-- rust = { { "cargofmt", "rustfmt" } },
+-- 				svelte = { { "prettierd", "prettier" } },
+-- 				typescript = { { "prettierd", "prettier" } },
+-- 				typescriptreact = { { "prettierd", "prettier" } },
+-- 				yaml = { { "prettierd", "prettier" } },
+-- 			},
+-- 			format_on_save = {
+-- 				lsp_fallback = true,
+-- 				async = false, -- not recommended to change
+-- 				quiet = false, -- not recommended to change
+-- 				timeout_ms = 1000,
+-- 			},
+-- 			-- formatters = {
+-- 			-- 	cargofmt = {
+-- 			-- 		meta = {
+-- 			-- 			url = "https://github.com/rust-lang/rustfmt",
+-- 			-- 			description = "A tool for formatting rust code according to style guidelines.",
+-- 			-- 		},
+-- 			-- 		command = "cargo", -- Change where to find the command
+-- 			-- 		-- args = { "fmt", "--", "-q", "--emit=stdout" },
+-- 			-- 		args = { "fmt" },
+-- 			-- 		cwd = require("conform.util").root_file({ "Cargo.toml" }), -- root is there the Cargo.toml is
+-- 			-- 		require_cwd = true, -- When cwd is not found, don't run the formatter (default false)
+-- 			-- 		-- stdin = true,
+-- 			-- 	},
+-- 			-- },
+-- 		})
+--
+-- 		require("conform").formatters.rustfmt = {
+-- 			cwd = require("conform.util").root_file({ "rustfmt.toml", ".rustfmt.toml" }), -- root is there the Cargo.toml or rustfmt.toml is
+-- 		}
+-- 	end,
+-- }

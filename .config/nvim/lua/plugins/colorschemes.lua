@@ -41,9 +41,9 @@ return {
 		},
 		priority = 1000, -- make sure to load this before all the other start plugins
 		config = function()
-			local dn = require("dark_notify")
+			local dark_notify = require("dark_notify")
 
-			dn.run({
+			dark_notify.run({
 				schemes = {
 					dark = "nightfox",
 					light = "dayfox",
@@ -51,7 +51,7 @@ return {
 			})
 
 			-- match the system
-			dn.update()
+			dark_notify.update()
 			-- colorscheme("Nightfox Dark", { colorscheme = "nightfox" })
 			-- colorscheme("Nightfox Light", { colorscheme = "dayfox" })
 		end,

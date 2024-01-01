@@ -73,7 +73,7 @@ return {
 		require("mason-lspconfig").setup({
 			-- A list of servers to automatically install if they're not already installed. Example: { "rust_analyzer@nightly", "lua_ls" }
 			-- This setting has no relation with the `automatic_installation` setting.
-			ensure_installed = { "lua_ls", "tsserver" },
+			-- ensure_installed = { "lua_ls", "tsserver", "rust_analyzer" },
 
 			-- See `:h mason-lspconfig.setup_handlers()`
 			handlers = {
@@ -86,7 +86,7 @@ return {
 		})
 
 		require("mason-null-ls").setup({
-			ensure_installed = { "stylua", "eslint_d", "prettierd" },
+			-- ensure_installed = { "stylua", "eslint_d", "prettierd" },
 			handlers = {},
 		})
 
@@ -95,5 +95,7 @@ return {
 				-- Anything not supported by mason.
 			},
 		})
+
+		require("core.mason-autoinstall").setup()
 	end,
 }

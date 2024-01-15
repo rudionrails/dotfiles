@@ -24,10 +24,7 @@
  :logseq-bonofix-theme
  {:version "v3.8.6", :repo "sansui233/logseq-bonofix-theme", :effect false, :theme true},
  :logseq-tabs
- {:version "v1.8.7",
-  :repo "pengx17/logseq-plugin-tabs",
-  :effect true,
-  :theme false},
+ {:version "v1.19.4", :repo "pengx17/logseq-plugin-tabs", :effect true, :theme false},
  :logseq-reference-styles
  {:version "v0.0.3",
   :repo "benjaffe/logseq-reference-styles",
@@ -39,13 +36,14 @@
   :effect false,
   :theme false},
  :logseq-mark-map
- {:version "v0.3.17", :repo "vipzhicheng/logseq-plugin-mark-map", :effect false, :theme false}
+ {:version "v0.4.0", :repo "vipzhicheng/logseq-plugin-mark-map", :effect false, :theme false}
  :logseq-heatmap {:version "v2.4.3", :repo "pengx17/logseq-plugin-heatmap", :effect true, :theme false}
- :logseq-automatic-linker {:version "1.5.0", :repo "sawhney17/logseq-automatic-linker", :effect false, :theme false}
+ :logseq-automatic-linker {:version "1.5.5", :repo "sawhney17/logseq-automatic-linker", :effect false, :theme false}
  :logseq-awesome-content {:version "v1.2.1", :repo "yoyurec/logseq-awesome-content", :effect true, :theme false}
  :logseq-awesome-links {:version "v1.15.16", :repo "yoyurec/logseq-awesome-links", :effect true, :theme false}
  :logseq-awesome-styler {:version "v3.7.1", :repo "yoyurec/logseq-awesome-styler", :effect true, :theme false}
- :logseq-awesome-ui {:version "v2.2.6", :repo "yoyurec/logseq-awesome-ui", :effect true, :theme false}
+ :logseq-awesome-ui {:version "v2.4.0", :repo "yoyurec/logseq-awesome-ui", :effect true, :theme false}
  :logseq-awesome-props {:version "v1.10.0", :repo "yoyurec/logseq-awesome-props", :effect true, :theme false}
  :logseq-dracula-theme {:version "0.0.5", :repo "dracula/logseq", :effect false, :theme true}
- :logseq-monokai {:version "v0.0.1", :repo "tzcl/logseq-monokai", :effect false, :theme true}}
+ :logseq-monokai {:version "v0.0.2", :repo "tzcl/logseq-monokai", :effect false, :theme true}
+ :logseq-diagrams-as-code {:version "0.0.21", :repo "npgrosser/logseq-diagrams-as-code", :effect false, :theme false}}

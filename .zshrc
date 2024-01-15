@@ -76,6 +76,20 @@ zplug load
 
 alias rm='rm -i'
 
+# Preferred editor for local and remote sessions
+#   brew install nvim
+if [[ $+commands[nvim] ]]; then
+  if [[ -n $SSH_CONNECTION ]]; then
+    export EDITOR='vim'
+  else
+    export EDITOR='nvim'
+  fi
+
+  alias v=nvim
+else
+  alias v=vim
+fi
+
 # Tool version manager for Node, Ruby, others
 #   brew install asdf
 #
@@ -122,20 +136,6 @@ else
   alias ll="ls -lh"
   alias la="ls -a"
   alias lt="ls"
-fi
-
-# Preferred editor for local and remote sessions
-#   brew install nvim
-if [[ $+commands[nvim] ]]; then
-  if [[ -n $SSH_CONNECTION ]]; then
-    export EDITOR='vim'
-  else
-    export EDITOR='nvim'
-  fi
-
-  alias v=nvim
-else
-  alias v=vim
 fi
 
 # Better grep

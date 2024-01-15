@@ -1,5 +1,4 @@
 -- Add indentation guides even on blank lines, see `:help indent_blankline.txt`
-
 local config = require("core.config")
 local exclude_filetypes = {
 	"help",
@@ -26,7 +25,7 @@ return {
 					tab_char = config.icons.ui.Line,
 				},
 				scope = {
-					enabled = false, -- because we ise mini.indentline for this (behaviour is a bit different)
+					enabled = false, -- because we use mini.indentline for this (behaviour is a bit different)
 				},
 				exclude = {
 					filetypes = exclude_filetypes,
@@ -48,7 +47,6 @@ return {
 		end,
 		config = function()
 			require("mini.indentscope").setup({
-				-- symbol = "▏",
 				symbol = config.icons.ui.Line,
 				draw = {
 					animation = require("mini.indentscope").gen_animation.none(),

@@ -3,8 +3,8 @@ return {
 	"anuvyklack/windows.nvim",
 	event = "VeryLazy",
 	dependencies = {
-		{ "anuvyklack/middleclass" },
-		{ "anuvyklack/animation.nvim" },
+		"anuvyklack/middleclass",
+		"anuvyklack/animation.nvim",
 	},
 	keys = {
 		{ "<C-m>", ":WindowsMaximize<CR>", silent = true, desc = "[M]aximize current buffer" },

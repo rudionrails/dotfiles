@@ -157,9 +157,12 @@
 return {
 	icons = {
 		ui = {
+			BoxChecked = "",
 			Branch = "",
 			Check = "",
 			Circle = "",
+			CircleOutlined = "○",
+			CircleDashed = "◍",
 			Close = "󰅖",
 			Code = "",
 			Diff = "",
@@ -167,6 +170,7 @@ return {
 			Folder = "󰉋",
 			-- Folder = "",
 			Forward = "",
+			Information = "",
 			Line = "│",
 			LineDouble = "║",
 			LineLeft = "▏",

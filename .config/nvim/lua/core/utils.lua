@@ -1,5 +1,9 @@
 local M = {}
 
+function M.augroup(name)
+	return vim.api.nvim_create_augroup("lazyvim_" .. name, { clear = true })
+end
+
 -- generic table merge function
 function M.merge(...)
 	local result = {}

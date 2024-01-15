@@ -2,7 +2,7 @@
 return {
 	"nvim-telescope/telescope.nvim",
 	dependencies = {
-		-- Fuzzy Finder Algorithm which requires local dependencies to be built. Only load if `make` is available
+		-- Fuzzy Finder Algorithm which requires local dep"glepnir/lspsaga.nvim"endencies to be built. Only load if `make` is available
 		{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
 		"nvim-telescope/telescope-file-browser.nvim",
 		"nvim-telescope/telescope-ui-select.nvim",
@@ -11,6 +11,19 @@ return {
 		"BurntSushi/ripgrep",
 		"nvim-lua/plenary.nvim", -- lua helper functions
 		"nvim-tree/nvim-web-devicons", -- icons
+	},
+	cmd = "Telescope",
+	keys = {
+		{ "<leader>ff", "<CMD> Telescope find_files <CR>", silent = true, desc = "[F]ind [F]iles" },
+		{ "<leader>fr", "<CMD> Telescope oldfiles <CR>", silent = true, desc = "[F]ind [R]ecent files" },
+		{ "<leader>fg", "<CMD> Telescope live_grep <CR>", silent = true, desc = "[F]find by [G]rep" },
+		{ "<leader>fh", "<CMD> Telescope help_tags <CR>", silent = true, desc = "[F]ind [H]elp" },
+		{ "<leader>fw", "<CMD> Telescope grep_string <CR>", silent = true, desc = "[F]ind [W]ord" },
+		{ "<leader>fd", "<CMD> Telescope diagnostics <CR>", silent = true, desc = "[F]ind [D]iagnostics" },
+		{ "<leader>fb", "<CMD> Telescope buffers <CR>", silent = true, desc = "[F]ind [B]uffers" },
+		{ "<leader>fc", "<CMD> Telescope commands <CR>", silent = true, desc = "[F]ind [C]ommands" },
+		{ "<leader>fe", "<CMD> Telescope file_browser <CR>", silent = true, desc = "[F]ile [E]xplorer" },
+		{ "<leader>fc", "<CMD> Telescope colorscheme <CR>", silent = true, desc = "[F]ind [C]colorschemes" },
 	},
 	config = function()
 		local telescope = require("telescope")
@@ -57,21 +70,5 @@ return {
 
 		-- -- provided by Yanky
 		-- telescope.load_extension('yank_history')
-	end,
-	init = function()
-		local map = vim.keymap.set
-
-		map("n", "<leader>ff", "<CMD> Telescope find_files <CR>", { silent = true, desc = "[F]ind [F]iles" })
-		map("n", "<leader>fr", "<CMD> Telescope oldfiles <CR>", { silent = true, desc = "[F]ind [R]ecent files" })
-		map("n", "<leader>fg", "<CMD> Telescope live_grep <CR>", { silent = true, desc = "[F]find by [G]rep" })
-		map("n", "<leader>fh", "<CMD> Telescope help_tags <CR>", { silent = true, desc = "[F]ind [H]elp" })
-		map("n", "<leader>fw", "<CMD> Telescope grep_string <CR>", { silent = true, desc = "[F]ind [W]ord" })
-		map("n", "<leader>fd", "<CMD> Telescope diagnostics <CR>", { silent = true, desc = "[F]ind [D]iagnostics" })
-		map("n", "<leader>fb", "<CMD> Telescope buffers <CR>", { silent = true, desc = "[F]ind [B]uffers" })
-		map("n", "<leader>fc", "<CMD> Telescope commands <CR>", { silent = true, desc = "[F]ind [C]ommands" })
-		map("n", "<leader>fe", "<CMD> Telescope file_browser <CR>", { silent = true, desc = "[F]ile [E]xplorer" })
-		-- map('n', '<C-p>', '<CMD> Telescope yank_history <CR>', { silent = true, desc = '[F]ind [B]uffers' })
-		-- map("n", "<leader>fn", "<CMD> Telescope notify <CR>", { silent = true, desc = "[F]ind [N]otifications" })
-		map("n", "<leader>fc", "<CMD> Telescope colorscheme <CR>", { silent = true, desc = "[F]ind [C]colorschemes" })
 	end,
 }

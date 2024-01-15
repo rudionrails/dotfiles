@@ -1,22 +1,18 @@
 -- TODO: make UI for preferred and optional/alternative packages, see ~/.local/share/nvim/lazy/mason.nvim/lua/mason/ui
 -- TODO: same previously auto-installed groups, so it does not trigger again
+-- local augroup = require("core.utils").augroup
 local notify = require("core.mason-autoinstall.notify")
+local handlers = require("core.mason-autoinstall.handlers")
 local install = require("core.mason-autoinstall.install")
 
-local DEFAULT_HANDLERS = {
-	["lua"] = { "lua_ls", "stylua" },
-	["javascript"] = { "tsserver", "prettierd", "eslint_d" },
-	["rust"] = { "rust_analyzer" },
+local M = {
+	has_setup = false,
+	config = {
+		handlers = handlers,
+	},
 }
 
-local M = {}
-
-M.has_setup = false
-M.config = {
-	handlers = DEFAULT_HANDLERS,
-}
-
----@param groups string[] Table of groups to install
+--- @param groups string[] Table of groups to install
 function M.install(groups)
 	local all_packages = {}
 
@@ -28,7 +24,7 @@ function M.install(groups)
 		end
 	end
 
-	notify("auto-installing for " .. vim.bo.filetype)
+	notify("checking for " .. vim.bo.filetype)
 	install(vim.fn.uniq(all_packages))
 end
 
@@ -42,13 +38,6 @@ function M.setup(config)
 		M.has_setup = true
 	end
 
-	-- vim.api.nvim_create_autocmd("Filetype", {
-	--   -- buffer = event.buf,
-	--   callback = function()
-	--     vim.notify("Filetype: " .. vim.bo.filetype)
-	--   end,
-	-- })
-
 	-- register MasonAutoInstall command
 	vim.api.nvim_create_user_command("MasonAutoInstall", function(opts)
 		-- local command_opts, packages = parse_args(opts.args)
@@ -56,9 +45,18 @@ function M.setup(config)
 
 		M.install(vim.split(vim.trim(args), "%s+"))
 	end, {
-		desc = "AutoInstall one or more Mason packages",
+		desc = "AutoInstall one or more Mason packages, based on filetype",
 		nargs = "*", -- allow 0 or any number of args, see :h command-nargs
 	})
+
+	-- -- automatically run
+	-- vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
+	-- 	group = augroup("mason_autoinstall"),
+	-- 	-- buffer = event.buf,
+	-- 	command = "MasonAutoInstall",
+	-- })
+	--
+	-- vim.api.nvim_command("MasonAutoInstall")
 end
 
 return M

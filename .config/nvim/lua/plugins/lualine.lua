@@ -73,7 +73,7 @@ return {
 					},
 					{
 						"diagnostics",
-						icon = config.icons.ui.Fire,
+						-- icon = config.icons.ui.Information, -- Fire
 						sources = { "nvim_diagnostic" },
 						symbols = {
 							error = config.icons.diagnostics.Error .. " ",

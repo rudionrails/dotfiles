@@ -7,9 +7,22 @@ return {
 		"RRethy/nvim-treesitter-textsubjects", -- Location and syntax aware text objects which *do what you mean*
 		-- 'nvim-treesitter/playground',                  -- show treesitter info in vim
 	},
-	-- cmd = { "TSInstall", "TSBufEnable", "TSBufDisable", "TSModuleInfo" },
+	-- cmd = {
+	-- 	"TSInstall",
+	-- 	"TSUninstall",
+	-- 	"TSUpdate",
+	-- 	"TSUpdateSync",
+	-- 	"TSInstallInfo",
+	-- 	"TSInstallSync",
+	-- 	"TSInstallFromGrammar",
+	-- },
 	build = ":TSUpdate",
 	config = function()
+		-- local utils = require("lvim.utils")
+		-- local path = utils.join_paths(get_runtime_dir(), "site", "pack", "lazy", "opt", "nvim-treesitter")
+		-- vim.opt.rtp:prepend(path) -- treesitter needs to be before nvim's runtime in rtp
+		-- require("lvim.core.treesitter").setup()
+
 		vim.treesitter.language.register("typescript", "javascript") -- the javascript filetype will use the tsx parser
 
 		require("nvim-treesitter.configs").setup({
@@ -27,9 +40,12 @@ return {
 				"rust",
 				"toml",
 			},
-			-- ignore_install = { "javascript" },
+			ignore_install = { "javascript" },
 
-			indent = { enable = true },
+			-- indent = {
+			-- 	enable = true,
+			-- },
+
 			highlight = {
 				enable = true,
 				use_languagetree = true,
@@ -37,7 +53,7 @@ return {
 				-- disable treesitter highlight for large files
 				disable = function(_, bufnr) -- Disable in large C++ buffers
 					-- return lang == "cpp" and api.nvim_buf_line_count(bufnr) > 50000
-					return vim.api.nvim_buf_line_count(bufnr) > 50000
+					return vim.api.nvim_buf_line_count(bufnr) > 10000
 				end,
 			},
 

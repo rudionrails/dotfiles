@@ -1,3 +1,4 @@
+-- Highly experimental plugin that completely replaces the UI for messages, cmdline and the popupmenu.
 return {
 	"folke/noice.nvim",
 	event = "VeryLazy",
@@ -9,6 +10,10 @@ return {
 		--   If not available, we use `mini` as the fallback
 		-- "rcarriga/nvim-notify",
 		"nvim-treesitter/nvim-treesitter",
+	},
+	keys = {
+		{ "<leader>nl", "<CMD> Noice last <CR>", silent = true, desc = "[N]oice [L]ast" },
+		{ "<leader>nh", "<CMD> Noice history <CR>", silent = true, desc = "[N]oice [H]istory" },
 	},
 	config = function()
 		local noice = require("noice")
@@ -43,21 +48,5 @@ return {
 			-- 	},
 			-- },
 		})
-	end,
-	init = function()
-		local map = vim.keymap.set
-
-		-- cmdline stays open whe pressing S-Enter
-		map("c", "<S-Enter>", function()
-			require("noice").redirect(vim.fn.getcmdline())
-		end, { desc = "Redirect Cmdline" })
-
-		-- map("n", "<leader>nl", function()
-		-- 	require("noice").cmd("last")
-		-- end)
-		-- map("n", "<leader>nh", function()
-		-- 	require("noice").cmd("history")
-		-- end)
-		map("n", "<leader>nh", "<CMD> Noice history <CR>", { silent = true, desc = "[Noice] [H]istory" })
 	end,
 }

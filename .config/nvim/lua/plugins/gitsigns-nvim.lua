@@ -1,10 +1,11 @@
 -- git in signcolumn, see `:help gitsigns.txt`
 return {
 	"lewis6991/gitsigns.nvim",
-	event = { "BufReadPre", "BufNewFile" },
+	-- event = { "BufReadPre", "BufNewFile" },
+	event = { "BufReadPost" },
 	config = function()
 		local gitsigns = require("gitsigns")
-		local Utils = require("core.utils")
+		local utils = require("core.utils")
 
 		gitsigns.setup({
 			yadm = {
@@ -13,7 +14,7 @@ return {
 
 			on_attach = function(buffer)
 				local map = function(mode, mapping, fn, opts)
-					vim.keymap.set(mode, mapping, fn, Utils.merge({ buffer = buffer }, opts))
+					vim.keymap.set(mode, mapping, fn, utils.merge({ buffer = buffer }, opts))
 				end
 
 				-- Navigation

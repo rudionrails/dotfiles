@@ -5,11 +5,8 @@ return {
 		"hrsh7th/nvim-cmp",
 	},
 	config = function()
-		-- import nvim-autopairs
 		local autopairs = require("nvim-autopairs")
-		-- import nvim-autopairs completion functionality
 		local cmp_autopairs = require("nvim-autopairs.completion.cmp")
-		-- import nvim-cmp plugin (completions plugin)
 		local cmp = require("cmp")
 
 		-- configure autopairs

@@ -2,26 +2,11 @@
 return {
 	"RRethy/vim-illuminate",
 	event = "VeryLazy",
-	config = function()
+	init = function()
 		local illuminate = require("illuminate")
-
-		illuminate.configure({
-			delay = 120, -- delay in ms
-			under_cursor = true, -- illuminate under the cursor
-
-			large_file_cutoff = 2000,
-			large_file_overrides = {
-				providers = {
-					"lsp",
-					"treesitter",
-					"regex",
-				},
-			},
-		})
-
 		local function map(key, dir, buffer)
 			vim.keymap.set("n", key, function()
-				require("illuminate")["goto_" .. dir .. "_reference"](false)
+				illuminate["goto_" .. dir .. "_reference"](false)
 			end, { desc = dir:sub(1, 1):upper() .. dir:sub(2) .. " Reference", buffer = buffer })
 		end
 
@@ -35,6 +20,23 @@ return {
 				map("]]", "next", buffer)
 				map("[[", "prev", buffer)
 			end,
+		})
+	end,
+	config = function()
+		local illuminate = require("illuminate")
+
+		illuminate.configure({
+			-- providers: provider used to get references in the buffer, ordered by priority
+			providers = {
+				"lsp",
+				"treesitter",
+				"regex",
+			},
+			delay = 100, -- delay in ms
+			-- under_cursor = true, -- illuminate under the cursor
+
+			large_file_cutoff = 2000,
+			large_file_overrides = nil,
 		})
 	end,
 }

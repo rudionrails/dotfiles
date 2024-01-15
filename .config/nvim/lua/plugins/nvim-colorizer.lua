@@ -1,8 +1,8 @@
 -- color highlighter
 return {
 	"NvChad/nvim-colorizer.lua",
-	event = "VeryLazy",
 	config = function()
-		require("colorizer").setup()
+		vim.notify("nvim-colorizer")
+		require("colorizer").setup({})
 	end,
 }

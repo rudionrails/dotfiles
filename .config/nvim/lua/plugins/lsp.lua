@@ -57,15 +57,17 @@ return {
 	config = function()
 		local icons = require("core.config").icons
 		local lsp_config = require("lspconfig")
-		local lsp_capabilities = require("cmp_nvim_lsp").default_capabilities()
+
+		local capabilities = require("cmp_nvim_lsp").default_capabilities()
+		-- local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
 		require("mason").setup({
 			ui = {
 				border = "rounded",
 				icons = {
 					package_installed = icons.ui.Check,
-					package_pending = icons.ui.Circle,
-					package_uninstalled = icons.ui.Close,
+					package_pending = icons.ui.CircleDashed,
+					package_uninstalled = icons.ui.CircleOutlined,
 				},
 			},
 		})
@@ -79,7 +81,7 @@ return {
 			handlers = {
 				function(server_name) -- default handler (optional)
 					lsp_config[server_name].setup({
-						capabilities = lsp_capabilities,
+						capabilities = capabilities,
 					})
 				end,
 			},

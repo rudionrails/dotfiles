@@ -152,3 +152,10 @@ fi
 if [[ $+commands[zoxide] ]]; then
   eval "$(zoxide init zsh --cmd cd)"
 fi
+
+# Spotify for terminal
+#   brew install spotify-tui
+# @see https://github.com/Rigellute/spotify-tui
+# if [[ $+commands[spt] ]]: then
+#   eval "$(spt --completions zsh)"
+# fi

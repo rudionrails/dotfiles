@@ -57,12 +57,12 @@ config.font = wezterm.font({ family = "FiraCode Nerd Font" })
 config.font_size = 14.0
 config.font_rules = {
 	{
-		intensity = "Bold",
 		italic = true,
+		intensity = "Bold",
 		font = wezterm.font({
 			family = "VictorMono Nerd Font",
-			weight = "Bold",
 			style = "Italic",
+			weight = "Bold",
 		}),
 	},
 	{
@@ -70,8 +70,8 @@ config.font_rules = {
 		intensity = "Half",
 		font = wezterm.font({
 			family = "VictorMono Nerd Font",
-			weight = "DemiBold",
 			style = "Italic",
+			weight = "DemiBold",
 		}),
 	},
 	{

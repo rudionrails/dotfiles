@@ -14,7 +14,7 @@ This repository uses [`yadm`](https://yadm.io).
 brew install yadm
 
 # clone and bootstrap
-yadm clone --bootstrap git@github.com:rudionrails/dotfiles.git
+yadm clone --bootstrap https://github.com/rudionrails/dotfiles.git
 ```
 
 ## Applications

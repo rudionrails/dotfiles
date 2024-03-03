@@ -5,11 +5,11 @@ return {
 	event = "VeryLazy",
 	config = function()
 		require("flash").setup({
-			-- modes = {
-			-- 	char = {
-			-- 		jump_labels = true,
-			-- 	},
-			-- },
+			modes = {
+				char = {
+					jump_labels = true,
+				},
+			},
 		})
 	end,
 }

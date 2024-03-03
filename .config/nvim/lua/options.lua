@@ -26,12 +26,13 @@ vim.opt.conceallevel = 0 -- so that `` is visible in markdown files
 
 -- scrolling
 vim.opt.scrolloff = 8 -- minimal number of screen lines to keep above and below the cursor
-vim.opt.sidescrolloff = 15 -- minimal number of screen lines to keep left and right of the cursor
+vim.opt.sidescrolloff = 15 -- minimal numbeenable break indentr of screen lines to keep left and right of the cursor
 vim.opt.sidescroll = 1
 
 -- line wrapping
-vim.opt.wrap = false -- disable line wrap
+vim.opt.wrap = true -- disable line wrap
 vim.opt.linebreak = true -- break lines on word boundary
+vim.opt.breakindent = true -- every wrapped line will continue visully indented
 vim.cmd("let &showbreak = '" .. config.icons.ui.Forward .. " '")
 
 -- Case insensitive searching UNLESS /C or capital in search

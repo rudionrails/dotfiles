@@ -52,6 +52,7 @@ return {
 						["<C-h>"] = "which_key",
 						["<C-u>"] = false,
 						["<C-d>"] = false,
+						["<ESC>"] = "close",
 					},
 				},
 			},
@@ -67,8 +68,5 @@ return {
 		telescope.load_extension("fzf")
 		telescope.load_extension("file_browser")
 		telescope.load_extension("ui-select")
-
-		-- -- provided by Yanky
-		-- telescope.load_extension('yank_history')
 	end,
 }

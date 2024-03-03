@@ -5,22 +5,30 @@ return {
 		init = function()
 			vim.diagnostic.config({
 				severity_sort = true,
-				virtual_text = false, -- disable virtual_text since it's redundant due to lsp_lines.
+
+				-- keep the default by showing virtual_text, but not the virtual_lines
+				-- it will be swapped when toggling
+				virtual_lines = false,
+				virtual_text = true,
 			})
 		end,
+		keys = {
+			{
+				"<leader>l",
+				function()
+					local virtual_lines = vim.diagnostic.config().virtual_lines
+					local virtual_text = vim.diagnostic.config().virtual_text
+
+					vim.diagnostic.config({
+						virtual_lines = not virtual_lines,
+						virtual_text = not virtual_text,
+					})
+				end,
+				desc = "Toggle LSP [L]ines",
+			},
+		},
 		config = function()
 			require("lsp_lines").setup()
-
-			local function toggle()
-				local current_value = vim.diagnostic.config().virtual_lines
-
-				vim.diagnostic.config({
-					virtual_lines = not current_value,
-					virtual_text = current_value,
-				})
-			end
-
-			vim.keymap.set("n", "<Leader>l", toggle, { desc = "Toggle LSP [L]ines" })
 		end,
 	},
 
@@ -77,7 +85,8 @@ return {
 
 					-- these will be buffer-local keybindings, as they only work if you have an active language server
 					map("n", "K", "<CMD>lua vim.lsp.buf.hover()<CR>", { desc = "Show lsp hover" })
-					map("n", "gd", "<CMD>lua vim.lsp.buf.definition()<CR>", { desc = "Goto [d]efinition" })
+					-- map("n", "gd", "<CMD>lua vim.lsp.buf.definition()<CR>", { desc = "Goto [d]efinition" })
+					map("n", "gd", require("telescope.builtin").lsp_definitions, { desc = "[G]oto [D]efinition" })
 					map("n", "gD", "<CMD>lua vim.lsp.buf.declaration()<CR>", { desc = "Goto [D]eclaration" })
 					map("n", "gi", "<CMD>lua vim.lsp.buf.implementation()<CR>", { desc = "Goto [i]mplementation" })
 					map("n", "gt", "<CMD>lua vim.lsp.buf.type_definition()<CR>", { desc = "Goto [t]ype definition" })

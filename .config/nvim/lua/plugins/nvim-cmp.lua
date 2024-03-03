@@ -37,31 +37,42 @@ return {
 				end,
 			},
 
+			-- Read `:h ins-completion` to better understand mappings
 			mapping = {
 				["<C-j>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
 				["<C-k>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
 				["<C-b>"] = cmp.mapping.scroll_docs(-4),
 				["<C-f>"] = cmp.mapping.scroll_docs(4),
-				["<CR>"] = cmp.mapping.confirm({ select = false }),
-				["<TAB>"] = function(fallback)
+				["<C-Space>"] = cmp.mapping.complete({}),
+				-- ["<CR>"] = cmp.mapping.confirm({ select = false }),
+				["<C-l>"] = cmp.mapping.confirm({
+					behavior = cmp.ConfirmBehavior.Replace,
+					select = true,
+				}),
+				["<C-CR>"] = cmp.mapping.confirm({
+					behavior = cmp.ConfirmBehavior.Replace,
+					select = true,
+				}),
+				["<TAB>"] = cmp.mapping(function(fallback)
 					if cmp.visible() then
 						cmp.select_next_item()
+					elseif luasnip.expand_or_locally_jumpable() then
+						luasnip.expand_or_jump()
 					else
 						fallback()
 					end
-				end,
+				end, { "i", "s" }),
+				["<S-TAB>"] = cmp.mapping(function(fallback)
+					if cmp.visible() then
+						cmp.select_prev_item()
+					elseif luasnip.expand_or_locally_jumpable(-1) then
+						luasnip.jump(-1)
+					else
+						fallback()
+					end
+				end, { "i", "s" }),
+				["<ESC>"] = cmp.mapping.abort(),
 			},
-
-			sources = cmp.config.sources({
-				{ name = "nvim_lsp", keyword_length = 3 }, -- from language server
-				{ name = "nvim_lsp_signature_help" }, -- display function signatures with current parameter emphasized
-				{ name = "nvim_lua", keyword_length = 2 }, -- complete neovim's Lua runtime API such vim.lsp.*
-				{ name = "luasnip" },
-				-- { name = "vsnip", keyword_length = 2 }, -- nvim-cmp source for vim-vsnip
-				{ name = "buffer", keyword_length = 2 }, -- source current buffer
-				{ name = "path" }, -- file paths
-				-- { name = "calc" }, -- source for math calculation
-			}),
 
 			window = {
 				completion = cmp.config.window.bordered(),
@@ -74,6 +85,34 @@ return {
 					ellipsis_char = "...",
 				}),
 			},
+
+			sources = cmp.config.sources({
+				{ name = "nvim_lsp" }, -- from language server
+				{ name = "nvim_lsp_signature_help" }, -- display function signatures with current parameter emphasized
+				{ name = "nvim_lua" }, -- complete neovim's Lua runtime API such vim.lsp.*
+				{ name = "luasnip" },
+				-- { name = "vsnip", keyword_length = 2 }, -- nvim-cmp source for vim-vsnip
+				-- { name = "buffer" }, -- source current buffer
+				-- { name = "path" }, -- file paths
+				-- { name = "calc" }, -- source for math calculation
+			}),
+		})
+
+		-- Use buffer sources for "/" and "?" search
+		cmp.setup.cmdline({ "/", "?" }, {
+			mapping = cmp.mapping.cmdline(),
+			sources = {
+				{ name = "buffer" },
+			},
+		})
+
+		cmp.setup.cmdline({ ":" }, {
+			mapping = cmp.mapping.cmdline(),
+			sources = cmp.config.sources({
+				{ name = "path" },
+			}, {
+				{ name = "cmdline" },
+			}),
 		})
 	end,
 }

@@ -1,3 +1,4 @@
+-- TODO: Review if I am just too lazy to type closing pairs
 return {
 	"windwp/nvim-autopairs",
 	event = { "InsertEnter" },

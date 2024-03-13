@@ -62,6 +62,7 @@ return {
 
 			vim.api.nvim_create_autocmd("BufWritePre", {
 				-- buffer = event.buf,
+				desc = "LSP formatting",
 				callback = function()
 					vim.lsp.buf.format()
 				end,
@@ -76,32 +77,39 @@ return {
 			vim.api.nvim_create_autocmd("LspAttach", {
 				desc = "LSP actions",
 				callback = function(event)
-					local map = function(mode, lhs, rhs, opts)
-						vim.keymap.set(mode, lhs, rhs, vim.list_extend(opts, { silent = true, buffer = event.buf }))
+					local nmap = function(lhs, rhs, desc)
+						vim.keymap.set("n", lhs, rhs, { buffer = event.buf, desc = desc })
 					end
 
 					-- Enable completion triggered by <c-x><c-o>
 					vim.bo[event.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
 
 					-- these will be buffer-local keybindings, as they only work if you have an active language server
-					map("n", "K", "<CMD>lua vim.lsp.buf.hover()<CR>", { desc = "Show lsp hover" })
-					-- map("n", "gd", "<CMD>lua vim.lsp.buf.definition()<CR>", { desc = "Goto [d]efinition" })
-					map("n", "gd", require("telescope.builtin").lsp_definitions, { desc = "[G]oto [D]efinition" })
-					map("n", "gD", "<CMD>lua vim.lsp.buf.declaration()<CR>", { desc = "Goto [D]eclaration" })
-					map("n", "gi", "<CMD>lua vim.lsp.buf.implementation()<CR>", { desc = "Goto [i]mplementation" })
-					map("n", "gt", "<CMD>lua vim.lsp.buf.type_definition()<CR>", { desc = "Goto [t]ype definition" })
-					map("n", "gr", "<CMD>lua vim.lsp.buf.references()<CR>", { desc = "Goto [r]eferences" })
-					map("n", "gs", "<CMD>lua vim.lsp.buf.signature_help()<CR>", { desc = "Goto [s]ignature" })
-					-- map("n", "<F2>", "<CMD>lua vim.lsp.buf.rename()<CR>", opts)
-					map({ "n", "x" }, "<leader>p", "<CMD>lua vim.lsp.buf.format()<CR>", { desc = "Make code [p]retty" })
-					map({ "n", "v" }, "<leader>a", "<CMD>lua vim.lsp.buf.code_action()<CR>", { desc = "Code [a]ction" })
+					nmap("K", vim.lsp.buf.hover, "Show lsp hover")
+					nmap("gD", vim.lsp.buf.declaration, "Goto [D]eclaration")
+					nmap("gs", vim.lsp.buf.signature_help, "Goto [s]ignature")
+					-- map("n", "<F2>", vim.lsp.buf.rename, opts)
+					nmap("<leader>p", vim.lsp.buf.format, "Make code [p]retty")
+					nmap("<leader>a", vim.lsp.buf.code_action, "Code [a]ction")
+
+					-- local status, _ = pcall(require, "telescope")
+					-- if status then
+					nmap("gd", "<CMD>Telescope lsp_definitions<CR>", "[G]oto [D]efinition")
+					nmap("gr", "<CMD>Telescope lsp_references<CR>", "[G]oto [R]eferences")
+					nmap("gi", "<CMD>Telescope lsp_implementations<CR>", "[G]oto [I]mplementation")
+					nmap("gt", "<CMD>Telescope lsp_type_definitions<CR>", "[G]oto [T]ype definition")
+					-- else
+					-- 	nmap("gd", vim.lsp.buf.definition, "[G]oto [d]efinition")
+					-- 	nmap("gr", vim.lsp.buf.references, "[G]oto [r]eferences")
+					-- 	nmap("gi", vim.lsp.buf.implementation, "[G]oto [i]mplementation")
+					-- 	nmap("gt", vim.lsp.buf.type_definition, "Goto [t]ype definition")
+					-- end
 				end,
 			})
 		end,
 		config = function()
 			local icons = require("core.config").icons
 			local lsp_config = require("lspconfig")
-
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
 			-- local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 

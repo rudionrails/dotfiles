@@ -1,4 +1,15 @@
 -- Highly experimental plugin that completely replaces the UI for messages, cmdline and the popupmenu.
+-- @see https://github.com/folke/noice.nvim
+--
+-- Comes with:
+--  * popup: powered by nui.nvim
+--  * split: powered by nui.nvim
+--  * notife: powered by nvim-notify
+--  * virtualtext: shows the message as virtualtext (for example for search_count)
+--  * mini: similar to notifier.nvim & fidget.nvim
+--  * notify_send: generate a desktop notification
+--
+-- @see https://github.com/folke/noice.nvim?tab=readme-ov-file#-views
 return {
 	"folke/noice.nvim",
 	event = "VeryLazy",
@@ -11,12 +22,16 @@ return {
 		-- "rcarriga/nvim-notify",
 		"nvim-treesitter/nvim-treesitter",
 	},
-	keys = {
-		{ "<leader>nl", "<CMD> Noice last <CR>", silent = true, desc = "[N]oice [L]ast" },
-		{ "<leader>nh", "<CMD> Noice history <CR>", silent = true, desc = "[N]oice [H]istory" },
-	},
 	config = function()
 		local noice = require("noice")
+
+		local nmap = function(lhs, rhs, desc)
+			vim.keymap.set("n", lhs, rhs, { desc = desc })
+		end
+
+		nmap("<leader>ne", "<CMD>Noice errors<CR>", "[N]oice [E]errors")
+		nmap("<leader>nl", "<CMD>Noice last<CR>", "[N]oice [L]ast")
+		nmap("<leader>nh", "<CMD>Noice history<CR>", "[N]oice [H]istory")
 
 		noice.setup({
 			lsp = {

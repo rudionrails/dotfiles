@@ -1,8 +1,14 @@
--- color highlighter
+-- A high-performance color highlighter
+--
+-- @see https://neovimcraft.com/plugin/NvChad/nvim-colorizer.lua
 return {
 	"NvChad/nvim-colorizer.lua",
+	-- lazy = true,
 	config = function()
-		vim.notify("nvim-colorizer")
-		require("colorizer").setup({})
+		require("colorizer").setup({
+			user_default_options = {
+				tailwind = true,
+			},
+		})
 	end,
 }

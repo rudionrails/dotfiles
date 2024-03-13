@@ -46,4 +46,5 @@
  :logseq-awesome-props {:version "v1.10.0", :repo "yoyurec/logseq-awesome-props", :effect true, :theme false}
  :logseq-dracula-theme {:version "0.0.5", :repo "dracula/logseq", :effect false, :theme true}
  :logseq-monokai {:version "v0.0.2", :repo "tzcl/logseq-monokai", :effect false, :theme true}
- :logseq-diagrams-as-code {:version "0.0.21", :repo "npgrosser/logseq-diagrams-as-code", :effect false, :theme false}}
+ :logseq-diagrams-as-code {:version "0.0.21", :repo "npgrosser/logseq-diagrams-as-code", :effect false, :theme false}
+ :logseq-catppuccin {:version "v0.4.1", :repo "catppuccin/logseq", :effect false, :theme true}}

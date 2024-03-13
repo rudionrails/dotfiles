@@ -90,11 +90,12 @@ return {
 			-- vim.keymap.set('n', '<C-e>', ':TSHighlightCapturesUnderCursor<CR>', { noremap = true, silent = true })
 		end,
 	},
-	{
-		-- Use treesitter to auto close and auto rename html tag
-		"windwp/nvim-ts-autotag",
-		config = function()
-			require("nvim-ts-autotag").setup({})
-		end,
-	},
+
+	-- {
+	-- 	-- Use treesitter to auto close and auto rename html tag
+	-- 	"windwp/nvim-ts-autotag",
+	-- 	config = function()
+	-- 		require("nvim-ts-autotag").setup({})
+	-- 	end,
+	-- },
 }

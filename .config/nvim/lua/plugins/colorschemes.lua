@@ -22,11 +22,26 @@ return {
 		end,
 	},
 
+	-- {
+	-- 	"EdenEast/nightfox.nvim",
+	-- 	priority = 1000,
+	-- 	config = function()
+	-- 		require("nightfox").setup({
+	-- 			options = {
+	-- 				styles = {
+	-- 					comments = "italic", -- normal
+	-- 				},
+	-- 			},
+	-- 		})
+	-- 	end,
+	-- },
+
 	-- detect colorscheme based on OS light/dark appearance
 	{
 		"cormacrelf/dark-notify",
 		-- priority = 1000, -- make sure to load this before all the other start plugins
-		event = { "VimEnter" },
+		-- event = "VimEnter",
+		event = "VeryLazy",
 		config = function()
 			local dark_notify = require("dark_notify")
 
@@ -40,4 +55,28 @@ return {
 			dark_notify.update()
 		end,
 	},
+
+	-- { "catppuccin/nvim", priority = 1000, name = "catppuccin" },
+	-- {
+	-- 	"rose-pine/neovim",
+	-- 	name = "rose-pine",
+	-- 	priority = 1000, -- make sure to load this before all the other start plugins
+	-- 	-- config = function()
+	-- 	-- 	-- local function init()
+	-- 	-- 	-- 	require("rose-pine").setup({
+	-- 	-- 	-- 		--- @usage 'main' | 'moon'
+	-- 	-- 	-- 		-- dark_variant = "moon",
+	-- 	-- 	-- 		highlight_groups = {
+	-- 	-- 	-- 			IlluminatedWordRead = { bg = "highlight_med" },
+	-- 	-- 	-- 			IlluminatedWordWrite = { bg = "highlight_med" },
+	-- 	-- 	--
+	-- 	-- 	-- 			IndentBlanklineContextStart = { bg = "foam", blend = 20 },
+	-- 	-- 	-- 		},
+	-- 	-- 	-- 	})
+	-- 	-- 	-- end
+	-- 	-- 	--
+	-- 	-- 	-- colorscheme("Rose Pine Dark", { colorscheme = "rose-pine-moon", init = init })
+	-- 	-- 	-- colorscheme("Rose Pine Light", { colorscheme = "rose-pine-dawn", init = init })
+	-- 	-- end,
+	-- },
 }

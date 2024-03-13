@@ -1,5 +1,20 @@
 local augroup = require("core.utils").augroup
 
+-- show cursor line only in active window and when in normal mode
+vim.api.nvim_create_autocmd({ "InsertLeave", "WinEnter" }, {
+	group = augroup("show_cursorline"),
+	callback = function()
+		vim.wo.cursorline = true
+	end,
+})
+
+vim.api.nvim_create_autocmd({ "InsertEnter", "WinLeave" }, {
+	group = augroup("hide_cursorline"),
+	callback = function()
+		vim.wo.cursorline = false
+	end,
+})
+
 -- Check if we need to reload the file when it changed
 vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
 	group = augroup("checktime"),

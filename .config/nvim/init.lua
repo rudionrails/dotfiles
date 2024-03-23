@@ -21,7 +21,7 @@ vim.opt.rtp:prepend(vim.env.LAZY or lazypath)
 require("lazy").setup("plugins", {
 	defaults = {
 		-- -- If you know what you're doing, you can set this to `true` to have all your custom plugins lazy-loaded by default.
-		-- lazy = false,
+		lazy = false,
 		-- It's recommended to leave version=false for now, since a lot the plugin that support versioning,
 		-- have outdated releases, which may break your Neovim install.
 		version = false, -- always use the latest git commit

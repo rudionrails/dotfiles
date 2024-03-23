@@ -73,7 +73,7 @@
 -- 		Watches = "󰂥",
 -- 		DebugConsole = "",
 -- 		Calendar = "",
--- 		Check = "",
+-- Check = "",
 -- 		ChevronRight = "",
 -- 		ChevronShortDown = "",
 -- 		ChevronShortLeft = "",
@@ -155,14 +155,19 @@
 -- }
 
 return {
+	borders = {
+		telescope = { "▔", "▕", "▁", "▏", "🭽", "🭾", "🭿", "🭼" },
+		telescope_thick = { "▀", "▐", "▄", "▌", "▛", "▜", "▟", "▙" },
+	},
+
 	icons = {
 		ui = {
 			BoxChecked = "",
 			Branch = "",
-			Check = "",
+			Check = "󰄳",
 			Circle = "",
 			CircleOutlined = "○",
-			CircleDashed = "◍",
+			-- CircleOutlined = " ",
 			Close = "󰅖",
 			Code = "",
 			Diff = "",
@@ -170,6 +175,7 @@ return {
 			Folder = "󰉋",
 			-- Folder = "",
 			Forward = "",
+			Ghost = "󰚌",
 			Information = "",
 			Line = "│",
 			LineDouble = "║",
@@ -177,7 +183,7 @@ return {
 			NewFile = "",
 			Package = "",
 			Quit = "",
-			Search = "",
+			Search = "",
 		},
 		git = {
 			-- Added = "", -- Added = "",
@@ -189,9 +195,11 @@ return {
 		},
 		diagnostics = {
 			Info = "", -- Info = "",
-			Warn = "", -- Warn = "",
+			-- Warn = "", -- Warn = "",
+			Warn = "",
 			Error = "", -- Error = "",
-			Hint = "⚑",
+			Hint = "󱤅", -- Hint = "󰌶",  "⚑",
+			Other = "󰠠",
 		},
 	},
 }

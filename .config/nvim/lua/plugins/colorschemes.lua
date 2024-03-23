@@ -1,5 +1,3 @@
--- colorschemes
-
 -- local function colorscheme(profile, spec)
 -- 	local term_profile = os.getenv("ITERM_PROFILE") or os.getenv("TERM_PROFILE") or ""
 --
@@ -14,13 +12,34 @@
 -- end
 
 return {
+	-- detect colorscheme based on OS light/dark appearance
+	{
+		"cormacrelf/dark-notify",
+		-- priority = 1000, -- make sure to load this before all the other start plugins
+		-- event = "VimEnter", -- "VeryLazy",
+		config = function()
+			local dark_notify = require("dark_notify")
+
+			dark_notify.run({
+				schemes = {
+					dark = "tokyonight-night", -- nightfox",
+					light = "tokyonight-day", -- "dayfox",
+				},
+			})
+
+			-- dark_notify.update()
+		end,
+	},
+
 	{
 		"folke/tokyonight.nvim",
 		priority = 1000, -- make sure to load this before all the other start plugins
-		config = function()
+		init = function()
 			vim.cmd.colorscheme("tokyonight-night")
 		end,
 	},
+
+	-- { "catppuccin/nvim", priority = 1000, name = "catppuccin" },
 
 	-- {
 	-- 	"EdenEast/nightfox.nvim",
@@ -35,28 +54,7 @@ return {
 	-- 		})
 	-- 	end,
 	-- },
-
-	-- detect colorscheme based on OS light/dark appearance
-	{
-		"cormacrelf/dark-notify",
-		-- priority = 1000, -- make sure to load this before all the other start plugins
-		-- event = "VimEnter",
-		event = "VeryLazy",
-		config = function()
-			local dark_notify = require("dark_notify")
-
-			dark_notify.run({
-				schemes = {
-					dark = "tokyonight-night", -- nightfox",
-					light = "tokyonight-day", -- "dayfox",
-				},
-			})
-
-			dark_notify.update()
-		end,
-	},
-
-	-- { "catppuccin/nvim", priority = 1000, name = "catppuccin" },
+	--
 	-- {
 	-- 	"rose-pine/neovim",
 	-- 	name = "rose-pine",

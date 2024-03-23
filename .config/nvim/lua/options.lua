@@ -5,6 +5,8 @@ local config = require("core.config")
 
 vim.g.mapleader = "," -- remap leader key
 
+vim.opt.background = "dark"
+
 -- vim.opt.colorcolumn = "80"
 vim.opt.termguicolors = true -- true color setup
 vim.opt.laststatus = 3

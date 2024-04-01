@@ -155,11 +155,6 @@
 -- }
 
 return {
-	borders = {
-		telescope = { "▔", "▕", "▁", "▏", "🭽", "🭾", "🭿", "🭼" },
-		telescope_thick = { "▀", "▐", "▄", "▌", "▛", "▜", "▟", "▙" },
-	},
-
 	icons = {
 		ui = {
 			BoxChecked = "",
@@ -184,6 +179,7 @@ return {
 			Package = "",
 			Quit = "",
 			Search = "",
+      Tree = "",
 		},
 		git = {
 			-- Added = "", -- Added = "",

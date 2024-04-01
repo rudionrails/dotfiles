@@ -1,33 +1,34 @@
-local augroup = require("core.utils").augroup
+local M = {}
+
+function M.autocmd(events, opts)
+	vim.api.nvim_create_autocmd(
+		events,
+		vim.tbl_deep_extend("force", {}, opts, {
+			group = vim.api.nvim_create_augroup(opts.group, { clear = true }),
+		})
+	)
+end
 
 -- show/hide cursorline
-vim.api.nvim_create_autocmd({ "InsertLeave", "WinEnter" }, {
-	group = augroup("show_cursorline"),
+M.autocmd({ "InsertLeave", "WinEnter" }, {
+	group = "_show_cursorline",
 	desc = "Show cursorline",
 	callback = function()
 		vim.wo.cursorline = true
 	end,
 })
 
-vim.api.nvim_create_autocmd({ "InsertEnter", "WinLeave" }, {
-	group = augroup("hide_cursorline"),
-	desc = "Hide cursorline",
-	callback = function()
-		vim.wo.cursorline = false
-	end,
-})
-
 -- highlight word at current cursor
-vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
-	group = augroup("show_highlight_word"),
+M.autocmd({ "CursorHold", "CursorHoldI" }, {
+	group = "_show_highlight_word",
 	desc = "Highlight on current word",
 	callback = function()
 		vim.lsp.buf.document_highlight()
 	end,
 })
 
-vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
-	group = augroup("hide_highlight_word"),
+M.autocmd({ "CursorMoved", "CursorMovedI" }, {
+	group = "_hide_highlight_word",
 	desc = "Remove highlight on current word",
 	callback = function()
 		vim.lsp.buf.clear_references()
@@ -35,8 +36,8 @@ vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
 })
 
 -- Highlight on yank
-vim.api.nvim_create_autocmd("TextYankPost", {
-	group = augroup("highlight_yank"),
+M.autocmd("TextYankPost", {
+	group = "_highlight_yank",
 	desc = "Highlight text on yank",
 	callback = function()
 		vim.highlight.on_yank()
@@ -44,8 +45,8 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 })
 
 -- go to last line when opening a buffer
-vim.api.nvim_create_autocmd("BufReadPost", {
-	group = augroup("last_loc"),
+M.autocmd("BufReadPost", {
+	group = "_last_line",
 	desc = "Jump to last line when opening file",
 	callback = function()
 		local exclude = { "gitcommit" }
@@ -65,15 +66,15 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 })
 
 -- Check if we need to reload the file when it changed
-vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
-	group = augroup("check_file_reload"),
+M.autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
+	group = "_check_file_reload",
 	desc = "Check if file needs to be reloaded",
 	command = "checktime",
 })
 
 -- close some filetypes with <q>
-vim.api.nvim_create_autocmd("FileType", {
-	group = augroup("close_with_q"),
+M.autocmd("FileType", {
+	group = "_close_with_q",
 	desc = "Close certain filetypes with <q>",
 	pattern = {
 		"PlenaryTestPopup",
@@ -97,8 +98,8 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 -- wrap and check for spell in text filetypes
-vim.api.nvim_create_autocmd("FileType", {
-	group = augroup("wrap_spell"),
+M.autocmd("FileType", {
+	group = "_spell_checl",
 	desc = "Apply spellchecking for certain files",
 	pattern = { "gitcommit", "markdown" },
 	callback = function()
@@ -108,14 +109,29 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 -- Auto create dir when saving a file, in case some intermediate directory does not exist
-vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-	group = augroup("auto_create_dir"),
+M.autocmd({ "BufWritePre" }, {
+	group = "_auto_create_dir",
 	desc = "Automatically create dir when saving file",
 	callback = function(event)
 		if event.match:match("^%w%w+://") then
 			return
 		end
+
 		local file = vim.loop.fs_realpath(event.match) or event.match
 		vim.fn.mkdir(vim.fn.fnamemodify(file, ":p:h"), "p")
+	end,
+})
+
+-- taken from AstroNvim: trigger "User FileOpened"
+M.autocmd({ "BufRead", "BufWinEnter", "BufNewFile" }, {
+	group = "_file_opened",
+	nested = true,
+	callback = function(args)
+		local buftype = vim.api.nvim_get_option_value("buftype", { buf = args.buf })
+
+		if not (vim.fn.expand("%") == "" or buftype == "nofile") then
+			vim.api.nvim_del_augroup_by_name("_file_opened")
+			vim.api.nvim_exec_autocmds("User", { pattern = "FileOpened" })
+		end
 	end,
 })

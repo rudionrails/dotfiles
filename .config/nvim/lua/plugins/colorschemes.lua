@@ -17,6 +17,7 @@ return {
 		"cormacrelf/dark-notify",
 		-- priority = 1000, -- make sure to load this before all the other start plugins
 		-- event = "VimEnter", -- "VeryLazy",
+		event = "VeryLazy",
 		config = function()
 			local dark_notify = require("dark_notify")
 
@@ -40,21 +41,23 @@ return {
 	},
 
 	-- { "catppuccin/nvim", priority = 1000, name = "catppuccin" },
+	-- { "olimorris/onedarkpro.nvim", priority = 1000 },
+	-- { "uloco/bluloco.nvim", priority = 1000, dependencies = { "rktjmp/lush.nvim" }, opts = { terminal = 0 } },
 
 	-- {
 	-- 	"EdenEast/nightfox.nvim",
 	-- 	priority = 1000,
 	-- 	config = function()
 	-- 		require("nightfox").setup({
-	-- 			options = {
-	-- 				styles = {
-	-- 					comments = "italic", -- normal
-	-- 				},
-	-- 			},
+	-- 			-- options = {
+	-- 			-- 	styles = {
+	-- 			-- 		comments = "italic", -- normal
+	-- 			-- 	},
+	-- 			-- },
 	-- 		})
 	-- 	end,
 	-- },
-	--
+
 	-- {
 	-- 	"rose-pine/neovim",
 	-- 	name = "rose-pine",

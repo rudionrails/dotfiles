@@ -156,7 +156,8 @@ return {
 			-- 'nvim-treesitter/playground',                  -- show treesitter info in vim
 		},
 		build = ":TSUpdate",
-		event = { "User FileOpened", "VeryLazy" },
+
+		event = { "VeryLazy" },
 		opts = {
 			auto_install = true,
 

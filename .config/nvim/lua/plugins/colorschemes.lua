@@ -57,7 +57,7 @@ return {
 	-- 		})
 	-- 	end,
 	-- },
-
+	--
 	-- {
 	-- 	"rose-pine/neovim",
 	-- 	name = "rose-pine",

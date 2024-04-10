@@ -46,3 +46,4 @@ Check `~/.zshrc` for more details
 - https://github.com/cdleon/awesome-terminals
 - https://github.com/agarrharr/awesome-cli-apps
 - https://github.com/k4m4/terminals-are-sexy
+- https://github.com/rockerBOO/awesome-neovim

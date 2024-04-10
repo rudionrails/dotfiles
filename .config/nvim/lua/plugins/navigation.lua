@@ -1,4 +1,4 @@
-local icons = require("core.config").icons
+local config = require("core.config")
 
 return {
 	-- Navigate your code with search labels, enhanced character motions and Treesitter integration
@@ -92,7 +92,7 @@ return {
 		},
 		opts = {
 			defaults = {
-				prompt_prefix = icons.ui.Search .. " ",
+				prompt_prefix = config.icons.ui.Search .. " ",
 				layout_config = {
 					horizontal = {
 						preview_width = 0.55,

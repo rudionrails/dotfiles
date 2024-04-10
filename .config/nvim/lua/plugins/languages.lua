@@ -1,7 +1,8 @@
-local icons = require("core.config").icons
+local config = require("core.config")
+local utils = require("core.utils")
 
 -- diagnostic icons
-for name, icon in pairs(icons.diagnostics) do
+for name, icon in pairs(config.icons.diagnostics) do
 	-- name = "DiagnosticSign" .. name
 	name = "DiagnosticSign" .. name:gsub("^%l", string.upper) -- capitalize first letter
 	vim.fn.sign_define(name, { text = icon, texthl = name, numhl = "" })
@@ -42,9 +43,9 @@ return {
 					ui = {
 						border = "rounded",
 						icons = {
-							package_installed = icons.ui.Check,
-							package_pending = icons.ui.CircleDashed,
-							package_uninstalled = icons.ui.CircleOutlined,
+							package_installed = config.icons.ui.Check,
+							package_pending = config.icons.ui.CircleDashed,
+							package_uninstalled = config.icons.ui.CircleOutlined,
 						},
 					},
 				},
@@ -336,6 +337,7 @@ return {
 				javascriptreact = { "eslint_d", { "prettierd", "prettier" } },
 				typescriptreact = { "eslint_d", { "prettierd", "prettier" } },
 				yaml = { { "prettierd", "prettier" } },
+				json = { { "prettierd", "prettier" } },
 			},
 		},
 		init = function()
@@ -347,7 +349,7 @@ return {
 					return formatter.name
 				end, conform.list_formatters())
 
-				-- Run linters.
+				-- Run formatters
 				if #names > 0 then
 					vim.notify("Formatting with " .. table.concat(names, ", "), vim.log.levels.INFO)
 
@@ -363,7 +365,7 @@ return {
 			vim.api.nvim_create_user_command("Format", M.format, {})
 			vim.api.nvim_create_autocmd("BufWritePre", {
 				group = vim.api.nvim_create_augroup("_format", { clear = true }),
-				command = "Format",
+				callback = M.format,
 			})
 		end,
 	},
@@ -403,7 +405,6 @@ return {
 		},
 		init = function()
 			local lint = require("lint")
-			local utils = require("core.utils")
 			local M = {}
 
 			function M.lint()
@@ -433,7 +434,7 @@ return {
 					return linter and not (type(linter) == "table" and linter.condition and not linter.condition(ctx))
 				end, names)
 
-				-- Run linters.
+				-- Run linters
 				if #names > 0 then
 					vim.notify("Linting with " .. table.concat(names, ", "), vim.log.levels.INFO)
 					lint.try_lint(names)

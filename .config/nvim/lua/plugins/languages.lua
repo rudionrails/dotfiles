@@ -100,6 +100,7 @@ return {
 				nmap("gs", vim.lsp.buf.signature_help, "Goto [s]ignature")
 				-- nmap("<leader>p", vim.lsp.buf.format, "Make code [p]retty")
 				nmap("<leader>a", vim.lsp.buf.code_action, "Code [a]ction")
+				nmap("<leader>r", vim.lsp.buf.rename, "[R]ename word under cursor within project")
 				-- 	nmap("gd", vim.lsp.buf.definition, "[G]oto [d]efinition")
 				-- 	nmap("gr", vim.lsp.buf.references, "[G]oto [r]eferences")
 				-- 	nmap("gi", vim.lsp.buf.implementation, "[G]oto [i]mplementation")
@@ -330,6 +331,13 @@ return {
 		},
 		opts = {
 			notify_on_error = true,
+			-- formatters = {
+			-- 	sqlfluff = {
+			-- 		command = "sqlfluff",
+			-- 		args = { "fix", "-" },
+			-- 		stdin = true,
+			-- 	},
+			-- },
 			formatters_by_ft = {
 				lua = { "stylua" },
 				javascript = { "eslint_d", { "prettierd", "prettier" } },
@@ -338,6 +346,7 @@ return {
 				typescriptreact = { "eslint_d", { "prettierd", "prettier" } },
 				yaml = { { "prettierd", "prettier" } },
 				json = { { "prettierd", "prettier" } },
+				-- sql = { "sqlfluff" }, -- { "sql-formatter", "sqlfmt", "sqlfluff" },
 			},
 		},
 		init = function()
@@ -388,6 +397,7 @@ return {
 				typescriptreact = { "eslint_d" },
 				ruby = { "rubocop" },
 				python = { "pylint" },
+				-- sql = { "sqlfluff" },
 				svelte = { "eslint_d" },
 			},
 
@@ -404,10 +414,10 @@ return {
 			},
 		},
 		init = function()
-			local lint = require("lint")
 			local M = {}
 
 			function M.lint()
+				local lint = require("lint")
 				-- Use nvim-lint's logic first:
 				-- * checks if linters exist for the full filetype first
 				-- * otherwise will split filetype by "." and add all those linters

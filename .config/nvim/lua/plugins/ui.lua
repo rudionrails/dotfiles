@@ -119,18 +119,12 @@ return {
 					{
 						function()
 							local buf_clients = vim.lsp.buf_get_clients()
-							if not buf_clients or #buf_clients == 0 then
-								-- return "" -- config.icons.ui.Code -- no LSP attached
-								return config.icons.ui.Code .. " " .. "N/A" -- no LSP attached
-							end
-
 							local buf_filetype = vim.bo.filetype
 							local buf_client_names = {}
 
 							for _, client in pairs(buf_clients) do
-								local client_name = client.name
-								if client_name ~= "null-ls" and client_name ~= "copilot" then
-									table.insert(buf_client_names, client_name)
+								if client.name ~= "null-ls" and client_name ~= "copilot" then
+									table.insert(buf_client_names, client.name)
 								end
 							end
 
@@ -138,6 +132,7 @@ return {
 								local has_null_ls, null_ls = pcall(require, "null-ls")
 								if has_null_ls then
 									local sources = null_ls.get_sources()
+
 									for _, source in ipairs(sources) do
 										if source._validated then
 											for ft_name, ft_active in pairs(source.filetypes) do
@@ -153,11 +148,11 @@ return {
 							if package.loaded["conform"] then -- conform package (for formatting)
 								local has_conform, conform = pcall(require, "conform")
 								if has_conform then
-									local formatter_names = vim.tbl_map(function(formatter)
-										return formatter.name
-									end, conform.list_formatters(0))
+									local formatters = conform.list_formatters(0)
 
-									vim.list_extend(buf_client_names, formatter_names)
+									for _, formatter in ipairs(formatters) do
+										table.insert(buf_client_names, formatter.name)
+									end
 								end
 							end
 
@@ -165,12 +160,19 @@ return {
 								local has_lint, lint = pcall(require, "lint")
 								if has_lint then
 									local linter_names = lint._resolve_linter_by_ft(buf_filetype)
+
 									vim.list_extend(buf_client_names, linter_names)
 								end
 							end
 
-							-- print("LSP Clients: " .. vim.inspect(buf_client_names))
+							if #buf_client_names == 0 then
+								-- return "" -- config.icons.ui.Code -- no LSP attached
+								-- return config.icons.ui.Code .. " " .. "N/A" -- no LSP attached
+								table.insert(buf_client_names, "N/A")
+							end
+
 							buf_client_names = vim.fn.uniq(utils.flatten(buf_client_names))
+
 							return config.icons.ui.Code .. " " .. table.concat(buf_client_names, ", ")
 						end,
 						color = utils.fg("Comment"),
@@ -286,7 +288,8 @@ return {
 	-- fancy resize buffers (with animations)
 	{
 		"anuvyklack/windows.nvim",
-		event = "User FileOpened",
+		-- event = "User FileOpened",
+		event = "VeryLazy",
 		dependencies = {
 			"anuvyklack/middleclass",
 			"anuvyklack/animation.nvim",
@@ -294,16 +297,15 @@ return {
 		keys = {
 			{ "<C-m>", ":WindowsMaximize<CR>", desc = "[M]aximize current buffer" },
 		},
-		config = function()
+		opts = {
+			animation = {
+				duration = 150,
+			},
+		},
+		init = function()
 			vim.opt.winwidth = 5
 			vim.opt.winminwidth = 5
 			vim.opt.equalalways = false
-
-			require("windows").setup({
-				animation = {
-					duration = 150,
-				},
-			})
 		end,
 	},
 

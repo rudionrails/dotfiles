@@ -1,12 +1,19 @@
 setopt autocd
 
-# Setting Term profile, so that nvim can detect the colorscheme
-: ${TERM_COLOR_SCHEME:="nightfox"}
-if [[ -n "$ITERM_COLOR_SCHEME" ]]; then
-  TERM_COLOR_SCHEME=${ITERM_COLOR_SCHEME}
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-export TERM_PROFILE
+# # Setting Term profile, so that nvim can detect the colorscheme
+# : ${TERM_COLOR_SCHEME:="nightfox"}
+# if [[ -n "$ITERM_COLOR_SCHEME" ]]; then
+#   TERM_COLOR_SCHEME=${ITERM_COLOR_SCHEME}
+# fi
+#
+# export TERM_PROFILE
 
 # TODO: https://github.com/tmuxinator/tmuxinator
 #
@@ -39,13 +46,6 @@ if [[ $+commands[tmux] && "$TMUX_ENABLED" == "true" && -z "$TMUX" ]]; then
   if [[ "$TMUX_AUTOEXIT" == "true" ]]; then
     exit
   fi
-fi
-
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
 #
@@ -85,6 +85,7 @@ if [[ $+commands[nvim] ]]; then
     export EDITOR='nvim'
   fi
 
+  alias vim="nvim"
   alias v=nvim
 else
   alias v=vim
@@ -153,9 +154,37 @@ if [[ $+commands[zoxide] ]]; then
   eval "$(zoxide init zsh --cmd cd)"
 fi
 
-# Spotify for terminal
-#   brew install spotify-tui
-# @see https://github.com/Rigellute/spotify-tui
-# if [[ $+commands[spt] ]]: then
-#   eval "$(spt --completions zsh)"
-# fi
+# Command-line fuzzy finder
+#   brew install fzf
+# @see https://github.com/junegunn/fzf
+if [[ $+commands[fzf] ]]; then
+  eval "$(fzf --zsh)"
+
+  # export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git"
+
+  # Use fd (https://github.com/sharkdp/fd) for listing path candidates.
+  # - The first argument to the function ($1) is the base path to start traversal
+  # - See the source code (completion.{bash,zsh}) for the details.
+  _fzf_compgen_path() {
+    fd --hidden --follow --exclude ".git" . "$1"
+  }
+
+  # Use fd to generate the list for directory completion
+  _fzf_compgen_dir() {
+    fd --type d --hidden --follow --exclude ".git" . "$1"
+  }
+
+  # Advanced customization of fzf options via _fzf_comprun function
+  # - The first argument to the function is the name of the command.
+  # - You should make sure to pass the rest of the arguments to fzf.
+  _fzf_comprun() {
+    local command=$1
+    shift
+
+    case "$command" in
+      cd)           fzf --preview 'lsd --group-dirs=first --color=always --tree --depth 2 {} | head -200' "$@" ;;
+      *)            fzf --preview "bat -n --color=always --line-range :500 {}" "$@" ;;
+    esac
+  }
+fi
+

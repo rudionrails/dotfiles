@@ -122,7 +122,7 @@ M.autocmd({ "BufWritePre" }, {
 	end,
 })
 
--- taken from AstroNvim: trigger "User FileOpened"
+-- taken from AstroNvim: trigger "User FileOpened" once when opening a file
 M.autocmd({ "BufRead", "BufWinEnter", "BufNewFile" }, {
 	group = "_file_opened",
 	nested = true,
@@ -132,6 +132,20 @@ M.autocmd({ "BufRead", "BufWinEnter", "BufNewFile" }, {
 		if not (vim.fn.expand("%") == "" or buftype == "nofile") then
 			vim.api.nvim_del_augroup_by_name("_file_opened")
 			vim.api.nvim_exec_autocmds("User", { pattern = "FileOpened" })
+		end
+	end,
+})
+
+-- trigger "User DirOpened" once when opening a directory
+M.autocmd({ "BufRead", "BufWinEnter", "BufNewFile" }, {
+	group = "_dir_opened",
+	nested = true,
+	callback = function()
+		local filename = vim.fn.expand("%:p")
+
+		if vim.fn.isdirectory(filename) ~= 0 then
+			vim.api.nvim_del_augroup_by_name("_dir_opened")
+			vim.api.nvim_exec_autocmds("User", { pattern = "DirOpened" })
 		end
 	end,
 })

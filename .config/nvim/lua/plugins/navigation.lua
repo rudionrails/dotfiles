@@ -156,15 +156,18 @@ return {
 			"MunifTanjim/nui.nvim",
 			"nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
 		},
+		event = "User DirOpened",
 		cmd = "Neotree",
 		keys = {
 			{ "<leader>e", "<CMD>Neotree float reveal<CR>", desc = "File [E]xplorer (NeoTree, floating)" },
 			{ "<leader>E", "<CMD>Neotree left reveal<CR>", desc = "File [E]xplorer (NeoTree, left)" },
 		},
 		opts = {
-			-- filesystem = {
-			-- 	hijack_netrw_behavior = "open_current",
-			-- },
+			filesystem = {
+				-- open neo-tree when a dir is passed to nvim
+				hijack_netrw_behavior = "open_current",
+			},
+
 			window = {
 				mappings = {
 					["<space>"] = "none",

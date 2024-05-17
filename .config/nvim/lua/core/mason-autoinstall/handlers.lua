@@ -6,7 +6,7 @@ local handlers = {
 	["javascript"] = typescript,
 	["javascriptreact"] = typescript,
 	["lua"] = { "lua_ls", "stylua" },
-	["ruby"] = { "ruby_ls", "rubocop" },
+	["ruby"] = { "ruby_lsp", "rubocop" },
 	["rust"] = { "rust_analyzer" },
 }
 

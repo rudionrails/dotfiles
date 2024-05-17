@@ -40,6 +40,7 @@ return {
 						"stylua",
 						"luacheck",
 					},
+
 					ui = {
 						border = "rounded",
 						icons = {
@@ -55,15 +56,17 @@ return {
 			"hrsh7th/cmp-nvim-lsp",
 			"neovim/nvim-lspconfig",
 
+			-- signature help for nvim lua API
+			{ "folke/neodev.nvim", opts = {} },
+
 			-- utility Lua functions
 			"nvim-lua/plenary.nvim",
 		},
 		opts = {
-			-- install lsp automatically if not already present
-			auto_install = true,
-
 			-- See `:h mason-lspconfig.setup_handlers()`
 			handlers = {
+				-- The first entry (without a key) will be the default handler and will be
+				-- called for each installed server that doesn't have a dedicated handler.
 				function(server_name)
 					local lspconfig = require("lspconfig")
 					-- local capabilities = require("cmp_nvim_lsp").default_capabilities()
@@ -77,6 +80,20 @@ return {
 						capabilities = vim.tbl_deep_extend("force", {}, capabilities),
 					})
 				end,
+
+				-- ["lua_ls"] = function()
+				-- 	local lspconfig = require("lspconfig")
+				--
+				-- 	lspconfig.lua_ls.setup({
+				-- 		settings = {
+				-- 			Lua = {
+				-- 				diagnostics = {
+				-- 					globals = { "vim" },
+				-- 				},
+				-- 			},
+				-- 		},
+				-- 	})
+				-- end,
 			},
 		},
 		config = function(_, opts)
@@ -397,12 +414,12 @@ return {
 				typescriptreact = { "eslint_d" },
 				ruby = { "rubocop" },
 				python = { "pylint" },
-				-- sql = { "sqlfluff" },
+				sql = { "sqlfluff" },
 				svelte = { "eslint_d" },
 			},
 
 			linters = {
-				-- -- Example of using eslint only when a .eslintrx.json file is present
+				-- -- example of using eslint only when a .eslintrx.json file is present
 				-- eslint_d = {
 				--   -- dynamically enable/disable linters based on the context.
 				--   --
@@ -411,6 +428,12 @@ return {
 				--     return vim.fs.find({ ".eslintrc.json" }, { path = ctx.filename, upward = true })[1]
 				--   end,
 				-- },
+				sqlfluff = {
+					-- dynamically enable/disable linters based on the context.
+					condition = function(ctx)
+						return vim.fs.find({ ".sqlfluff" }, { path = ctx.filename, upward = true })[1]
+					end,
+				},
 			},
 		},
 		init = function()

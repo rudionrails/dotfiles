@@ -1,3 +1,5 @@
+setopt autocd
+
 # TODO: https://github.com/tmuxinator/tmuxinator
 if [[ $+commands[tmux] == "1" ]]; then
   # Automatically run tmux every time zsh is loaded

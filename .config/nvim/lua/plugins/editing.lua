@@ -56,31 +56,32 @@ return {
 		},
 	},
 
-	-- -- TODO: Review if I am just too lazy to type closing pairs
-	-- {
-	-- 	"windwp/nvim-autopairs",
-	-- 	event = { "InsertEnter" },
-	-- 	dependencies = { "hrsh7th/nvim-cmp" },
-	-- 	opts = {
-	-- 		check_ts = true, -- enable treesitter
-	-- 		ts_config = {
-	-- 			lua = { "string" }, -- don't add pairs in lua string treesitter nodes
-	-- 			javascript = { "template_string" }, -- don't add pairs in javscript template_string treesitter nodes
-	-- 			java = false, -- don't check treesitter on java
-	-- 		},
-	-- 	},
-	-- 	config = function(_, opts)
-	-- 		local autopairs = require("nvim-autopairs")
-	-- 		local cmp_autopairs = require("nvim-autopairs.completion.cmp")
-	-- 		local cmp = require("cmp")
-	--
-	-- 		-- configure autopairs
-	-- 		autopairs.setup(opts)
-	--
-	-- 		-- make autopairs and completion work together
-	-- 		cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
-	-- 	end,
-	-- },
+	{
+		"windwp/nvim-autopairs",
+		event = { "InsertEnter" },
+		dependencies = {
+			"hrsh7th/nvim-cmp",
+		},
+		opts = {
+			check_ts = true, -- enable treesitter
+			ts_config = {
+				lua = { "string" }, -- don't add pairs in lua string treesitter nodes
+				javascript = { "template_string" }, -- don't add pairs in javscript template_string treesitter nodes
+				java = false, -- don't check treesitter on java
+			},
+		},
+		config = function(_, opts)
+			local autopairs = require("nvim-autopairs")
+			local cmp = require("cmp")
+			local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+
+			-- configure autopairs
+			autopairs.setup(opts)
+
+			-- make autopairs and completion work together
+			cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
+		end,
+	},
 
 	-- git in signcolumn, see `:help gitsigns.txt`
 	{
@@ -251,9 +252,13 @@ return {
 	{
 		"windwp/nvim-ts-autotag",
 		event = "VeryLazy",
-		config = function()
-			require("nvim-ts-autotag").setup({})
-		end,
+		opts = {
+			opts = {
+				enable_close = true, -- Auto close tags
+				enable_rename = true, -- Auto rename pairs of tags
+				enable_close_on_slash = false, -- Auto close on trailing </
+			},
+		},
 	},
 
 	-- Markdown preview inside NeoVim
@@ -263,6 +268,24 @@ return {
 			"ellisonleao/glow.nvim",
 			cmd = "Glow",
 			opts = { border = "rounded" },
+		},
+	},
+
+	-- Snapshot plugin with rich features that can make pretty code snapshots for Neovim
+	-- @see https://github.com/mistricky/codesnap.nvim
+	{
+		"mistricky/codesnap.nvim",
+		build = "make build_generator",
+		keys = {
+			{ "<leader>cc", "<cmd>CodeSnap<cr>", mode = "x", desc = "Save selected code snapshot into clipboard" },
+			{ "<leader>cs", "<cmd>CodeSnapSave<cr>", mode = "x", desc = "Save selected code snapshot" },
+		},
+		opts = {
+			watermark = "made with love",
+			code_font_family = "FiraCode Nerd Font",
+			save_path = "~/Desktop",
+			-- has_breadcrumbs = true,
+			-- bg_theme = "bamboo",
 		},
 	},
 }

@@ -1,22 +1,5 @@
 local M = {}
 
--- generic table merge function
-function M.merge(...)
-	local result = {}
-
-	for i, tbl in ipairs({ ... }) do
-		for k, v in pairs(tbl) do
-			if type(k) ~= "number" then
-				result[k] = v
-			else
-				result[i] = v
-			end
-		end
-	end
-
-	return result
-end
-
 -- flatten provided table
 function M.flatten(item, result)
 	local result = result or {} --  create empty table, if none given during initialization

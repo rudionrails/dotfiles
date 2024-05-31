@@ -348,13 +348,13 @@ return {
 		},
 		opts = {
 			notify_on_error = true,
-			-- formatters = {
-			-- 	sqlfluff = {
-			-- 		command = "sqlfluff",
-			-- 		args = { "fix", "-" },
-			-- 		stdin = true,
-			-- 	},
-			-- },
+			formatters = {
+				sqlfluff = {
+					command = "sqlfluff",
+					args = { "fix", "-f", "-n", "-" },
+					stdin = true,
+				},
+			},
 			formatters_by_ft = {
 				lua = { "stylua" },
 				javascript = { "eslint_d", { "prettierd", "prettier" } },
@@ -363,7 +363,7 @@ return {
 				typescriptreact = { "eslint_d", { "prettierd", "prettier" } },
 				yaml = { { "prettierd", "prettier" } },
 				json = { { "prettierd", "prettier" } },
-				-- sql = { "sqlfluff" }, -- { "sql-formatter", "sqlfmt", "sqlfluff" },
+				sql = { "sqlfluff" }, -- { "sql-formatter", "sqlfmt", "sqlfluff" },
 			},
 		},
 		init = function()
@@ -401,7 +401,8 @@ return {
 	-- below is taken from https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/plugins/linting.lua
 	{
 		"mfussenegger/nvim-lint",
-		event = { "VeryLazy" },
+		-- event = { "VeryLazy" },
+		event = { "BufReadPre", "BufNewFile" },
 		keys = {
 			{ "<leader>l", "<CMD>Lint<CR>", desc = "[L]int code" },
 		},
@@ -483,6 +484,9 @@ return {
 		config = function(_, opts)
 			local lint = require("lint")
 
+			-- The below enables a set of default linters. They will cause errors if not rpesent, though.
+			lint.linters_by_ft = vim.tbl_deep_extend("force", lint.linters_by_ft, opts.linters_by_ft)
+
 			for name, linter in pairs(opts.linters) do
 				if type(linter) == "table" and type(lint.linters[name]) == "table" then
 					lint.linters[name] = vim.tbl_deep_extend("force", lint.linters[name], linter)
@@ -490,8 +494,6 @@ return {
 					lint.linters[name] = linter
 				end
 			end
-
-			lint.linters_by_ft = opts.linters_by_ft
 		end,
 	},
 }

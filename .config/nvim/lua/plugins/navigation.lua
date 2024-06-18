@@ -1,4 +1,4 @@
-local config = require("core.config")
+local icons = require("core.icons")
 
 return {
 	-- Navigate your code with search labels, enhanced character motions and Treesitter integration
@@ -9,37 +9,6 @@ return {
 		opts = {
 			modes = { char = { jump_labels = true } },
 		},
-	},
-
-	-- highlight cursor
-	{
-		"edluffy/specs.nvim",
-		keys = {
-			{ "n", "n:Specs <CR>", silent = true },
-			{ "N", "N:Specs <CR>", silent = true },
-		},
-		init = function()
-			vim.api.nvim_create_user_command("Specs", function()
-				require("specs").show_specs()
-			end, {})
-		end,
-		config = function()
-			local specs = require("specs")
-
-			specs.setup({
-				show_jumps = true,
-				-- min_jump = 30,
-				popup = {
-					delay_ms = 0, -- delay before popup displays
-					inc_ms = 5, -- time increments used for fade/resize effects
-					blend = 0, -- starting blend, between 0-100 (fully transparent), see :h winblend
-					width = 250,
-					winhl = "Search", -- 'PMenu', 'Search'
-					fader = specs.linear_fader,
-					resizer = specs.empty_resizer,
-				},
-			})
-		end,
 	},
 
 	-- tmux navigation
@@ -92,7 +61,7 @@ return {
 		},
 		opts = {
 			defaults = {
-				prompt_prefix = config.icons.ui.Search .. " ",
+				prompt_prefix = icons.ui.Search .. " ",
 				layout_config = {
 					horizontal = {
 						preview_width = 0.55,
@@ -175,6 +144,29 @@ return {
 					["h"] = "close_node",
 					["."] = "toggle_hidden",
 				},
+			},
+		},
+	},
+
+	-- TODO: decide to keep or not
+	{
+		"stevearc/oil.nvim",
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+		cmd = "Oil",
+		opts = {},
+	},
+
+	-- TODO: decide to keep or not
+	{
+		"echasnovski/mini.files",
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+		opts = {
+			-- Customization of explorer windows
+			windows = {
+				-- Whether to show preview of file/directory under cursor
+				preview = true,
+				-- Width of preview window
+				width_preview = 50,
 			},
 		},
 	},

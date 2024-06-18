@@ -1,8 +1,8 @@
-local config = require("core.config")
+local icons = require("core.icons")
 local utils = require("core.utils")
 
 -- diagnostic icons
-for name, icon in pairs(config.icons.diagnostics) do
+for name, icon in pairs(icons.diagnostics) do
 	-- name = "DiagnosticSign" .. name
 	name = "DiagnosticSign" .. name:gsub("^%l", string.upper) -- capitalize first letter
 	vim.fn.sign_define(name, { text = icon, texthl = name, numhl = "" })
@@ -16,13 +16,7 @@ return {
 			"nvim-tree/nvim-web-devicons",
 		},
 		cmd = "Trouble",
-		config = function()
-			require("trouble").setup({
-				position = "bottom",
-				-- auto_open = true,
-				use_diagnostic_signs = true, -- uses lsp diagnostic signs
-			})
-		end,
+		opts = {},
 	},
 
 	-- LSP Configuration & Plugins
@@ -44,9 +38,9 @@ return {
 					ui = {
 						border = "rounded",
 						icons = {
-							package_installed = config.icons.ui.Check,
-							package_pending = config.icons.ui.CircleDashed,
-							package_uninstalled = config.icons.ui.CircleOutlined,
+							package_installed = icons.ui.Check,
+							package_pending = icons.ui.CircleDashed,
+							package_uninstalled = icons.ui.CircleOutlined,
 						},
 					},
 				},

@@ -1,4 +1,4 @@
-local config = require("core.config")
+local icons = require("core.icons")
 local utils = require("core.utils")
 
 return {
@@ -55,156 +55,7 @@ return {
 			"nvim-tree/nvim-web-devicons",
 		},
 		event = { "VeryLazy" }, -- "User FileOpened",
-		opts = {
-			options = {
-				theme = "auto",
-				component_separators = config.icons.ui.Line,
-				section_separators = config.icons.ui.LineDouble,
-				globalstatus = false,
-				disabled_filetypes = {
-					statusline = { "alpha" },
-				},
-			},
-			sections = {
-				lualine_a = {
-					{
-						"mode",
-						fmt = function(str)
-							-- return "󰀘 " .. str:sub(1, 1)
-							return str:sub(1, 1)
-						end,
-					},
-				},
-				lualine_b = {},
-				lualine_c = {
-					-- -- { "filetype", separator = "", padding = { left = 1, right = 0 } },
-					-- { "filetype", icon_only = true, separator = "", padding = { left = 1, right = 0 } },
-					-- { "filename", path = 1 },
-					-- {
-					-- 	function()
-					-- 		return vim.fn.expand("%:p:~:.:h")
-					-- 	end,
-					-- 	icon = config.icons.ui.Folder,
-					-- 	color = utils.fg("Comment"),
-					-- 	separator = "",
-					-- },
-					{ "filetype", icon_only = true, separator = "" },
-					{ "filename", path = 1, padding = { left = 0, right = 1 } },
-					{ "diff", icon = config.icons.ui.Diff },
-					{
-						"diagnostics",
-						sources = { "nvim_diagnostic" },
-						symbols = {
-							error = config.icons.diagnostics.Error .. " ",
-							warn = config.icons.diagnostics.Warn .. " ",
-							info = config.icons.diagnostics.Info .. " ",
-							hint = config.icons.diagnostics.Hint .. " ",
-							other = config.icons.diagnostics.Other .. " ",
-						},
-					},
-				},
-				lualine_x = {
-					-- {
-					-- 	function()
-					-- 		return config.icons.ui.Tree
-					-- 	end,
-					-- 	-- color = function()
-					-- 	--   local buf = vim.api.nvim_get_current_buf()
-					-- 	--   local ts = vim.treesitter.highlighter.active[buf]
-					-- 	--   return { fg = ts and not vim.tbl_isempty(ts) and green or colors.red }
-					-- 	-- end,
-					-- },
-
-					-- display attached lsp clients, formatters and linters
-					{
-						function()
-							local buf_clients = vim.lsp.buf_get_clients()
-							local buf_filetype = vim.bo.filetype
-							local buf_client_names = {}
-
-							for _, client in pairs(buf_clients) do
-								if client.name ~= "null-ls" and client_name ~= "copilot" then
-									table.insert(buf_client_names, client.name)
-								end
-							end
-
-							if package.loaded["null-ls"] then
-								local has_null_ls, null_ls = pcall(require, "null-ls")
-								if has_null_ls then
-									local sources = null_ls.get_sources()
-
-									for _, source in ipairs(sources) do
-										if source._validated then
-											for ft_name, ft_active in pairs(source.filetypes) do
-												if ft_name == buf_filetype and ft_active then
-													table.insert(buf_client_names, source.name)
-												end
-											end
-										end
-									end
-								end
-							end
-
-							if package.loaded["conform"] then -- conform package (for formatting)
-								local has_conform, conform = pcall(require, "conform")
-								if has_conform then
-									local formatters = conform.list_formatters(0)
-
-									for _, formatter in ipairs(formatters) do
-										table.insert(buf_client_names, formatter.name)
-									end
-								end
-							end
-
-							if package.loaded["lint"] then -- nvim-lint package
-								local has_lint, lint = pcall(require, "lint")
-								if has_lint then
-									local linter_names = lint._resolve_linter_by_ft(buf_filetype)
-
-									vim.list_extend(buf_client_names, linter_names)
-								end
-							end
-
-							if #buf_client_names == 0 then
-								-- return "" -- config.icons.ui.Code -- no LSP attached
-								-- return config.icons.ui.Code .. " " .. "N/A" -- no LSP attached
-								table.insert(buf_client_names, "N/A")
-							end
-
-							buf_client_names = vim.fn.uniq(utils.flatten(buf_client_names))
-
-							return config.icons.ui.Code .. " " .. table.concat(buf_client_names, ", ")
-						end,
-						color = utils.fg("Comment"),
-					},
-				},
-				lualine_y = {
-					{ require("lazy.status").updates, cond = require("lazy.status").has_updates },
-				},
-				lualine_z = {
-					{ "location" },
-				},
-			},
-			inactive_sections = {
-				lualine_a = {},
-				lualine_b = {
-					{ "filetype", icon_only = true, separator = "" },
-					{ "filename", path = 1, padding = { left = 0, right = 1 } },
-				},
-				lualine_c = {},
-				lualine_x = {},
-				lualine_y = {},
-				lualine_z = {},
-			},
-
-			extensions = {
-				"lazy",
-				"mason",
-				"trouble",
-				"quickfix",
-				"neo-tree",
-			},
-		},
+		opts = require("configs.lualine"),
 		init = function()
 			vim.g.lualine_laststatus = vim.o.laststatus
 
@@ -340,8 +191,8 @@ return {
 
 			ibl.setup({
 				indent = {
-					char = config.icons.ui.Line,
-					tab_char = config.icons.ui.Line,
+					char = icons.ui.Line,
+					tab_char = icons.ui.Line,
 				},
 				scope = {
 					enabled = false, -- because we use mini.indentline for this (behaviour is a bit different)
@@ -352,7 +203,7 @@ return {
 			})
 
 			indentscope.setup({
-				symbol = config.icons.ui.Line,
+				symbol = icons.ui.Line,
 				draw = {
 					animation = indentscope.gen_animation.none(),
 				},
@@ -384,16 +235,16 @@ return {
 
 			startify.section.header.opts.hl = "AlphaHeader"
 			startify.section.top_buttons.val = {
-				startify.button("e", config.icons.ui.NewFile .. " " .. " New file", "<cmd> ene <BAR> startinsert <cr>"),
-				startify.button("f", config.icons.ui.Search .. " " .. " Find file", "<cmd> Telescope find_files <cr>"),
+				startify.button("e", icons.ui.NewFile .. " " .. " New file", "<cmd> ene <BAR> startinsert <cr>"),
+				startify.button("f", icons.ui.Search .. " " .. " Find file", "<cmd> Telescope find_files <cr>"),
 				-- startify.button("r", " " .. " Recent files", "<cmd> Telescope oldfiles <cr>"),
 				-- startify.button("g", " " .. " Find text", "<cmd> Telescope live_grep <cr>"),
 				-- startify.button("s", " " .. " Restore Session", [[<cmd> lua require("persistence").load() <cr>]]),
 			}
 			startify.section.bottom_buttons.val = {
-				startify.button("m", config.icons.ui.Package .. " " .. " Mason", "<CMD> Mason <CR>"),
-				startify.button("l", config.icons.ui.Package .. " " .. " Lazy", "<CMD> Lazy <CR>"),
-				startify.button("q", config.icons.ui.Quit .. " " .. " Quit", "<CMD> q <CR>"),
+				startify.button("m", icons.ui.Package .. " " .. " Mason", "<CMD> Mason <CR>"),
+				startify.button("l", icons.ui.Package .. " " .. " Lazy", "<CMD> Lazy <CR>"),
+				startify.button("q", icons.ui.Quit .. " " .. " Quit", "<CMD> q <CR>"),
 			}
 
 			startify.config.opts.autostart = false

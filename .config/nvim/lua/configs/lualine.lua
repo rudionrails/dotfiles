@@ -1,14 +1,9 @@
-local config = require("core.config")
+local icons = require("core.icons")
 local utils = require("core.utils")
 
 -- returns the attached lsp, linters and formatters
 local function attached_lsp()
-	local buf_clients = vim.lsp.buf_get_clients()
-	if not buf_clients or #buf_clients == 0 then
-		-- return "" -- config.icons.ui.Code -- no LSP attached
-		return config.icons.ui.Code .. " " .. "N/A" -- no LSP attached
-	end
-
+	local buf_clients = vim.lsp.get_clients() or {}
 	local buf_filetype = vim.bo.filetype
 	local buf_client_names = {}
 
@@ -54,16 +49,20 @@ local function attached_lsp()
 		end
 	end
 
-	-- print("LSP Clients: " .. vim.inspect(buf_client_names))
-	return config.icons.ui.Code .. " " .. table.concat(vim.fn.uniq(buf_client_names), ", ")
+	if #buf_client_names == 0 then
+		table.insert(buf_client_names, "N/A")
+	end
+
+	-- print("LSP Clients: " .. vim.inspect(vim.fn.uniq(buf_client_names)))
+	-- return icons.ui.Code .. " " .. table.concat(vim.fn.uniq(buf_client_names), ", ")
+	return icons.ui.Code .. " " .. table.concat(buf_client_names, ", ")
 end
 
 return {
 	options = {
 		theme = "auto",
-		component_separators = config.icons.ui.Line,
-		section_separators = config.icons.ui.LineDouble,
-		-- component_separators = { left = ">", right = "<" },
+		component_separators = icons.ui.Line,
+		section_separators = icons.ui.LineDouble,
 		globalstatus = false,
 		disabled_filetypes = {
 			statusline = { "alpha" },
@@ -89,7 +88,7 @@ return {
 			-- 	function()
 			-- 		return vim.fn.expand("%:p:~:.:h")
 			-- 	end,
-			-- 	icon = config.icons.ui.Folder,
+			-- 	icon = icons.ui.Folder,
 			-- 	color = util.fg("Comment"),
 			-- 	separator = "",
 			-- },
@@ -97,22 +96,22 @@ return {
 			{ "filename", path = 1, padding = { left = 0, right = 1 } },
 			{
 				"diff",
-				icon = config.icons.ui.Diff,
+				icon = icons.ui.Diff,
 				-- symbols = {
-				-- 	added = config.icons.git.Added .. " ",
-				-- 	modified = config.icons.git.Modified .. " ",
-				-- 	removed = config.icons.git.Removed .. " ",
+				-- 	added = icons.git.Added .. " ",
+				-- 	modified = icons.git.Modified .. " ",
+				-- 	removed = icons.git.Removed .. " ",
 				-- },
 			},
 			{
 				"diagnostics",
 				sources = { "nvim_diagnostic" },
 				symbols = {
-					error = config.icons.diagnostics.Error .. " ",
-					warn = config.icons.diagnostics.Warn .. " ",
-					info = config.icons.diagnostics.Info .. " ",
-					hint = config.icons.diagnostics.Hint .. " ",
-					other = config.icons.diagnostics.Other .. " ",
+					error = icons.diagnostics.Error .. " ",
+					warn = icons.diagnostics.Warn .. " ",
+					info = icons.diagnostics.Info .. " ",
+					hint = icons.diagnostics.Hint .. " ",
+					other = icons.diagnostics.Other .. " ",
 				},
 			},
 		},

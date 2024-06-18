@@ -1,7 +1,7 @@
 -- [[ Setting options ]]
 -- See `:help vim.opt`
 
-local config = require("core.config")
+local icons = require("core.icons")
 
 vim.g.mapleader = "," -- remap leader key
 
@@ -35,7 +35,7 @@ vim.opt.sidescroll = 1
 vim.opt.wrap = true -- disable line wrap
 vim.opt.linebreak = true -- break lines on word boundary
 vim.opt.breakindent = true -- every wrapped line will continue visully indented
-vim.cmd("let &showbreak = '" .. config.icons.ui.Forward .. " '")
+vim.cmd("let &showbreak = '" .. icons.ui.Forward .. " '")
 
 -- Case insensitive searching UNLESS /C or capital in search
 -- vim.opt.incsearch = true

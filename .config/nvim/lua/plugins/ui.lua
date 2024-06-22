@@ -21,6 +21,8 @@ return {
 		keys = {
 			{ "<left>", "<CMD> BufferLineCyclePrev <CR>", desc = "Goto left buffer", silent = true },
 			{ "<right>", "<CMD> BufferLineCycleNext <CR>", desc = "Goto right buffer", silent = true },
+			{ "<S-left>", "<CMD> BufferLineMovePrev <CR>", desc = "Move current buffer to left", silent = true },
+			{ "<S-right>", "<CMD> BufferLineMoveNext <CR>", desc = "Move current buffer to right", silent = true },
 			{ "<up>", "<CMD> BufferLineCloseOthers <CR>", desc = "Close other buffers", silent = true },
 			{ "<down>", ":e#<CR>", desc = "Toggle to previous buffer", silent = true },
 		},

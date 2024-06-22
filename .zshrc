@@ -114,11 +114,18 @@ if [[ $+commands[btop] == "1" ]]; then
   alias top=btop
 fi
 
-# better df
+# better df (display free disk space)
 #   brew install duf
 # @see https://github.com/muesli/duf
 if [[ $+commands[duf] == "1" ]]; then
   alias df=duf
+fi
+
+# better du (disk usage satistics)
+#   brew install dust
+# @see https://github.com/bootandy/dust
+if [[ $+commands[dust] == "1" ]]; then
+  alias du="dust -r"
 fi
 
 # Better ls

@@ -24,23 +24,23 @@ config.window_frame = {
 -- @see https://wezfurlong.org/wezterm/config/lua/window/get_appearance.html
 local function scheme_for_appearance(appearance)
 	if appearance:find("Dark") then
-		-- return "nightfox"
-		return "tokyonight_night"
+		return "tokyonight_night" -- "nightfox"
 	else
-		-- return "dayfox"
-		return "tokyonight_day"
+		-- return "tokyonight_day" -- dayfox
+		-- return "Edge Light (base16)"
+		return "Catppuccin Latte"
 	end
 end
 
 wezterm.on("window-config-reloaded", function(window, pane)
+	wezterm.log_info("Event: window-config-reloaded")
+
 	local overrides = window:get_config_overrides() or {}
 	local scheme = scheme_for_appearance(window:get_appearance())
 
 	if overrides.color_scheme ~= scheme then
+		wezterm.log_info("Setting color_scheme")
 		overrides.color_scheme = scheme
-		overrides.set_environment_variables = {
-			TERM_COLOR_SCHEME = overrides.color_scheme,
-		}
 
 		window:set_config_overrides(overrides)
 	end

@@ -40,11 +40,11 @@ return {
 			{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
 			"nvim-telescope/telescope-file-browser.nvim",
 			"nvim-telescope/telescope-ui-select.nvim",
-			"nvim-treesitter/nvim-treesitter", -- finder / preview
-			"sharkdp/fd", -- finder
-			"BurntSushi/ripgrep",
-			"nvim-lua/plenary.nvim", -- lua helper functions
-			"nvim-tree/nvim-web-devicons", -- icons
+			"nvim-lua/plenary.nvim", -- lua helper functions (required)
+			"BurntSushi/ripgrep", -- is required for live_grep and grep_string (recommended)
+			"sharkdp/fd", -- finder (tional)
+			"nvim-tree/nvim-web-devicons", -- icons (optional)
+			"nvim-treesitter/nvim-treesitter", -- finder / preview (optional)
 		},
 		cmd = "Telescope",
 		keys = {
@@ -95,6 +95,9 @@ return {
 				colorscheme = {
 					enable_preview = true,
 				},
+				oldfiles = {
+					only_cwd = true,
+				},
 			},
 		},
 		config = function(_, opts)
@@ -116,37 +119,37 @@ return {
 		end,
 	},
 
-	-- file explorer
-	{
-		"nvim-neo-tree/neo-tree.nvim",
-		branch = "v3.x",
-		dependencies = {
-			"nvim-lua/plenary.nvim",
-			"MunifTanjim/nui.nvim",
-			"nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
-		},
-		event = "User DirOpened",
-		cmd = "Neotree",
-		keys = {
-			{ "<leader>e", "<CMD>Neotree float reveal<CR>", desc = "File [E]xplorer (NeoTree, floating)" },
-			{ "<leader>E", "<CMD>Neotree left reveal<CR>", desc = "File [E]xplorer (NeoTree, left)" },
-		},
-		opts = {
-			filesystem = {
-				-- open neo-tree when a dir is passed to nvim
-				hijack_netrw_behavior = "open_current",
-			},
-
-			window = {
-				mappings = {
-					["<space>"] = "none",
-					["l"] = "open",
-					["h"] = "close_node",
-					["."] = "toggle_hidden",
-				},
-			},
-		},
-	},
+	-- -- file explorer
+	-- {
+	-- 	"nvim-neo-tree/neo-tree.nvim",
+	-- 	branch = "v3.x",
+	-- 	dependencies = {
+	-- 		"nvim-lua/plenary.nvim",
+	-- 		"MunifTanjim/nui.nvim",
+	-- 		"nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+	-- 	},
+	-- 	event = "User DirOpened",
+	-- 	cmd = "Neotree",
+	-- 	keys = {
+	-- 		{ "<leader>e", "<CMD>Neotree float reveal<CR>", desc = "File [E]xplorer (NeoTree, floating)" },
+	-- 		{ "<leader>E", "<CMD>Neotree left reveal<CR>", desc = "File [E]xplorer (NeoTree, left)" },
+	-- 	},
+	-- 	opts = {
+	-- 		filesystem = {
+	-- 			-- open neo-tree when a dir is passed to nvim
+	-- 			hijack_netrw_behavior = "open_current",
+	-- 		},
+	--
+	-- 		window = {
+	-- 			mappings = {
+	-- 				["<space>"] = "none",
+	-- 				["l"] = "open",
+	-- 				["h"] = "close_node",
+	-- 				["."] = "toggle_hidden",
+	-- 			},
+	-- 		},
+	-- 	},
+	-- },
 
 	-- TODO: decide to keep or not
 	{
@@ -160,15 +163,61 @@ return {
 	{
 		"echasnovski/mini.files",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
-		opts = {
-			-- Customization of explorer windows
-			windows = {
-				-- Whether to show preview of file/directory under cursor
-				preview = true,
-				-- Width of preview window
-				width_preview = 50,
+		-- cmd = "MiniFiles",
+		keys = {
+			{
+				"<leader>e",
+				function()
+					local mf = require("mini.files")
+
+					-- mf.open(mf.get_latest_path()) -- open last used path
+					mf.open(vim.api.nvim_buf_get_name(0)) -- open last used path
+					mf.reveal_cwd() -- refresh to also show current wrkin directory
+				end,
+				desc = "File [E]xplorer (NeoTree, floating)",
 			},
 		},
+		config = function()
+			local show_dotfiles = false
+			local opts = {
+				content = {
+					filter = function(fs_entry)
+						if show_dotfiles then
+							return true
+						else
+							return not vim.startswith(fs_entry.name, ".")
+						end
+					end,
+				},
+
+				-- Close MiniFiles when opening file
+				mappings = {
+					go_in = "L",
+					go_in_plus = "l",
+				},
+
+				-- windows = {
+				-- 	-- Whether to show preview of file/directory under cursor
+				-- 	preview = true,
+				-- },
+			}
+			local toggle_dotfiles = function()
+				show_dotfiles = not show_dotfiles
+				MiniFiles.refresh(opts)
+			end
+
+			vim.api.nvim_create_autocmd("User", {
+				pattern = "MiniFilesBufferCreate",
+				callback = function(args)
+					local buffer = args.data.buf_id
+
+					vim.keymap.set("n", ".", toggle_dotfiles, { buffer = buffer })
+					vim.keymap.set("n", "<ESC>", MiniFiles.close, { buffer = buffer })
+				end,
+			})
+
+			require("mini.files").setup(opts)
+		end,
 	},
 
 	-- displays a popup with possible key bindings of the command

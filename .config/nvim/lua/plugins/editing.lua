@@ -21,6 +21,15 @@ return {
 		},
 	},
 
+	-- - Enhance builtin native comments
+	-- 'gc' / 'gcc' to comment visual regions/lines
+	{
+		"folke/ts-comments.nvim",
+		event = "VeryLazy",
+		enabled = vim.fn.has("nvim-0.10.0") == 1,
+		opts = {},
+	},
+
 	-- Highlight, list and search todo comments in your projects
 	-- @see https://github.com/folke/todo-comments.nvim
 	{

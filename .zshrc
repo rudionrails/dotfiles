@@ -93,12 +93,12 @@ else
   alias v=vim
 fi
 
-# Tool version manager for Node, Ruby, others
-#   brew install asdf
+# Tool version manager for Node, Ruby, others (alternative to asdf)
+#   brew install mise
 #
-# @see https://asdf-vm.com/
-if [[ $+commands[asdf] == "1" ]]; then
-  source "$(brew --prefix asdf)/libexec/asdf.sh"
+# @see https://mise.jdx.dev/
+if [[ $+commands[mise] == "1" ]]; then
+  eval "$(mise activate zsh)"
 fi
 
 # Better cat with colors

@@ -30,16 +30,21 @@ yadm clone --bootstrap https://github.com/rudionrails/dotfiles.git
 
 Check `~/.zshrc` for more details
 
-- [`asdf`](https://asdf-vm.com/) the multiple runtime version manager for programming languages
 - [`bat`](https://github.com/sharkdp/bat) better `cat` with syntax highlighting and git integration
 - [`btop`](https://github.com/aristocratos/btop) better `top` resource monitor
-- [`duf`](https://github.com/muesli/duf) better `df` disk usage utility
-- [`git`](https://git-scm.com/) distributed version control system (integrated with [`delta`](https://github.com/dandavison/delta))
+- [`duf`](https://github.com/muesli/duf) better `df` free disk space utility
+- [`dust`](https://github.com/bootandy/dust) better `du` disk usage statistics
+- [`delta`](https://github.com/dandavison/delta) syntax-highlighting pager for git, diff, grep, and blame output
+- [`fzf`](https://junegunn.github.io/fzf/) command-line fuzzy finder
+- [`git`](https://git-scm.com/) distributed version control system (integrated with
 - [`lsd`](https://github.com/lsd-rs/lsd) better `ls` with colors, icons, tree-view, more formatting options
+- [`mise`](https://mise.jdx.dev/) the polyglot tool version manager
 - [`ripgrep`](https://github.com/BurntSushi/ripgrep) recursively searches directories for a regex pattern while respecting your gitignore
 - [`tmux`](https://github.com/tmux/tmux/wiki) terminal multiplexer to switch easily between several programs
+- [`tokei"`](https://docs.rs/tokei/latest/tokei/) utility to count code in directories
+- [`yazi`](https://github.com/sxyazi/yazi) terminal file manager
 - [`zoxide`](https://github.com/ajeetdsouza/zoxide) smarter cd command, inspired by z and autojump
-- [`Zsh`](https://www.zsh.org/) shell designed for interactive use (using [`zplug`](https://github.com/zplug/zplug) and [`powerlevel10k`](https://github.com/romkatv/powerlevel10k))
+- [`zsh`](https://www.zsh.org/) shell designed for interactive use (using [`zplug`](https://github.com/zplug/zplug) and [`powerlevel10k`](https://github.com/romkatv/powerlevel10k))
 
 ## Additional resources
 

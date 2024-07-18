@@ -18,23 +18,6 @@ M.autocmd({ "InsertLeave", "WinEnter" }, {
 	end,
 })
 
--- highlight word at current cursor
-M.autocmd({ "CursorHold", "CursorHoldI" }, {
-	group = "_show_highlight_word",
-	desc = "Highlight on current word",
-	callback = function()
-		vim.lsp.buf.document_highlight()
-	end,
-})
-
-M.autocmd({ "CursorMoved", "CursorMovedI" }, {
-	group = "_hide_highlight_word",
-	desc = "Remove highlight on current word",
-	callback = function()
-		vim.lsp.buf.clear_references()
-	end,
-})
-
 -- Highlight on yank
 M.autocmd("TextYankPost", {
 	group = "_highlight_yank",

@@ -224,14 +224,17 @@ return {
 	{
 		"folke/which-key.nvim",
 		event = { "VeryLazy" }, -- User FileOpened"},
-		opts = {
-			window = {
-				border = "shadow", -- none, single, double, shadow
-				-- position = "bottom", -- bottom, top
-				-- margin = { 1, 0, 1, 0 }, -- extra window margin [top, right, bottom, left]
-				-- padding = { 2, 2, 2, 2 }, -- extra window padding [top, right, bottom, left]
-				-- winblend = 0
+		keys = {
+			{
+				"<leader>?",
+				function()
+					require("which-key").show({ global = false })
+				end,
+				desc = "Buffer Local Keymaps (which-key)",
 			},
+		},
+		opts = {
+			preset = "helix",
 		},
 	},
 }

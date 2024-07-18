@@ -7,7 +7,7 @@ local function attached_lsp()
 	local buf_filetype = vim.bo.filetype
 	local buf_client_names = {}
 
-	for _, client in pairs(buf_clients) do
+	for _, client in ipairs(buf_clients) do
 		local client_name = client.name
 		if client_name ~= "null-ls" and client_name ~= "copilot" then
 			table.insert(buf_client_names, client_name)
@@ -55,7 +55,7 @@ local function attached_lsp()
 
 	-- print("LSP Clients: " .. vim.inspect(vim.fn.uniq(buf_client_names)))
 	-- return icons.ui.Code .. " " .. table.concat(vim.fn.uniq(buf_client_names), ", ")
-	return icons.ui.Code .. " " .. table.concat(buf_client_names, ", ")
+	return icons.ui.Code .. " " .. table.concat(vim.fn.uniq(vim.fn.sort(buf_client_names)), ", ")
 end
 
 return {
@@ -63,7 +63,7 @@ return {
 		theme = "auto",
 		component_separators = icons.ui.Line,
 		section_separators = icons.ui.LineDouble,
-		globalstatus = false,
+		globalstatus = vim.o.laststatus == 3,
 		disabled_filetypes = {
 			statusline = { "alpha" },
 		},
@@ -79,7 +79,20 @@ return {
 				end,
 			},
 		},
-		lualine_b = {},
+		lualine_b = {
+			"branch",
+			{
+				"diagnostics",
+				-- sources = { "nvim_diagnostic" },
+				symbols = {
+					error = icons.diagnostics.Error .. " ",
+					warn = icons.diagnostics.Warn .. " ",
+					info = icons.diagnostics.Info .. " ",
+					hint = icons.diagnostics.Hint .. " ",
+					other = icons.diagnostics.Other .. " ",
+				},
+			},
+		},
 		lualine_c = {
 			-- -- { "filetype", separator = "", padding = { left = 1, right = 0 } },
 			-- { "filetype", icon_only = true, separator = "", padding = { left = 1, right = 0 } },
@@ -102,17 +115,6 @@ return {
 				-- 	modified = icons.git.Modified .. " ",
 				-- 	removed = icons.git.Removed .. " ",
 				-- },
-			},
-			{
-				"diagnostics",
-				sources = { "nvim_diagnostic" },
-				symbols = {
-					error = icons.diagnostics.Error .. " ",
-					warn = icons.diagnostics.Warn .. " ",
-					info = icons.diagnostics.Info .. " ",
-					hint = icons.diagnostics.Hint .. " ",
-					other = icons.diagnostics.Other .. " ",
-				},
 			},
 		},
 		lualine_x = {

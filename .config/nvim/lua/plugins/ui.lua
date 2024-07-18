@@ -12,7 +12,6 @@ return {
 	-- fancy top buffer manager, @see https://github.com/akinsho/bufferline.nvim
 	{
 		"akinsho/bufferline.nvim",
-		branch = "main",
 		dependencies = {
 			"nvim-tree/nvim-web-devicons",
 		},
@@ -38,17 +37,17 @@ return {
 		},
 	},
 
-	-- A IDE-style winbar for Neovim
-	{
-		"utilyre/barbecue.nvim",
-		version = "*",
-		dependencies = {
-			"SmiteshP/nvim-navic",
-			"nvim-tree/nvim-web-devicons", -- optional dependency
-		},
-		event = { "VeryLazy" }, -- "User FileOpened",
-		opts = {},
-	},
+	-- -- A IDE-style winbar for Neovim
+	-- {
+	-- 	"utilyre/barbecue.nvim",
+	-- 	version = "*",
+	-- 	dependencies = {
+	-- 		"SmiteshP/nvim-navic",
+	-- 		"nvim-tree/nvim-web-devicons", -- optional dependency
+	-- 	},
+	-- 	event = { "VeryLazy" }, -- "User FileOpened",
+	-- 	opts = {},
+	-- },
 
 	-- Fancier statusline, see `:help lualine.txt`
 	{

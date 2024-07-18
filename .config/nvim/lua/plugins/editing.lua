@@ -21,6 +21,16 @@ return {
 		},
 	},
 
+	-- A pretty diagnostics, references, telescope results, quickfix and location list to help you solve all the trouble your code is causing.
+	{
+		"folke/trouble.nvim",
+		dependencies = {
+			"nvim-tree/nvim-web-devicons",
+		},
+		cmd = "Trouble",
+		opts = {},
+	},
+
 	-- - Enhance builtin native comments
 	-- 'gc' / 'gcc' to comment visual regions/lines
 	{
@@ -40,6 +50,9 @@ return {
 			-- do not show icon in signcolumn
 			signs = false,
 		},
+		config = function(_, opts)
+			require("todo-comments").setup(opts)
+		end,
 	},
 
 	{
@@ -74,10 +87,9 @@ return {
 		"lewis6991/gitsigns.nvim",
 		event = { "VeryLazy" },
 		opts = {
-			yadm = { enable = true },
-			on_attach = function(buffer)
+			on_attach = function(bufnr)
 				local nmap = function(lhs, rhs, desc)
-					vim.keymap.set("n", lhs, rhs, { buffer = buffer, desc = desc })
+					vim.keymap.set("n", lhs, rhs, { buffer = bufnr, desc = desc })
 				end
 
 				-- Navigation

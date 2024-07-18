@@ -18,7 +18,10 @@ end
 
 vim.opt.rtp:prepend(vim.env.LAZY or lazypath)
 
-require("lazy").setup("plugins", {
+require("lazy").setup({
+	{ import = "plugins" },
+	{ import = "extras" },
+}, {
 	defaults = {
 		-- -- If you know what you're doing, you can set this to `true` to have all your custom plugins lazy-loaded by default.
 		lazy = false,

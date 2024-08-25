@@ -31,7 +31,7 @@ return {
 		opts = {},
 	},
 
-	-- - Enhance builtin native comments
+	--- Enhance builtin native comments
 	-- 'gc' / 'gcc' to comment visual regions/lines
 	{
 		"folke/ts-comments.nvim",

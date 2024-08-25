@@ -16,7 +16,7 @@ return {
 						Lua = {
 							completion = { callSnippet = "Replace" },
 							doc = { privateName = { "^_" } },
-							-- codeLens = { enable = true },
+							codeLens = { enable = true },
 							hint = {
 								enable = true,
 								setType = false,
@@ -32,7 +32,8 @@ return {
 							workspace = {
 								-- Make the server aware of Neovim runtime files
 								library = vim.api.nvim_get_runtime_file("", true),
-								-- checkThirdParty = false,
+								-- library = { vim.env.VIMRUNTIME, vim.env.VIMRUNTIME .. "/lua" },
+								checkThirdParty = false,
 								-- maxPreload = 100000,
 								-- preloadFileSize = 10000,
 							},

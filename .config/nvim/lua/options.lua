@@ -39,7 +39,7 @@ vim.cmd("let &showbreak = '" .. icons.ui.Forward .. " '")
 
 -- Case insensitive searching UNLESS /C or capital in search
 -- vim.opt.incsearch = true
-vim.opt.hlsearch = false -- Set highlight on search
+vim.opt.hlsearch = true -- Set highlight on search
 vim.opt.ignorecase = true -- ignore case in search patterns
 vim.opt.smartcase = true -- smart case
 

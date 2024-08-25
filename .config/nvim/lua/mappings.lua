@@ -15,3 +15,4 @@ vim.keymap.set("n", "ss", "<C-w>s", { desc = "Create horizontal split" })
 
 -- Clear current search highlight by double tapping //
 -- vim.keymap.set('n', '//', ':nohlsearch<CR>', { noremap = true, silent = true })
+vim.keymap.set("n", "<ESC>", "<CMD> nohlsearch <CR>")

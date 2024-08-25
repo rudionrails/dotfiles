@@ -1,5 +1,4 @@
 local icons = require("core.icons")
-local utils = require("core.utils")
 
 return {
 	-- fancy scrollbar
@@ -75,6 +74,11 @@ return {
 		end,
 	},
 
+	-- nice vim.notify replacement
+	--
+	-- Check https://github.com/willothy/nvim-config/blob/b3ec60e6656c22c34aaffe01558f0a146bd82530/lua/configs/ui/noice.lua for Noice integration
+	{ "j-hui/fidget.nvim", event = { "VeryLazy" }, opts = { notification = { override_vim_notify = true } } },
+
 	-- Highly experimental plugin that completely replaces the UI for messages, cmdline and the popupmenu.
 	-- @see https://github.com/folke/noice.nvim
 	--
@@ -105,7 +109,13 @@ return {
 			{ "<leader>nh", "<CMD>Noice history<CR>", desc = "[N]oice [H]istory" },
 		},
 		opts = {
+			commands = { all = { view = "popup" } },
 			lsp = {
+				progress = {
+					-- fidget already takes care of this,
+					-- otherwise shows double message
+					enabled = false,
+				},
 				-- override markdown rendering so that **cmp** and other plugins use **Treesitter**
 				override = {
 					["vim.lsp.utils.convert_input_to_markdown_lines"] = true,
@@ -236,16 +246,16 @@ return {
 
 			startify.section.header.opts.hl = "AlphaHeader"
 			startify.section.top_buttons.val = {
-				startify.button("e", icons.ui.NewFile .. " " .. " New file", "<cmd> ene <BAR> startinsert <cr>"),
-				startify.button("f", icons.ui.Search .. " " .. " Find file", "<cmd> Telescope find_files <cr>"),
+				startify.button("e", icons.ui.NewFile .. " " .. " New file", "<CMD>ene <BAR> startinsert<CR>"),
+				startify.button("f", icons.ui.Search .. " " .. " Find file", "<CMD>FzfLua files<CR>"),
 				-- startify.button("r", " " .. " Recent files", "<cmd> Telescope oldfiles <cr>"),
 				-- startify.button("g", " " .. " Find text", "<cmd> Telescope live_grep <cr>"),
 				-- startify.button("s", " " .. " Restore Session", [[<cmd> lua require("persistence").load() <cr>]]),
 			}
 			startify.section.bottom_buttons.val = {
-				startify.button("m", icons.ui.Package .. " " .. " Mason", "<CMD> Mason <CR>"),
-				startify.button("l", icons.ui.Package .. " " .. " Lazy", "<CMD> Lazy <CR>"),
-				startify.button("q", icons.ui.Quit .. " " .. " Quit", "<CMD> q <CR>"),
+				startify.button("m", icons.ui.Package .. " " .. " Mason", "<CMD>Mason<CR>"),
+				startify.button("l", icons.ui.Package .. " " .. " Lazy", "<CMD>Lazy<CR>"),
+				startify.button("q", icons.ui.Quit .. " " .. " Quit", "<CMD>q<CR>"),
 			}
 
 			startify.config.opts.autostart = false

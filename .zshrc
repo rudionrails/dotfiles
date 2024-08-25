@@ -48,6 +48,12 @@ fi
 # Setup zinit plugin manager
 # @see https://github.com/zdharma-continuum/zinit
 #
+# # Self update
+# zinit self-update
+# 
+# # Plugin update
+# zinit update
+#
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 if [ ! -d "${ZINIT_HOME}" ]; then
   mkdir -p "$(dirname ${ZINIT_HOME})"
@@ -57,6 +63,7 @@ fi
 source "${ZINIT_HOME}/zinit.zsh"
 
 zinit ice depth=1; zinit light romkatv/powerlevel10k
+zinit light Aloxaf/fzf-tab # use fzf on tab completion, see https://github.com/Aloxaf/fzf-tab
 zinit ice depth=1; zinit light zsh-users/zsh-syntax-highlighting
 zinit ice depth=1; zinit light zsh-users/zsh-autosuggestions
 zinit ice depth=1; zinit light zsh-users/zsh-completions
@@ -74,6 +81,24 @@ zinit cdreplay -q
 #
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# # fzf-tab configuration
+# #
+# disable sort when completing `git checkout`
+zstyle ':completion:*:git-checkout:*' sort false
+# # set descriptions format to enable group support
+# NOTE: don't use escape sequences here, fzf-tab will ignore them
+zstyle ':completion:*:descriptions' format '[%d]'
+# set list-colors to enable filename colorizing
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+# # force zsh not to show completion menu, which allows fzf-tab to capture the unambiguous prefix
+# zstyle ':completion:*' menu no
+# preview directory's content with eza when completing cd
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'lsd -1 --color=always --tree --depth 2 $realpath'
+# # switch group using `<` and `>`
+# zstyle ':fzf-tab:*' switch-group '<' '>'
+# # make use of tmux popup
+# zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
 
 alias rm='rm -i'
 
@@ -191,7 +216,8 @@ if [[ $+commands[fzf] == "1" ]]; then
 
     case "$command" in
       cd) fzf --preview 'lsd --group-dirs=first --color=always --tree --depth 2 {} | head -200' "$@" ;;
-      *)  fzf --preview "bat -n --color=always --line-range :500 {}" "$@" ;;
+      # *)  fzf --preview "bat -n --color=always --line-range :500 {}" "$@" ;;
+      *)  fzf "$@" ;;
     esac
   }
 fi

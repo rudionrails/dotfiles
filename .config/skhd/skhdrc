@@ -31,6 +31,24 @@ alt - return : yabai -m window --toggle zoom-fullscreen
 # float / unfloat window and center on screen
 alt - t : yabai -m window --toggle float; yabai -m window --grid 4:4:1:1:2:2
 
+# move floating windows
+ctrl + alt - return : yabai -m window --grid 1:1:0:0:1:1 # full
+
+ctrl + alt - h : yabai -m window --grid 1:2:0:0:1:1 # left
+ctrl + alt - j : yabai -m window --grid 2:1:0:1:1:1 # bottom
+ctrl + alt - k : yabai -m window --grid 2:1:0:0:1:1 # top
+ctrl + alt - l : yabai -m window --grid 1:2:1:0:1:1 # right
+
+ctrl + alt - u : yabai -m window --grid 2:2:0:0:1:1 # top left
+ctrl + alt - i : yabai -m window --grid 2:2:1:0:1:1 # top bottom
+ctrl + alt - n : yabai -m window --grid 2:2:0:1:1:1 # bottom left
+ctrl + alt - m : yabai -m window --grid 2:2:1:1:1:1 # bottom right
+
+# stack
+shift + alt - 0x2B : yabai -m window --insert stack
+
+# alt - shift - , : yabai 
+
 # alt - s : yabai -m window --toggle sticky;\
 #           yabai -m window --toggle topmost;\
 #           yabai -m window --toggle pip

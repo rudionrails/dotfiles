@@ -1,18 +1,8 @@
 local M = {}
 
--- flatten provided table
-function M.flatten(item, result)
-	local result = result or {} --  create empty table, if none given during initialization
-
-	if type(item) == "table" then
-		for _, v in pairs(item) do
-			M.flatten(v, result)
-		end
-	else
-		table.insert(result, item)
-	end
-
-	return result
+-- check if plugin is defined in Lazy
+function M.has(name)
+	return require("lazy.core.config").spec.plugins[name] ~= nil
 end
 
 -- ui function to get foreground color of specified highlight group

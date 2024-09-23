@@ -104,6 +104,7 @@ return {
 			"nvim-treesitter/nvim-treesitter",
 		},
 		keys = {
+			{ "<leader>n", "<CMD>Noice pick<CR>", desc = "[N]oice" },
 			{ "<leader>ne", "<CMD>Noice errors<CR>", desc = "[N]oice [E]errors" },
 			{ "<leader>nl", "<CMD>Noice last<CR>", desc = "[N]oice [L]ast" },
 			{ "<leader>nh", "<CMD>Noice history<CR>", desc = "[N]oice [H]istory" },

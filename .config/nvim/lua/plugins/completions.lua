@@ -45,7 +45,7 @@ return {
 			-- require("luasnip.loaders.from_vscode").lazy_load()
 
 			cmp.setup({
-				preselect = cmp.PreselectMode.None,
+				preselect = cmp.PreselectMode.None, -- cmp.PreselectMode.Item,
 
 				confirm_opts = {
 					behavior = cmp.ConfirmBehavior.Replace,
@@ -128,14 +128,21 @@ return {
 					}),
 				},
 
-				sources = {
+				sources = cmp.config.sources({
 					{ name = "nvim_lsp_signature_help" }, -- display function signatures with current parameter emphasized
 					{ name = "nvim_lsp" }, -- from language server
 					{ name = "nvim_lua" }, -- complete neovim's Lua runtime API such vim.lsp.*
-					{ name = "luasnip" },
-					-- { name = "buffer" }, -- source current buffer
+				}, {
+					-- { name = "luasnip" },
+					{ name = "buffer" }, -- source current buffer
 					-- { name = "path" }, -- file paths
 					-- { name = "calc" }, -- source for math calculation
+				}),
+
+				experimental = {
+					ghost_text = {
+						hl_group = "CmpGhostText",
+					},
 				},
 			})
 

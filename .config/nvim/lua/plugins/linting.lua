@@ -52,14 +52,14 @@ return {
 		opts = {
 			linters_by_ft = {
 				lua = { "luacheck" },
-				javascript = { "eslint_d", "eslint" },
-				typescript = { "eslint_d", "eslint" },
-				javascriptreact = { "eslint_d", "eslint" },
-				typescriptreact = { "eslint_d", "eslint" },
+				javascript = { "eslint" },
+				typescript = { "eslint" },
+				javascriptreact = { "eslint" },
+				typescriptreact = { "eslint" },
 				ruby = { "rubocop" },
 				python = { "pylint" },
 				sql = { "sqlfluff" },
-				svelte = { "eslint_d", "eslint" },
+				svelte = { "eslint" },
 			},
 
 			linters = {

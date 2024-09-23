@@ -6,7 +6,7 @@ return {
 		},
 		cmd = "FzfLua",
 		keys = {
-			{ "<leader>ff", "<CMD>FzfLua files<CR>", desc = "[F]ind [F]iles" }, -- FIXME: duplicate <leader><space>
+			["<leader>ff"] = { "<CMD>FzfLua files<CR>", desc = "[F]ind [F]iles" }, -- FIXME: duplicate <leader><space>
 			{ "<leader><space>", "<CMD>FzfLua files<CR>", desc = "[F]ind [F]iles" },
 			{ "<leader>fr", "<CMD>FzfLua oldfiles<CR>", desc = "[F]ind [R]ecent files" },
 			{ "<leader>fg", "<CMD>FzfLua live_grep<CR>", desc = "[F]find by [G]rep" }, -- FIXME: duplicate <leader>/
@@ -69,18 +69,18 @@ return {
 		end,
 	},
 
-	---@override change existing keys to use FzfLua
-	{
-		"rudionrails/quarry.nvim",
-		opts = function()
-			return {
-				keys = {
-					{ "gd", "<CMD>FzfLua lsp_definitions<CR>", desc = "[G]oto [d]efinition" },
-					{ "gr", "<CMD>FzfLua lsp_references<CR>", desc = "[G]oto [r]eferences" },
-					{ "gi", "<CMD>FzfLua lsp_implementations<CR>", desc = "[G]oto [i]mplementation" },
-					{ "gt", "<CMD>FzfLua lsp_typedefs<CR>", desc = "[G]oto [t]ype definition" },
-				},
-			}
-		end,
-	},
+	------@override change existing keys to use FzfLua
+	---{
+	---	"rudionrails/quarry.nvim",
+	---	opts = function()
+	---		return {
+	---			keys = {
+	---				["gd"] = { "<CMD>FzfLua lsp_definitions<CR>", desc = "[G]oto [d]efinition" },
+	---				["gr"] = { "<CMD>FzfLua lsp_references<CR>", desc = "[G]oto [r]eferences" },
+	---				["gi"] = { "<CMD>FzfLua lsp_implementations<CR>", desc = "[G]oto [i]mplementation" },
+	---				["gt"] = { "<CMD>FzfLua lsp_typedefs<CR>", desc = "[G]oto [t]ype definition" },
+	---			},
+	---		}
+	---	end,
+	---},
 }

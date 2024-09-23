@@ -1,4 +1,5 @@
 local icons = require("core.icons")
+local u = require("core.utils")
 
 -- diagnostics
 vim.diagnostic.config({
@@ -20,9 +21,6 @@ vim.diagnostic.config({
 })
 
 return {
-	-- load own LSP configurations that are handled by quarry.nvim
-	{ import = "plugins.lsp" },
-
 	-- LSP and tools setup
 	{
 		"williamboman/mason.nvim",
@@ -41,6 +39,7 @@ return {
 
 	{
 		"rudionrails/quarry.nvim",
+		dev = true,
 		event = { "VeryLazy", "User FileOpened" },
 		dependencies = {
 			"williamboman/mason.nvim",
@@ -64,53 +63,63 @@ return {
 				},
 			},
 			{ "Bilal2453/luvit-meta", lazy = true }, -- optional `vim.uv` typings
+
+			-- load own LSP configurations that are handled by quarry.nvim
+			{ import = "plugins.lsp" },
 		},
-		opts = {
-			features = {
+		opts = function(_, opts)
+			opts.features = {
 				"textDocument/documentHighlight",
 				"textDocument/inlayHint",
 				-- "textDocument/codeLens",
-			},
+			}
 
-			keys = {
-				{ "[d", vim.diagnostic.goto_prev },
-				{ "]d", vim.diagnostic.goto_next },
-				{ "K", vim.lsp.buf.hover, desc = "Show lsp hover" },
-				{ "gD", vim.lsp.buf.declaration, desc = "[G]oto [D]eclaration" },
-				{ "gs", vim.lsp.buf.signature_help, desc = "[G]oto [s]ignature" },
-				{ "gd", vim.lsp.buf.definition, desc = "[G]oto [d]efinition" },
-				{ "gr", vim.lsp.buf.references, desc = "[G]oto [r]eferences" },
-				{ "gi", vim.lsp.buf.implementation, desc = "[G]oto [i]mplementation" },
-				{ "gt", vim.lsp.buf.type_definition, desc = "Goto [t]ype definition" },
+			opts.keys = {
+				["[d"] = { vim.diagnostic.goto_prev },
+				["]d"] = { vim.diagnostic.goto_next },
+				["K"] = { vim.lsp.buf.hover, desc = "Show lsp hover" },
+				["gs"] = { vim.lsp.buf.signature_help, desc = "[G]oto [s]ignature" },
+				["gD"] = { vim.lsp.buf.declaration, desc = "[G]oto [D]eclaration" },
+				["gd"] = { vim.lsp.buf.definition, desc = "[G]oto [d]efinition" },
+				["gr"] = { vim.lsp.buf.references, desc = "[G]oto [r]eferences" },
+				["gi"] = { vim.lsp.buf.implementation, desc = "[G]oto [i]mplementation" },
+				["gt"] = { vim.lsp.buf.type_definition, desc = "Goto [t]ype definition" },
 
-				{ "<leader>q", vim.diagnostic.setloclist, desc = "Open [Q]uickfix list" },
-				{ "<leader>a", vim.lsp.buf.code_action, desc = "Code [a]ction" },
-				{ "<leader>r", vim.lsp.buf.rename, desc = "[R]ename word under cursor within project" },
-				{
-					"<leader>h",
+				["<leader>q"] = { vim.diagnostic.setloclist, desc = "Open [Q]uickfix list" },
+				["<leader>a"] = { vim.lsp.buf.code_action, desc = "Code [a]ction" },
+				["<leader>r"] = { vim.lsp.buf.rename, desc = "[R]ename word under cursor within project" },
+
+				["<leader>h"] = {
 					function()
 						vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
 					end,
 					desc = "Toggle inlay [h]int",
 				},
 
-				{ "<C-space>", "<C-x><C-o>", mode = "i", remap = false },
-			},
+				["<C-space>"] = { "<C-x><C-o>", mode = "i" },
+			}
 
-			on_attach = function(client, bufnr)
+			opts.on_attach = function(_, bufnr)
 				-- Enable completion triggered by <c-x><c-o>
 				vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
-			end,
+			end
 
-			capabilities = function()
+			opts.capabilities = function()
 				return vim.tbl_deep_extend(
 					"force",
 					{},
 					vim.lsp.protocol.make_client_capabilities(),
 					require("cmp_nvim_lsp").default_capabilities()
 				)
-			end,
-		},
+			end
+
+			if u.has("fzf-lua") then
+				opts.keys["gd"] = { "<CMD>FzfLua lsp_definitions<CR>", desc = "[G]oto [d]efinition" }
+				opts.keys["gr"] = { "<CMD>FzfLua lsp_references<CR>", desc = "[G]oto [r]eferences" }
+				opts.keys["gi"] = { "<CMD>FzfLua lsp_implementations<CR>", desc = "[G]oto [i]mplementation" }
+				opts.keys["gt"] = { "<CMD>FzfLua lsp_typedefs<CR>", desc = "[G]oto [t]ype definition" }
+			end
+		end,
 	},
 
 	-- @see https://git.sr.ht/~whynothugo/lsp_lines.nvim

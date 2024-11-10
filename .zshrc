@@ -5,7 +5,7 @@ if [[ $+commands[tmux] == "1" ]]; then
   # Automatically run tmux every time zsh is loaded
   : ${TMUX_AUTOSTART:=true}
   # Exit terminal when tmux session exits
-  : ${TMUX_AUTOQUIT:=true}
+  : ${TMUX_AUTOQUIT:=false}
 
   # Run the below if enabled and not already in tmux, vim, etc.
   if [[ "$TMUX_AUTOSTART" == "true" && -z "$TMUX" && -z "$VIM" ]]; then
@@ -129,7 +129,8 @@ fi
 # Better cat with colors
 #   brew install bat
 if [[ $+commands[bat] == "1" ]]; then
-  alias cat=bat
+  # bat with light/dark mode theme for macOS
+  alias cat="bat --theme=\$(defaults read -globalDomain AppleInterfaceStyle &> /dev/null && echo tokyonight_moon || echo tokyonight_day)"
 fi
 
 # Better top

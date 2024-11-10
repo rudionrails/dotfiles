@@ -18,23 +18,41 @@ config.window_frame = {
 	border_top_height = "5px",
 }
 
+-- make left OPTION key work properly on macOS, @see https://github.com/wez/wezterm/issues/3866
+-- config.send_composed_key_when_left_alt_is_pressed = false
+-- config.send_composed_key_when_right_alt_is_pressed = false
+
 --- Colorscheme
 --
 -- @see https://wezfurlong.org/wezterm/colorschemes/index.html
 -- @see https://wezfurlong.org/wezterm/config/lua/window/get_appearance.html
 local function scheme_for_appearance(appearance)
 	if appearance:find("Dark") then
-		return "tokyonight_night" -- "nightfox"
+		-- return "cyberdream"
+		return "tokyonight_moon" -- "tokyonight_storm" -- "nightfox"
 	else
-		-- return "tokyonight_day" -- dayfox
+		return "tokyonight_day" -- dayfox
 		-- return "Edge Light (base16)"
-		return "Catppuccin Latte"
+		-- return "Catppuccin Latte"
 	end
 end
 
-wezterm.on("window-config-reloaded", function(window, pane)
-	wezterm.log_info("Event: window-config-reloaded")
+-- config.mouse_bindings = {
+-- 	-- Bind 'Up' event of CTRL-Click to open hyperlinks
+-- 	{
+-- 		event = { Up = { streak = 1, button = "Left" } },
+-- 		mods = "SUPER",
+-- 		action = wezterm.action.OpenLinkAtMouseCursor,
+-- 	},
+-- 	-- Disable the 'Down' event of CTRL-Click to avoid weird program behaviors
+-- 	{
+-- 		event = { Down = { streak = 1, button = "Left" } },
+-- 		mods = "SUPER",
+-- 		action = wezterm.action.Nop,
+-- 	},
+-- }
 
+wezterm.on("window-config-reloaded", function(window, pane)
 	local overrides = window:get_config_overrides() or {}
 	local scheme = scheme_for_appearance(window:get_appearance())
 
@@ -51,6 +69,7 @@ config.color_scheme = scheme_for_appearance(wezterm.gui.get_appearance())
 --- Font
 --
 -- @see https://wezfurlong.org/wezterm/config/lua/config/font_rules.html
+-- config.font = wezterm.font({ family = "Liga SFMono Nerd Font" })
 config.font = wezterm.font({ family = "FiraCode Nerd Font" })
 -- config.font = wezterm.font({ family = "0xProto Nerd Font" })
 -- config.font = wezterm.font("JetBrains Mono", { weight = "Bold", italic = true })

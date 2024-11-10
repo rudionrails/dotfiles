@@ -7,7 +7,7 @@ return {
 		cmd = "FzfLua",
 		keys = {
 			["<leader>ff"] = { "<CMD>FzfLua files<CR>", desc = "[F]ind [F]iles" }, -- FIXME: duplicate <leader><space>
-			{ "<leader><space>", "<CMD>FzfLua files<CR>", desc = "[F]ind [F]iles" },
+			{ "<leader><leader>", "<CMD>FzfLua files<CR>", desc = "[F]ind [F]iles" },
 			{ "<leader>fr", "<CMD>FzfLua oldfiles<CR>", desc = "[F]ind [R]ecent files" },
 			{ "<leader>fg", "<CMD>FzfLua live_grep<CR>", desc = "[F]find by [G]rep" }, -- FIXME: duplicate <leader>/
 			{ "<leader>/", "<CMD>FzfLua live_grep<CR>", desc = "[F]find by [G]rep" },
@@ -15,7 +15,7 @@ return {
 			{ "<leader>fk", "<CMD>FzfLua keymaps<CR>", desc = "[F]ind [K]eymaps" },
 			{ "<leader>fd", "<CMD>FzfLua diagnostic_documents<CR>", desc = "[F]ind [D]iagnostic document" },
 			{ "<leader>fb", "<CMD>FzfLua buffers<CR>", desc = "[F]ind [B]uffers" }, -- FIXME: dubplicate <leader><leader>
-			{ "<leader><leader>", "<CMD>FzfLua buffers<CR>", desc = "[F]ind [B]uffers" },
+			{ "<leader><space>", "<CMD>FzfLua buffers<CR>", desc = "[F]ind [B]uffers" },
 			{ "<leader>fc", "<CMD>FzfLua colorschemes<CR>", desc = "[F]ind [C]colorschemes" },
 		},
 		opts = function()

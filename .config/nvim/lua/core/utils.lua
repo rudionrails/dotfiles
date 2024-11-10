@@ -1,6 +1,9 @@
 local M = {}
 
+---
 -- check if plugin is defined in Lazy
+--
+---@param name string The name of the plugin
 function M.has(name)
 	return require("lazy.core.config").spec.plugins[name] ~= nil
 end

@@ -1,25 +1,19 @@
 return {
+	--- Enhance builtin native comments
+	-- 'gc' / 'gcc' to comment visual regions/lines
+	{
+		"folke/ts-comments.nvim",
+		event = "VeryLazy",
+		enabled = vim.fn.has("nvim-0.10.0") == 1,
+		opts = {},
+	},
+
 	-- open file given a line, e.g. vim index.html:20
 	{ "bogado/file-line", event = "User FileOpened" },
 
-	-- -- A Git wrapper so awesome, it should be illegal
-	-- {
-	-- 	"tpope/vim-fugitive",
-	-- 	cmd = "Git",
-	-- },
-
-	-- A high-performance color highlighter
-	-- @see https://neovimcraft.com/plugin/NvChad/nvim-colorizer.lua
-	{
-		"NvChad/nvim-colorizer.lua",
-		main = "colorizer",
-		event = { "User FileOpened", "VeryLazy" },
-		opts = {
-			user_default_options = {
-				tailwind = true,
-			},
-		},
-	},
+	-- Highlight colors for neovim
+	-- @see https://github.com/brenoprata10/nvim-highlight-colors
+	{ "brenoprata10/nvim-highlight-colors", opts = {} },
 
 	-- A pretty diagnostics, references, telescope results, quickfix and location list to help you solve all the trouble your code is causing.
 	{
@@ -28,15 +22,6 @@ return {
 			"nvim-tree/nvim-web-devicons",
 		},
 		cmd = "Trouble",
-		opts = {},
-	},
-
-	--- Enhance builtin native comments
-	-- 'gc' / 'gcc' to comment visual regions/lines
-	{
-		"folke/ts-comments.nvim",
-		event = "VeryLazy",
-		enabled = vim.fn.has("nvim-0.10.0") == 1,
 		opts = {},
 	},
 
@@ -53,6 +38,14 @@ return {
 		config = function(_, opts)
 			require("todo-comments").setup(opts)
 		end,
+	},
+
+	-- Neovim Lua plugin to extend and create `a`/`i` textobjects.
+	-- @see https://github.com/echasnovski/mini.ai
+	{
+		"echasnovski/mini.ai",
+		event = { "VeryLazy", "User FileOpened" },
+		opts = {},
 	},
 
 	{
@@ -161,15 +154,14 @@ return {
 	},
 
 	-- Neovim plugin for splitting/joining blocks of code
-	--
 	-- @see https://github.com/Wansmer/treesj
 	{
 		"Wansmer/treesj",
 		dependencies = { "nvim-treesitter/nvim-treesitter" },
 		cmd = "TSJToggle",
 		keys = {
-			-- { "<leader>j", "<CMD>TSJToggle<CR>", desc = "Join Toggle" },
-			{ "J", "<CMD>TSJToggle<CR>", desc = "Join Toggle" },
+			{ "<leader>j", "<CMD>TSJToggle<CR>", desc = "Join Toggle" },
+			-- { "J", "<CMD>TSJToggle<CR>", desc = "Join Toggle" },
 		},
 		opts = {
 			use_default_keymaps = false,

@@ -3,10 +3,10 @@ return {
 	opts = {
 		servers = {
 			marksman = {
-				filetypes = { "markdown" },
-
-				ensure_installed = {
+				tools = {
+					"marksman",
 					"vale",
+					-- lazy = true,
 				},
 			},
 		},

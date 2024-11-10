@@ -37,47 +37,44 @@ return {
 		},
 	},
 
+	-- Faster LuaLS setup for Neovim
+	{
+		"folke/lazydev.nvim",
+		ft = "lua", -- only load on lua files
+		opts = {
+			library = {
+				-- See the configuration section for more details
+				-- Load luvit types when the `vim.uv` word is found
+				{ path = "luvit-meta/library", words = { "vim%.uv" } },
+			},
+		},
+	},
+	{ "Bilal2453/luvit-meta", lazy = true }, -- optional `vim.uv` typings
+
 	{
 		"rudionrails/quarry.nvim",
-		dev = true,
-		event = { "VeryLazy", "User FileOpened" },
+		-- dev = true,
+		-- event = { "VeryLazy", "User FileOpened" },
 		dependencies = {
 			"williamboman/mason.nvim",
 			"williamboman/mason-lspconfig.nvim",
 			"neovim/nvim-lspconfig",
 
 			-- needed for additional capabilities
-			"hrsh7th/cmp-nvim-lsp",
+			-- "hrsh7th/cmp-nvim-lsp",
 			"nvim-lua/plenary.nvim",
 
-			-- Faster LuaLS setup for Neovim
-			{
-				"folke/lazydev.nvim",
-				ft = "lua", -- only load on lua files
-				opts = {
-					library = {
-						-- See the configuration section for more details
-						-- Load luvit types when the `vim.uv` word is found
-						{ path = "luvit-meta/library", words = { "vim%.uv" } },
-					},
-				},
-			},
-			{ "Bilal2453/luvit-meta", lazy = true }, -- optional `vim.uv` typings
-
 			-- load own LSP configurations that are handled by quarry.nvim
-			{ import = "plugins.lsp" },
+			{ import = "plugins.languages" },
 		},
-		opts = function(_, opts)
-			opts.features = {
+		opts = {
+			features = {
 				"textDocument/documentHighlight",
-				"textDocument/inlayHint",
+				-- "textDocument/inlayHint",
 				-- "textDocument/codeLens",
-			}
+			},
 
-			opts.keys = {
-				["[d"] = { vim.diagnostic.goto_prev },
-				["]d"] = { vim.diagnostic.goto_next },
-				["K"] = { vim.lsp.buf.hover, desc = "Show lsp hover" },
+			keys = {
 				["gs"] = { vim.lsp.buf.signature_help, desc = "[G]oto [s]ignature" },
 				["gD"] = { vim.lsp.buf.declaration, desc = "[G]oto [D]eclaration" },
 				["gd"] = { vim.lsp.buf.definition, desc = "[G]oto [d]efinition" },
@@ -85,7 +82,13 @@ return {
 				["gi"] = { vim.lsp.buf.implementation, desc = "[G]oto [i]mplementation" },
 				["gt"] = { vim.lsp.buf.type_definition, desc = "Goto [t]ype definition" },
 
+				["[d"] = { vim.diagnostic.goto_prev },
+				["]d"] = { vim.diagnostic.goto_next },
 				["<leader>q"] = { vim.diagnostic.setloclist, desc = "Open [Q]uickfix list" },
+
+				["K"] = { vim.lsp.buf.hover, desc = "Show lsp hover" },
+				["<c-k>"] = { vim.lsp.buf.signature_help, desc = "Signature Help" },
+
 				["<leader>a"] = { vim.lsp.buf.code_action, desc = "Code [a]ction" },
 				["<leader>r"] = { vim.lsp.buf.rename, desc = "[R]ename word under cursor within project" },
 
@@ -96,30 +99,60 @@ return {
 					desc = "Toggle inlay [h]int",
 				},
 
-				["<C-space>"] = { "<C-x><C-o>", mode = "i" },
-			}
+				["<C-space>"] = { "<C-x><C-o>", mode = "i", remap = false },
+			},
 
-			opts.on_attach = function(_, bufnr)
+			on_attach = function(client, bufnr)
 				-- Enable completion triggered by <c-x><c-o>
 				vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
-			end
+			end,
 
-			opts.capabilities = function()
-				return vim.tbl_deep_extend(
-					"force",
-					{},
-					vim.lsp.protocol.make_client_capabilities(),
-					require("cmp_nvim_lsp").default_capabilities()
-				)
-			end
+			capabilities = function()
+				local capabilities = vim.tbl_deep_extend("force", {}, vim.lsp.protocol.make_client_capabilities())
 
+				if u.has("cmp_nvim_lsp") then
+					capabilities =
+						vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
+				end
+
+				return capabilities
+			end,
+		},
+		config = function(_, opts)
+			-- overwrite kaymaps if fzf-lua is available
 			if u.has("fzf-lua") then
 				opts.keys["gd"] = { "<CMD>FzfLua lsp_definitions<CR>", desc = "[G]oto [d]efinition" }
 				opts.keys["gr"] = { "<CMD>FzfLua lsp_references<CR>", desc = "[G]oto [r]eferences" }
 				opts.keys["gi"] = { "<CMD>FzfLua lsp_implementations<CR>", desc = "[G]oto [i]mplementation" }
 				opts.keys["gt"] = { "<CMD>FzfLua lsp_typedefs<CR>", desc = "[G]oto [t]ype definition" }
 			end
+
+			-- remap code action
+			if u.has("fastaction.nvim") then
+				opts.keys["<leader>a"] = {
+					function()
+						require("fastaction").code_action()
+					end,
+					desc = "Code [a]ction",
+				}
+			end
+
+			require("quarry").setup(opts)
 		end,
+	},
+
+	-- @see https://github.com/Chaitanyabsprip/fastaction.nvim
+	{
+		"Chaitanyabsprip/fastaction.nvim",
+		event = { "VeryLazy" },
+		opts = {
+			dismiss_keys = { "j", "k", "<c-c>", "q", "<esc>" },
+			priority = {
+				javascript = {
+					{ pattern = "add import", key = "a", order = 1 },
+				},
+			},
+		},
 	},
 
 	-- @see https://git.sr.ht/~whynothugo/lsp_lines.nvim

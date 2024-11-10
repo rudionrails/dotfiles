@@ -92,6 +92,7 @@ return {
 					other = icons.diagnostics.Other .. " ",
 				},
 			},
+			"buffers",
 		},
 		lualine_c = {
 			-- -- { "filetype", separator = "", padding = { left = 1, right = 0 } },

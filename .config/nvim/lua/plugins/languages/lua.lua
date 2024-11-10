@@ -3,15 +3,14 @@ return {
 	opts = {
 		servers = {
 			lua_ls = {
-				filetypes = { "lua" },
-
-				ensure_installed = {
-					-- "lua_ls",
+				tools = {
+					"lua_ls",
 					"stylua",
 					"luacheck",
+					-- lazy = true,
 				},
 
-				opts = {
+				config = {
 					settings = {
 						Lua = {
 							completion = { callSnippet = "Replace" },

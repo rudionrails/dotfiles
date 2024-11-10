@@ -77,7 +77,10 @@ return {
 	-- nice vim.notify replacement
 	--
 	-- Check https://github.com/willothy/nvim-config/blob/b3ec60e6656c22c34aaffe01558f0a146bd82530/lua/configs/ui/noice.lua for Noice integration
-	{ "j-hui/fidget.nvim", event = { "VeryLazy" }, opts = { notification = { override_vim_notify = true } } },
+	{
+		"j-hui/fidget.nvim",
+		opts = { notification = { override_vim_notify = true } },
+	},
 
 	-- Highly experimental plugin that completely replaces the UI for messages, cmdline and the popupmenu.
 	-- @see https://github.com/folke/noice.nvim

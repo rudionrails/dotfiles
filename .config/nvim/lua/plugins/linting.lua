@@ -21,6 +21,7 @@ function M.lint()
 	-- Filter out linters that don't exist or don't match the condition.
 	local ctx = { filename = vim.api.nvim_buf_get_name(0) }
 	ctx.dirname = vim.fn.fnamemodify(ctx.filename, ":h")
+
 	names = vim.tbl_filter(function(name)
 		local linter = lint.linters[name]
 		if not linter then
@@ -44,8 +45,7 @@ return {
 	-- below is taken from https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/plugins/linting.lua
 	{
 		"mfussenegger/nvim-lint",
-		-- event = { "VeryLazy" },
-		event = { "BufReadPre", "BufNewFile" },
+    events = { "BufWritePost", "BufReadPost", "InsertLeave" },
 		keys = {
 			{ "<leader>l", "<CMD>Lint<CR>", desc = "[L]int code" },
 		},

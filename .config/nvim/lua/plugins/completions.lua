@@ -1,39 +1,38 @@
 return {
+	-- Use your Neovim like using Cursor AI IDE!
+	-- @see https://github.com/yetone/avante.nvim
+	-- "yetone/avante.nvim",
+
+	-- -- AI completion
 	-- {
-	-- 	"saghen/blink.cmp",
-	-- 	lazy = false, -- lazy loading handled internally
-	-- 	-- -- optional: provides snippets for the snippet source
-	-- 	-- dependencies = "rafamadriz/friendly-snippets",
-	--
-	-- 	-- use a release tag to download pre-built binaries
-	-- 	version = "v0.*",
-	-- 	-- OR build from source, requires nightly: https://rust-lang.github.io/rustup/concepts/channels.html#working-with-nightly-rust
-	-- 	-- build = "cargo build --release",
-	-- 	-- On musl libc based systems you need to add this flag
-	-- 	-- build = 'RUSTFLAGS="-C target-feature=-crt-static" cargo build --release',
-	--
+	-- 	"Exafunction/codeium.nvim",
+	-- 	cmd = "Codeium",
+	-- 	event = "BufEnter", -- "InsertEnter",
+	-- 	build = ":Codeium Auth",
+	-- 	dependencies = {
+	-- 		"nvim-lua/plenary.nvim",
+	-- 		"hrsh7th/nvim-cmp",
+	-- 	},
 	-- 	opts = {
-	-- 		highlight = {
-	-- 			-- sets the fallback highlight groups to nvim-cmp's highlight groups
-	-- 			-- useful for when your theme doesn't support blink.cmp
-	-- 			-- will be removed in a future release, assuming themes add support
-	-- 			use_nvim_cmp_as_default = true,
+	-- 		enable_chat = true,
+	-- 		virtual_text = {
+	-- 			key_bindings = {
+	-- 				accept = false, -- handled by nvim-cmp
+	-- 				-- next = "<M-]>",
+	-- 				-- prev = "<M-[>",
+	-- 			},
 	-- 		},
-	-- 		-- set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
-	-- 		-- adjusts spacing to ensure icons are aligned
-	-- 		nerd_font_variant = "normal",
-	--
-	-- 		-- experimental auto-brackets support
-	-- 		-- accept = { auto_brackets = { enabled = true } }
-	--
-	-- 		-- experimental signature help support
-	-- 		-- trigger = { signature_help = { enabled = true } },
-	--
-	-- 		-- bordered windows
-	-- 		windows = {
-	-- 			autocomplete = { border = "single" },
-	-- 			documentation = { border = "single" },
-	-- 		},
+	-- 		-- tools = {
+	-- 		-- 	-- Language server
+	-- 		-- 	language_server = {
+	-- 		-- 		-- Customize completion behavior
+	-- 		-- 		completion = {
+	-- 		-- 			-- Control serverity of different message types
+	-- 		-- 			enable_snippet = true,
+	-- 		-- 			server_side_fuzzy_match = true,
+	-- 		-- 		},
+	-- 		-- 	},
+	-- 		-- },
 	-- 	},
 	-- },
 
@@ -102,12 +101,12 @@ return {
 					["<C-h>"] = cmp.mapping.abort(),
 					["<C-l>"] = cmp.mapping.confirm(),
 
-					-- scroll the documentation
-					["<C-b>"] = cmp.mapping.scroll_docs(-4),
-					["<C-f>"] = cmp.mapping.scroll_docs(4),
+					-- scroll the documentation forward / backwards
+					["<C-f>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
+					["<C-b>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i", "c" }),
 
 					-- Manually trigger a completion from nvim-cmp
-					["<C-Space>"] = cmp.mapping.complete(),
+					["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
 
 					-- confirm selection
 					-- ["<C-CR>"] = cmp.mapping.confirm({
@@ -153,29 +152,46 @@ return {
 					end,
 				},
 
-				window = {
-					completion = { border = "rounded", side_padding = 1, winhighlight = "CursorLine:Visual" },
-					documentation = { border = "rounded" },
-				},
-
 				formatting = {
 					-- fields = { "kind", "abbr", "menu" },
 					format = lspkind.cmp_format({
+						mode = "symbol",
 						maxwidth = 50,
 						ellipsis_char = "...",
+						-- symbol_map = { Codeium = "" },
 					}),
 				},
 
 				sources = cmp.config.sources({
+					-- { name = "codeium", priority = 1200 },
 					{ name = "nvim_lsp_signature_help" }, -- display function signatures with current parameter emphasized
 					{ name = "nvim_lsp" }, -- from language server
 					{ name = "nvim_lua" }, -- complete neovim's Lua runtime API such vim.lsp.*
-				}, {
-					-- { name = "luasnip" },
+					{ name = "luasnip" },
 					{ name = "buffer" }, -- source current buffer
-					-- { name = "path" }, -- file paths
+					{ name = "path" }, -- file paths
 					-- { name = "calc" }, -- source for math calculation
 				}),
+
+				sorting = {
+					priority_weight = 2,
+					comparators = {
+						cmp.config.compare.offset,
+						cmp.config.compare.exact,
+						cmp.config.compare.score,
+						cmp.config.compare.kind,
+						cmp.config.compare.sort_text,
+						cmp.config.compare.length,
+						cmp.config.compare.order,
+					},
+				},
+
+				window = {
+					completion = { border = "rounded", side_padding = 1, winhighlight = "CursorLine:Visual" },
+					documentation = { border = "rounded" },
+					-- completion = cmp.config.window.bordered(),
+					-- documentation = cmp.config.window.bordered(),
+				},
 
 				experimental = {
 					ghost_text = {

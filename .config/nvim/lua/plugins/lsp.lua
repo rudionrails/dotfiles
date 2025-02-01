@@ -87,7 +87,7 @@ return {
 				["<leader>q"] = { vim.diagnostic.setloclist, desc = "Open [Q]uickfix list" },
 
 				["K"] = { vim.lsp.buf.hover, desc = "Show lsp hover" },
-				["<c-k>"] = { vim.lsp.buf.signature_help, desc = "Signature Help" },
+				-- ["<C-k>"] = { vim.lsp.buf.signature_help, desc = "Signature Help" },
 
 				["<leader>a"] = { vim.lsp.buf.code_action, desc = "Code [a]ction" },
 				["<leader>r"] = { vim.lsp.buf.rename, desc = "[R]ename word under cursor within project" },
@@ -113,6 +113,11 @@ return {
 				if u.has("cmp_nvim_lsp") then
 					capabilities =
 						vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
+				end
+
+				if u.has("blink.cmp") then
+					capabilities =
+						vim.tbl_deep_extend("force", capabilities, require("blink.cmp").get_lsp_capabilities())
 				end
 
 				return capabilities

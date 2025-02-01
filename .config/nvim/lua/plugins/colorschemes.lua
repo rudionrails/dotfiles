@@ -16,8 +16,7 @@ return {
 	{
 		"cormacrelf/dark-notify",
 		-- priority = 1000, -- make sure to load this before all the other start plugins
-		-- event = { "User FileOpened", "VeryLazy" },
-		event = "VeryLazy",
+		event = { "User FileOpened", "VeryLazy" },
 		init = function()
 			vim.cmd.colorscheme("tokyonight-moon")
 		end,
@@ -37,20 +36,14 @@ return {
 	},
 
 	{
-		"scottmckendry/cyberdream.nvim",
-		priority = 1000,
-		opts = { italic_comments = true },
-	},
-
-	{
 		"folke/tokyonight.nvim",
-		priority = 1000, -- make sure to load this before all the other start plugins
-		init = function()
-			vim.cmd.colorscheme("tokyonight-storm")
-		end,
+		priority = 1000,
+		opts = {
+			on_colors = function(colors)
+				colors.border = "#101010"
+			end,
+		},
 	},
-
-	{ "catppuccin/nvim", priority = 1000, name = "catppuccin" },
 
 	{
 		"EdenEast/nightfox.nvim",
@@ -63,27 +56,4 @@ return {
 			},
 		},
 	},
-
-	-- {
-	-- 	"rose-pine/neovim",
-	-- 	name = "rose-pine",
-	-- 	priority = 1000, -- make sure to load this before all the other start plugins
-	-- 	-- config = function()
-	-- 	-- 	-- local function init()
-	-- 	-- 	-- 	require("rose-pine").setup({
-	-- 	-- 	-- 		--- @usage 'main' | 'moon'
-	-- 	-- 	-- 		-- dark_variant = "moon",
-	-- 	-- 	-- 		highlight_groups = {
-	-- 	-- 	-- 			IlluminatedWordRead = { bg = "highlight_med" },
-	-- 	-- 	-- 			IlluminatedWordWrite = { bg = "highlight_med" },
-	-- 	-- 	--
-	-- 	-- 	-- 			IndentBlanklineContextStart = { bg = "foam", blend = 20 },
-	-- 	-- 	-- 		},
-	-- 	-- 	-- 	})
-	-- 	-- 	-- end
-	-- 	-- 	--
-	-- 	-- 	-- colorscheme("Rose Pine Dark", { colorscheme = "rose-pine-moon", init = init })
-	-- 	-- 	-- colorscheme("Rose Pine Light", { colorscheme = "rose-pine-dawn", init = init })
-	-- 	-- end,
-	-- },
 }

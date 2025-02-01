@@ -2,7 +2,7 @@ local icons = require("core.icons")
 local utils = require("core.utils")
 
 -- returns the attached lsp, linters and formatters
-local function attached_lsp()
+local function tools()
 	local buf_clients = vim.lsp.get_clients() or {}
 	local buf_filetype = vim.bo.filetype
 	local buf_client_names = {}
@@ -58,6 +58,18 @@ local function attached_lsp()
 	return icons.ui.Code .. " " .. table.concat(vim.fn.uniq(vim.fn.sort(buf_client_names)), ", ")
 end
 
+-- function codeium()
+-- 	local status = vim.fn["codeium#GetStatusString"]
+--
+-- 	local function is_enabled()
+-- 		return status() == "On"
+-- 	end
+--
+-- 	return {
+-- 		cond = is_enabled,
+-- 	}
+-- end
+
 return {
 	options = {
 		theme = "auto",
@@ -74,15 +86,21 @@ return {
 			{
 				"mode",
 				fmt = function(str)
-					-- return "󰀘 " .. str:sub(1, 1)
 					return str:sub(1, 1)
 				end,
 			},
 		},
 		lualine_b = {
 			"branch",
+		},
+		lualine_c = {
+			{ "filetype", icon_only = true, separator = "" },
+			{ "filename", path = 1, padding = { left = 0, right = 1 } },
+		},
+		lualine_x = {
 			{
 				"diagnostics",
+				icon = icons.ui.Hint .. " ",
 				-- sources = { "nvim_diagnostic" },
 				symbols = {
 					error = icons.diagnostics.Error .. " ",
@@ -92,48 +110,25 @@ return {
 					other = icons.diagnostics.Other .. " ",
 				},
 			},
-			"buffers",
-		},
-		lualine_c = {
-			-- -- { "filetype", separator = "", padding = { left = 1, right = 0 } },
-			-- { "filetype", icon_only = true, separator = "", padding = { left = 1, right = 0 } },
-			-- { "filename", path = 1 },
-			-- {
-			-- 	function()
-			-- 		return vim.fn.expand("%:p:~:.:h")
-			-- 	end,
-			-- 	icon = icons.ui.Folder,
-			-- 	color = util.fg("Comment"),
-			-- 	separator = "",
-			-- },
-			{ "filetype", icon_only = true, separator = "" },
-			{ "filename", path = 1, padding = { left = 0, right = 1 } },
 			{
 				"diff",
-				icon = icons.ui.Diff,
+				icon = icons.ui.Git .. " ",
 				-- symbols = {
-				-- 	added = icons.git.Added .. " ",
-				-- 	modified = icons.git.Modified .. " ",
-				-- 	removed = icons.git.Removed .. " ",
+				-- 	added = icons.git.Added,
+				-- 	modified = icons.git.Modified,
+				-- 	removed = icons.git.Removed,
 				-- },
 			},
 		},
-		lualine_x = {
-			-- display attached lsp clients, formatters and linters
-			{
-				attached_lsp,
-				color = utils.fg("Comment"),
-			},
-		},
 		lualine_y = {
-			-- lazy updates
+			{ tools, color = utils.fg("Comment") },
 			{
 				require("lazy.status").updates,
 				cond = require("lazy.status").has_updates,
 			},
 		},
 		lualine_z = {
-			{ "location" },
+			"location",
 		},
 	},
 
@@ -154,6 +149,6 @@ return {
 		"mason",
 		"trouble",
 		"quickfix",
-		"neo-tree",
+		"fzf",
 	},
 }

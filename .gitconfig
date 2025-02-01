@@ -49,7 +49,12 @@
   autosetupmerge = true
   mergeoptions = --no-ff
 
+[pull]
+  rebase = true
+
 [push]
+  autoSetupRemote = true
+
   # 'git push' will push the current branch to its tracking branch
   # the usual default is to push all branches
   default = upstream
@@ -58,7 +63,9 @@
   autocrlf = false
   editor = nvim
   commitGraph = true
-  pager = delta ; brew install git-delta
+  ; pager = delta ; brew install git-delta
+  pager = delta --features "$(defaults read -globalDomain AppleInterfaceStyle &> /dev/null && echo dark-mode || echo light-mode)"
+
 
 [advice]
   statusHints = false
@@ -72,16 +79,23 @@
 
 ; @seet  https://github.com/dandavison/delta
 [delta]
-  ; syntax-theme = Dracula
-  ; features = side-by-side line-numbers decorations
   ; whitespace-error-style = 22 reverse
   ; hunk-header-style = omit
+  ; syntax-theme = tokyonight_night
   side-by-side = true ; side by side view with line-wrapping
   line-numbers = true ; adds line numbers
   navigate = true ; use n and N to move between diff sections
 
+[delta "light-mode"]
+  light = true
+  syntax-theme = tokyonight_day
+
+[delta "dark-mode"]
+  dark = true
+  syntax-theme = tokyonight_moon
+
 [interactive]
-  diffFilter = delta --color-only
+  diffFilter = delta --color-only --features=interactive
 
 [hub]
   host = github.com

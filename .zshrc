@@ -17,12 +17,12 @@ if [[ $+commands[tmux] == "1" ]]; then
   fi
 fi
 
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
+# # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# # Initialization code that may require console input (password prompts, [y/n]
+# # confirmations, etc.) must go above this block; everything else may go below.
+# if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+#   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+# fi
 
 if [[ $+commands[brew] == "0" ]]; then
   # if [[ "$(uname -m)" == "x86_64" ]]; then
@@ -62,7 +62,7 @@ fi
 
 source "${ZINIT_HOME}/zinit.zsh"
 
-zinit ice depth=1; zinit light romkatv/powerlevel10k
+# zinit ice depth=1; zinit light romkatv/powerlevel10k
 zinit light Aloxaf/fzf-tab # use fzf on tab completion, see https://github.com/Aloxaf/fzf-tab
 zinit ice depth=1; zinit light zsh-users/zsh-syntax-highlighting
 zinit ice depth=1; zinit light zsh-users/zsh-autosuggestions
@@ -78,12 +78,21 @@ zinit cdreplay -q
 
 # 
 # User configuration
-#
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-# # fzf-tab configuration
-# #
+# TODO:: p10k is not maintained anymore, switch to oh-my-posh
+# Enable prompt
+if [[ $+commands[oh-my-posh] == "1" && "$TERM_PROGRAM" != "Apple_Terminal" ]]; then
+  # eval "$(oh-my-posh init zsh --config $HOME/.config/oh-my-posh/tokyonight.toml)"
+  # eval "$(oh-my-posh init zsh --config $HOME/.config/oh-my-posh/wopian.toml)"
+  eval "$(oh-my-posh init zsh --config $HOME/.config/oh-my-posh/daywalker.toml)"
+  # eval "$(oh-my-posh init zsh)"
+fi
+
+# # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+# [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# fzf-tab configuration
+#
 # disable sort when completing `git checkout`
 zstyle ':completion:*:git-checkout:*' sort false
 # # set descriptions format to enable group support

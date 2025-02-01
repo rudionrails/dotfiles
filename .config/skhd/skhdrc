@@ -44,7 +44,16 @@ ctrl + alt - i : yabai -m window --grid 2:2:1:0:1:1 # top bottom
 ctrl + alt - n : yabai -m window --grid 2:2:0:1:1:1 # bottom left
 ctrl + alt - m : yabai -m window --grid 2:2:1:1:1:1 # bottom right
 
-# stack
+# move to monitor
+shift + alt - n : yabai -m window --display next
+shift + alt - p : yabai -m window --display prev
+
+# # WIndow Resizing
+# alt + ctrl + shift - h : yabai -m window --resize right:-20:0 # shring window from right
+# alt + ctrl + shift - l : yabai -m window --resize right:+20:0 # expand window from right
+
+
+# stac
 shift + alt - 0x2B : yabai -m window --insert stack
 
 # alt - shift - , : yabai 

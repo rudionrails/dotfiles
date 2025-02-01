@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+
+# CURRENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# "${CURRENT_DIR}/src/themes/tokyonight/moon.sh"
+
+# TODO: colorscheme should follow
+# background
+# foreground
+# mode
+# mode-foreground
+#
+# primary
+# primary-foreground
+# secondary
+# secondary-foreground
+# muted
+# muted-foreground
+# accent
+# accent-foreground
+#
+# window
+# window-foreground
+# window-inactive
+# window-inactive-foreground
+
+##
+# Theme
+#
+tmux set -g status-style "fg=#a1aab8 bg=#12131d" # 202020
+tmux set -g  status-left-length 50
+
+tmux set -g  status-left "" # reset
+tmux set -ga status-left "#{?client_prefix,#[fg=#ffc777 bg=#12131d],#[fg=#6cbdcc bg=#12131d]}█"   # padding
+tmux set -ga status-left "#{?client_prefix,#[fg=#12131d bg=#ffc777]P,#[fg=#12131d bg=#6cbdcc]N}"  # icon
+tmux set -ga status-left "#{?client_prefix,#[fg=#ffc777 bg=#12131d],#[fg=#6cbdcc bg=#12131d]}█"   # padding
+tmux set -ga status-left "#{?client_prefix,#[fg=#ffc777 bg=#12131d],#[fg=#6cbdcc bg=#12131d]}║"   # section separator
+tmux set -ga status-left "#[fg=#12131d bg=#12131d]█"    # padding
+tmux set -ga status-left "#[fg=#a1aab8 bg=#12131d] #S" # sessions
+tmux set -ga status-left "#[fg=#12131d bg=#12131d]█"    # padding
+
+tmux set -g status-justify right
+tmux set -g window-status-separator "#[fg=#12131d]█"
+
+tmux set -g  window-status-format "" # reset
+tmux set -ga window-status-format "#[fg=#2d3041]#[bg=#f8f8f2]█" # padding
+tmux set -ga window-status-format "#[fg=#f8f8f2]#[bg=#2d3041]#I | #{?pane_in_mode,#{pane_mode}  ,}#W" # number and separator
+tmux set -ga window-status-format "#[fg=#2d3041]#[bg=#f8f8f2]█" # padding
+
+tmux set -g  window-status-current-format "" # reset
+tmux set -ga window-status-current-format "#[fg=#fa50c0 bg=#44475a]█" # padding
+tmux set -ga window-status-current-format "#[fg=#12131d bg=#fa50c0]#I | #{?pane_in_mode,#{pane_mode}  ,}#W" # number and separator
+tmux set -ga window-status-current-format "#[fg=#fa50c0 bg=#44475a]█" # padding
+
+# tmux set -g  status-right-style "bg=#2d3041"
+tmux set -g  status-right ""
+
+tmux set -g message-command-style "fg=#12131d bg=#c3e88d"
+tmux set -g message-style "fg=#12131d bg=#c3e88d"

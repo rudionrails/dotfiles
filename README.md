@@ -17,6 +17,19 @@ brew install yadm
 yadm clone --bootstrap https://github.com/rudionrails/dotfiles.git
 ```
 
+### Maintenance
+
+One every while you should execute the following to keep things up to date:
+
+```
+# homebrew packages that are relevant should be in the Brewfile (manual check afterwards is advised)
+brew bundle dump -f --file ~/.config/homebrew/Brewfile
+
+# update zinit & plugins
+zinit self-update
+zinit update
+```
+
 ## Applications
 
 - [`Raycast`](https://www.raycast.com/) blazingly fast, totally extendable launcher
@@ -53,3 +66,8 @@ Check `~/.zshrc` for more details
 - https://github.com/k4m4/terminals-are-sexy
 - https://github.com/unixorn/awesome-zsh-plugins
 - https://github.com/rockerBOO/awesome-neovim
+
+## Things to try in the future
+
+- [`OrbStack`](https://orbstack.dev/) Lightweight alternative to Docker
+- [`TamaGUI`](https://tamagui.dev/) React components across platforms (Web, native)
